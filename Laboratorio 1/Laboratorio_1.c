@@ -17,39 +17,28 @@ Retorno :
    Nada, ya que es tipo void
  
 */
-void Orientacion(char*nom_archivo){
+void Orientacion(char* nom_archivo) {
    printf("----------------------------------------------------------------\n");
-   printf("Nombre del Archivo: %s\n",nom_archivo);
+   printf("Nombre del Archivo: %s\n", nom_archivo);
    printf("----------------------------------------------------------------\n");
-   FILE *archivo = fopen(nom_archivo, "r"); // Modo lectura
-   char bufer[1000];         // Aquí vamos a ir almacenando cada línea
-   while (fgets(bufer, 1000, archivo)){
-      bufer[strcspn(bufer, "\n")] = '\0';
-      if(strcmp(bufer, "vertical") == 0){
-         fgets(bufer, 1000, archivo);
-         int longitud = (strlen(bufer)-1);
-         printf("Orientacion: Vertical\n");
-         printf("Numero de Filas: %i\n",longitud);
-         printf("Numero de Columnas: %i\n",longitud);
-         printf("----------------------------------------------------------------\n");
-         printf("\n");
-         printf("\n");
-         break;
-      }else if((strcmp(bufer, "horizontal") == 0)){
-         fgets(bufer, 1000, archivo);
-         int longitud = (strlen(bufer)-1);
-         printf("Orientacion: Horizontal\n");
-         printf("Numero de Filas: %i\n",longitud);
-         printf("Numero de Columnas: %i\n",longitud);
-         printf("----------------------------------------------------------------\n");
-         printf("\n");
-         printf("\n");
-         break;
-      }else{
-         printf("Error: %s\n",bufer);
-         break;
+   FILE* archivo = fopen(nom_archivo, "r"); // Modo lectura
+   char bufer[1000]; // Aquí vamos a ir almacenando cada línea
+   // Leer la primera línea para obtener la orientación
+   if(fgets(bufer, 1000, archivo)) {
+      bufer[strcspn(bufer, "\n")] ='\0'; 
+      if(strcmp(bufer, "vertical") == 0 || strcmp(bufer, "horizontal") == 0){
+         printf("Orientacion: %s\n", bufer);
+         // Leer la segunda línea para obtener el tamaño del lado
+         if (fgets(bufer, 1000, archivo)) {
+               int longitud = strlen(bufer);
+               printf("Tamaño: %d x %d\n",(longitud+1)/2, (longitud+1)/2);
+               printf("----------------------------------------------------------------\n");
+         }
+      }else {
+         printf("Error: %s\n", bufer);
       }
    }
+   fclose(archivo); 
 }
 
 
@@ -106,7 +95,6 @@ void CrearDir(int tipo){
 
 
 
-
 /*
 La funcion Main
 
@@ -121,5 +109,4 @@ int main(){
    printf("Hola Mundo CTM\n");
    LeerDir();
    return 0;
-
 }
