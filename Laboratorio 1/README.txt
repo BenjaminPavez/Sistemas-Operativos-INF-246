@@ -1,5 +1,5 @@
 Nombres, Roles USM y Paralelo: Benjamin Alejandro Pavez Ortiz,  202173628-K,  201
-                               Diego Andres Cisternas Pinochet,   ROL USM,  201
+                               Diego Andres Cisternas Pinochet,   202173521-6,  201
 
 SO: Ubuntu 22.04.2 LTS
 
