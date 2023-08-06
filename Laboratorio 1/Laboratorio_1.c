@@ -24,6 +24,7 @@ void Orientacion(char*nom_archivo){
    FILE *archivo = fopen(nom_archivo, "r"); // Modo lectura
    char bufer[1000];         // Aquí vamos a ir almacenando cada línea
    while (fgets(bufer, 1000, archivo)){
+      bufer[strcspn(bufer, "\n")] = '\0';
       if(strcmp(bufer, "vertical") == 0){
          fgets(bufer, 1000, archivo);
          int longitud = (strlen(bufer)-1);
