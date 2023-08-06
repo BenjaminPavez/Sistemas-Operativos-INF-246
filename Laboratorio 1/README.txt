@@ -9,4 +9,4 @@ Version compilador de C: 11.4.0
 
 Instrucciones de uso:
 
-1) El programa funciona sin problemas con los archivos txt
+1) El programa funciona sin problemas con los archivos txt  siempre y cuando la secuencia de fin de linea este en LF
