@@ -24,7 +24,7 @@ void Orientacion(char*nom_archivo){
    FILE *archivo = fopen(nom_archivo, "r"); // Modo lectura
    char bufer[1000];         // Aquí vamos a ir almacenando cada línea
    while (fgets(bufer, 1000, archivo)){
-      if(bufer == "vertical"){
+      if(strcmp(bufer, "vertical") == 0){
          fgets(bufer, 1000, archivo);
          int longitud = (strlen(bufer)-1);
          printf("Orientacion: Vertical\n");
@@ -34,15 +34,18 @@ void Orientacion(char*nom_archivo){
          printf("\n");
          printf("\n");
          break;
-      }else{
+      }else if((strcmp(bufer, "horizontal") == 0)){
          fgets(bufer, 1000, archivo);
-         int longitud = strlen(bufer);
+         int longitud = (strlen(bufer)-1);
          printf("Orientacion: Horizontal\n");
-         printf("Numero de Filas: %i\n",longitud-1);
-         printf("Numero de Columnas: %i\n",longitud-1);
+         printf("Numero de Filas: %i\n",longitud);
+         printf("Numero de Columnas: %i\n",longitud);
          printf("----------------------------------------------------------------\n");
          printf("\n");
          printf("\n");
+         break;
+      }else{
+         printf("Error: %s\n",bufer);
          break;
       }
    }
@@ -115,9 +118,7 @@ Retorno :
 */
 int main(){
    printf("Hola Mundo CTM\n");
-   //createDir(0);
    LeerDir();
    return 0;
 
 }
-
