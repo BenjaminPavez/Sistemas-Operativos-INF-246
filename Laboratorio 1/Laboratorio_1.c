@@ -66,7 +66,7 @@ char* Espacio(char* palabra){
    int nlargo = largo + (largo-1);
    char* finpalabra = malloc(sizeof(char) * nlargo);
    int j = 0;
-   for(int i = 0; i < nlargo; i++){
+    for(int i = 0; i < nlargo; i++){
         if(i % 2 == 0) {
             finpalabra[i] = palabra[j];
             j++;
@@ -74,7 +74,8 @@ char* Espacio(char* palabra){
             finpalabra[i] = ' ';
         }
     }
-   return finpalabra;
+    //free(palabra);
+    return finpalabra;
 }
 
 
@@ -153,6 +154,10 @@ char* quitaespacios(char *cadena, char *cadenasin) {
         }
         i++;
     }
+
+    // Liberar memoria después de usarla
+    free(cadena); //ELIMINACION MEM
+
     cadenasin[j] = '\0'; // Agrega el carácter nulo al final de la cadena resultante
     return cadenasin;
 }
@@ -173,10 +178,9 @@ Retorno :
 */
 void Solucion(FILE *archivo, char *nom_sopa, char *orientation){
     int longitud;
-    int nom_archivo2Length = strlen(nom_sopa);
+
     bool found = false;
     char bufer[1000]; // Aquí vamos a ir almacenando cada línea
-    char *nombre = nom_sopa;
 
     //Palabra a buscar en la sopa
     int texto_len = strlen(nom_sopa);
@@ -201,7 +205,7 @@ void Solucion(FILE *archivo, char *nom_sopa, char *orientation){
                 longitud = strlen(bufer);
                 tam = false;
             }
-            for (int col = 0; col < strlen(bufer) - nom_archivo2Length + 1; col++) {
+            for (int col = 0; col < strlen(bufer) - texto_len + 1; col++) {
                 char *cadenafinal = (char *)malloc(strlen(&bufer[col]) + 1); // +1 para el carácter nulo
                 quitaespacios(&bufer[col], cadenafinal);
                 if(strstr(cadenafinal, textoMayus) != NULL){
@@ -215,6 +219,8 @@ void Solucion(FILE *archivo, char *nom_sopa, char *orientation){
                     replace(&bufer[col], target, replacement);
                     printf("Palabra encontrada en fila %d, columna %d (horizontal).\n", fila + 2, col);
                     found = true;
+                    //ELIMINACION MEM
+                    free(textoMayus);
                     break;
                 }  
             }
@@ -223,26 +229,35 @@ void Solucion(FILE *archivo, char *nom_sopa, char *orientation){
             fputc('\n', nuevoArchivo); // Agregar un salto de línea después de cada línea
             fila++;
         }
+        //SE CIERRA EL ARCHIVO NUEVO
+        fclose(nuevoArchivo);
         
     }else if (strcmp(orientation, "vertical") == 0) { //cambiar a vertical
         //Vertical
-        char buffer[100];
-        fgets(buffer, sizeof(buffer), archivo);
-        char matriz[100][100];  // Ajusta el tamaño de la matriz según tus necesidades
-        int filas = 100;
-        int columnas = 100;
+
+        //Se crea el nuevo archivo con las respuestas
+        FILE *nuevoArchivo;
+        strcat(nom_sopa, "_resuelta.txt");
+        nuevoArchivo = fopen(nom_sopa, "w");
+        fputs("vertical", nuevoArchivo); // Escribir línea modificada en el nuevo archivo
+        fputc('\n', nuevoArchivo);
+        bool tam = true;
+
+        char buffer[50];
+        //fgets(buffer, sizeof(buffer), archivo);
+        char matriz[50][50];  // Ajusta el tamaño de la matriz según tus necesidades
+        int filas = 50;
+        int columnas = 50;
         for (int i = 0; i < filas; i++) {
             for (int j = 0; j < columnas; j++) {
                 if (fscanf(archivo, " %c", &matriz[i][j]) == EOF) {
                     perror("Error al leer el archivo");
                     return;
                 }
-                
             }
         }
-        fclose(archivo);
+        
 
-        //Transponer la matriz en el mismo arreglo
         for (int i = 0; i < filas; i++) {
             for (int j = i + 1; j < columnas; j++) {
                 char temp = matriz[i][j];
@@ -251,24 +266,49 @@ void Solucion(FILE *archivo, char *nom_sopa, char *orientation){
             }
         }
 
-        // Imprimir matriz transpuesta
-        for (int i = 0; i < columnas; i++) {
-            char *cadenafinal = (char *)malloc(strlen(matriz[i]) + 1); // +1 para el carácter nulo
-            quitaespacios(matriz[i], cadenafinal);
-            if(strstr(cadenafinal, textoMayus) != NULL) {
-                printf("Palabra encontrada en la columna %d (vertical).\n",i);
-                found = true;
-                break;
+        // Escribir la matriz transpuesta en el archivo de salida
+        for (int i = 0; i < filas; i++) {
+            char* columna =  (char *)malloc(sizeof(char) * filas);
+            for (int j = 0; j < columnas; j++) {
+                columna[j] = matriz[i][j];
             }
+            columna[columnas] = '\0'; // Terminar la cadena con el carácter nulo
+            char *nueva_columna = Espacio(columna);
+            if(strstr(columna, textoMayus) != NULL){
+                //Modifico el archivo para decir que se encontro
+                char *target = Espacio(textoMayus);
+                char *rem = malloc(sizeof(char) * strlen(textoMayus));
+                for(int i = 0; i < strlen(textoMayus); i++){
+                    rem[i] = '-';
+                }
+                char *replacement = Espacio(rem);
+                replace(nueva_columna, target, replacement);
+                printf("Palabra encontrada en fila %d, (vertical).\n", i);
+                printf("COLUMNA MODIFICADA: %s\n", columna);
+                found = true;
+                //ELIMINACION MEM
+                free(textoMayus);
+             
+                
+            }
+            fputs(nueva_columna, nuevoArchivo); // Escribir línea modificada en el nuevo archivo
+            fputc('\n', nuevoArchivo); // Agregar un salto de línea después de cada línea
+            free(columna);
         }
+        
+
+        
+
 
     }else{
         printf("Orientación inválida: %s\n", orientation);
         return;
     }
+
+
     //Verificacion, RECORDAR ELIMINAR AL ENVIAR
     printf("----------------------------------------------------------------\n");
-    printf("Nombre del Archivo: %s\n", nombre);
+    printf("Nombre del Archivo: %s\n", nom_sopa);
     printf("----------------------------------------------------------------\n");
     printf("Orientacion: %s\n", orientation);
     printf("Tamaño: %d x %d\n",(longitud+1)/2, (longitud+1)/2);
@@ -326,6 +366,7 @@ void Orientacion(char* nom_archivo) {
             strncpy(nom_archivo2, nom_archivo, strlen(nom_archivo) - 4); // Restamos 4 para eliminar la extensión ".txt"
             nom_archivo2[strlen(nom_archivo) - 4] = '\0'; 
             Solucion(archivo, nom_archivo2, sentido);
+            fclose(archivo);
 
             sprintf(destino, "%dx%d", (longitud+1)/2, (longitud+1)/2);
             //moverArchivo(nom_archivo, rutaActual, destino);
