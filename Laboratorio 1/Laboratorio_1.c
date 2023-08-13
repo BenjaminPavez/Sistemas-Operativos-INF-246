@@ -11,35 +11,35 @@
 
 
 /*
-La funcion resuelve la sopa de letras en la dirección dada (horizontal o vertical)
+La funcion crea un directorio y mueve los archivos txt (revisar)
 
 Parametros :
-   FILE *archivo : archivo que contiene la sopa de letras
-   char *nom_sopa : puntero tipo char que apunta al nombre del archivo a leer 
-   char *orientation : puntero tipo char que apunta a la orientacion de la palabra en la sopa
+   const char* nombreArchivo : puntero tipo char que apunta al nombre del archivo
+   const char* origen : puntero tipo char que apunta al nombre (revisar)
+   const char* destino : puntero tipo char que apunta (revisar)
    
 Retorno :
-   Nada, ya que es tipo void
+   retorna -1 si el archivo no se pudo mover o no se pudo crear la carpeta y retorna 0 si se realizo correctamente
  
 */
 int moverArchivo(const char* nombreArchivo, const char* origen, const char* destino) {
-    // Verificar si la carpeta existe, si no, crearla
+    //Verificar si la carpeta existe, si no, crearla
     struct stat st = {0};
     if (stat(destino, &st) == -1) {
-        // La carpeta no existe, la creamos
+        //La carpeta no existe, la creamos
         if (mkdir(destino, 0777) == -1) {
             perror("Error al crear la carpeta");
             return -1;
         }
     }
-    char rutaOrigen[255]; // Ajusta el tamaño según tus necesidades
-    char rutaDestino[255]; // Ajusta el tamaño según tus necesidades
+    char rutaOrigen[255]; //Ajusta el tamaño según tus necesidades
+    char rutaDestino[255]; //Ajusta el tamaño según tus necesidades
 
-    // Construir las rutas completas de origen y destino
+    //Construir las rutas completas de origen y destino
     snprintf(rutaOrigen, sizeof(rutaOrigen), "%s/%s", origen, nombreArchivo);
     snprintf(rutaDestino, sizeof(rutaDestino), "%s/%s", destino, nombreArchivo);
 
-    // Mover el archivo
+    //Mover el archivo
     if (rename(rutaOrigen, rutaDestino) != 0) {
         perror("Error al mover el archivo");
         return -1;
@@ -74,61 +74,9 @@ char* Espacio(char* palabra){
             finpalabra[i] = ' ';
         }
     }
-    //free(palabra);
     return finpalabra;
 }
 
-
-
-/*
-La funcion remplaza la subcadena dentro de la subcadena por un simbolo dado
-
-Parametros :
-   char *source : puntero tipo char que apunta a la cadena
-   char *target : puntero tipo char que apunta a la subcadena
-   char *replacement : puntero tipo char que apunta a lo que remplazara a la subcadena
-   
-Retorno :
-   Nada, ya que es tipo void
- 
-*/
-void replace(char *source, char *target, char *replacement) {
-   int target_length = strlen(target);
-   int replacement_length = strlen(replacement);
-
-   char *found = strstr(source, target);
-
-    while (found) {
-        // Calcula la longitud de la parte antes de 'target'
-        int prefix_length = found - source;
-
-        // Calcula la longitud de la parte después de 'target'
-        int suffix_length = strlen(found + target_length);
-
-        // Calcula la longitud total de la nueva cadena
-        int new_length = prefix_length + replacement_length + suffix_length + 1;
-
-        // Crea una nueva cadena para almacenar la versión modificada
-        char new_string[new_length];
-
-        // Copia la parte antes de 'target' en la nueva cadena
-        strncpy(new_string, source, prefix_length);
-        new_string[prefix_length] = '\0';
-
-        // Agrega la cadena de reemplazo a la nueva cadena
-        strcat(new_string, replacement);
-
-        // Agrega la parte después de 'target' a la nueva cadena
-        strcat(new_string, found + target_length);
-
-        // Copia la nueva cadena en 'source'
-        strcpy(source, new_string);
-
-        // Busca la siguiente ocurrencia de 'target' en 'source'
-        found = strstr(source, target);
-    }
-    
-}
 
 
 
@@ -143,7 +91,7 @@ Retorno :
    char *cadenasin : puntero tipo char que apunta a la cadena sin los espacios
  
 */
-char* quitaespacios(char *cadena, char *cadenasin) {
+void quitaespacios(char *cadena, char *cadenasin) {
     int i, j;
     i = 0;
     j = 0;
@@ -155,11 +103,16 @@ char* quitaespacios(char *cadena, char *cadenasin) {
         i++;
     }
 
-    // Liberar memoria después de usarla
-    free(cadena); //ELIMINACION MEM
+    //Agrega el carácter nulo al final de la cadena resultante
+    cadenasin[j] = '\0'; 
+}
 
-    cadenasin[j] = '\0'; // Agrega el carácter nulo al final de la cadena resultante
-    return cadenasin;
+
+
+void convertirMayusculas(char *cadena) {
+    for (int i = 0; cadena[i]; i++) {
+        cadena[i] = toupper(cadena[i]);
+    }
 }
 
 
@@ -171,153 +124,109 @@ Parametros :
    FILE *archivo : archivo que contiene la sopa de letras
    char *nom_sopa : puntero tipo char que apunta al nombre del archivo a leer 
    char *orientation : puntero tipo char que apunta a la orientacion de la palabra en la sopa
+   int tam : entero que contiene la dimension de la sopa de letras
    
 Retorno :
    Nada, ya que es tipo void
  
 */
-void Solucion(FILE *archivo, char *nom_sopa, char *orientation){
-    int longitud;
+void Solucion(FILE *archivo, char *nom_sopa, char *orientation, int tam){
+    int fila = 0;
+
+    //Medicion tiempo
+    double time_spent = 0.0;
+    clock_t begin = clock();
 
     bool found = false;
-    char bufer[1000]; // Aquí vamos a ir almacenando cada línea
+    char bufer[500]; // Aquí vamos a ir almacenando cada línea
 
     //Palabra a buscar en la sopa
-    int texto_len = strlen(nom_sopa);
-    char *textoMayus = malloc(sizeof(char) * texto_len); //reservando memoria para la variable a retornar
-    for (int i = 0; i < texto_len; i++){
-        textoMayus[i] = toupper(nom_sopa[i]); 
-    }
+    convertirMayusculas(nom_sopa);
 
-    if(strcmp(orientation, "horizontal") == 0) {
+    if(strcasecmp(orientation, "horizontal") == 0) {
         //Horizontal
-        int fila = 0;
-        //Se crea el nuevo archivo con las respuestas
-        FILE *nuevoArchivo;
-        strcat(nom_sopa, "_resuelta.txt");
-        nuevoArchivo = fopen(nom_sopa, "w");
-        fputs("horizontal", nuevoArchivo); // Escribir línea modificada en el nuevo archivo
-        fputc('\n', nuevoArchivo);
-        bool tam = true;
+        char cadenafinal[500]; // Define un buffer para cadenafinal
         while(fgets(bufer, sizeof(bufer), archivo)){
-            //Se calcula la dimension de la sopa
-            if(tam){
-                longitud = strlen(bufer);
-                tam = false;
+            quitaespacios(bufer, cadenafinal);
+            
+            if(strstr(cadenafinal, nom_sopa) != NULL){
+                //Se calcula el tiempo de ejecucion
+                clock_t end = clock();
+                //calcula el tiempo transcurrido encontrando la diferencia (end - begin) y
+                //dividiendo la diferencia por CLOCKS_PER_SEC para convertir a segundos
+                time_spent += (double)(end - begin) / CLOCKS_PER_SEC;
+
+                //Verificacion, RECORDAR ELIMINAR AL ENVIAR
+                printf("ESTADO: Palabra encontrada en la fila %d.\n",fila+2);
+                printf("Tiempo que transcurrido: %f\n",time_spent);
+                printf("----------------------------------------------------------------\n");
+                printf("\n");
+                printf("\n");
+
+                found = true;
+                break;
             }
-            for (int col = 0; col < strlen(bufer) - texto_len + 1; col++) {
-                char *cadenafinal = (char *)malloc(strlen(&bufer[col]) + 1); // +1 para el carácter nulo
-                quitaespacios(&bufer[col], cadenafinal);
-                if(strstr(cadenafinal, textoMayus) != NULL){
-                    //Modifico el archivo para decir que se encontro
-                    char *target = Espacio(textoMayus);
-                    char *rem = malloc(sizeof(char) * strlen(textoMayus));
-                    for(int i = 0; i < strlen(textoMayus); i++){
-                        rem[i] = '-';
-                    }
-                    char *replacement = Espacio(rem);
-                    replace(&bufer[col], target, replacement);
-                    printf("Palabra encontrada en fila %d, columna %d (horizontal).\n", fila + 2, col);
-                    found = true;
-                    //ELIMINACION MEM
-                    free(textoMayus);
-                    break;
-                }  
-            }
-            bufer[strcspn(bufer, "\n")] = '\0'; // Eliminamos el salto de línea después de procesar la línea
-            fputs(bufer, nuevoArchivo); // Escribir línea modificada en el nuevo archivo
-            fputc('\n', nuevoArchivo); // Agregar un salto de línea después de cada línea
             fila++;
+            memset(cadenafinal, 0, 500); //limpiar para que no lo una con la basura
         }
-        //SE CIERRA EL ARCHIVO NUEVO
-        fclose(nuevoArchivo);
+        memset(cadenafinal, 0, 500); //limpiar para que no lo una con la basura
+
+        fclose(archivo);
         
-    }else if (strcmp(orientation, "vertical") == 0) { //cambiar a vertical
-        //Vertical
+    }else if(strcasecmp(orientation, "vertical") == 0){ 
+        tam = (tam+1)/2; 
 
-        //Se crea el nuevo archivo con las respuestas
-        FILE *nuevoArchivo;
-        strcat(nom_sopa, "_resuelta.txt");
-        nuevoArchivo = fopen(nom_sopa, "w");
-        fputs("vertical", nuevoArchivo); // Escribir línea modificada en el nuevo archivo
-        fputc('\n', nuevoArchivo);
-        bool tam = true;
-
-        char buffer[50];
-        //fgets(buffer, sizeof(buffer), archivo);
-        char matriz[50][50];  // Ajusta el tamaño de la matriz según tus necesidades
-        int filas = 50;
-        int columnas = 50;
-        for (int i = 0; i < filas; i++) {
-            for (int j = 0; j < columnas; j++) {
-                if (fscanf(archivo, " %c", &matriz[i][j]) == EOF) {
-                    perror("Error al leer el archivo");
-                    return;
-                }
+        char **matriz = malloc(sizeof(char *) * tam);
+        for (int i = 0; i < tam; i++) {
+            matriz[i] = malloc(sizeof(char) * tam); // Asigna memoria para cada fila
+            for (int j = 0; j < tam; j++) {
+                fscanf(archivo, " %c", &matriz[i][j]);
             }
         }
         
-
-        for (int i = 0; i < filas; i++) {
-            for (int j = i + 1; j < columnas; j++) {
+        for (int i = 0; i < tam; i++) {
+            for (int j = i + 1; j < tam; j++) {
                 char temp = matriz[i][j];
                 matriz[i][j] = matriz[j][i];
                 matriz[j][i] = temp;
             }
         }
 
-        // Escribir la matriz transpuesta en el archivo de salida
-        for (int i = 0; i < filas; i++) {
-            char* columna =  (char *)malloc(sizeof(char) * filas);
-            for (int j = 0; j < columnas; j++) {
+        //Escribir la matriz transpuesta en el archivo de salida
+        for (int i = 0; i < tam; i++){
+            char columna[500];
+            for (int j = 0; j < tam; j++) {
                 columna[j] = matriz[i][j];
             }
-            columna[columnas] = '\0'; // Terminar la cadena con el carácter nulo
-            char *nueva_columna = Espacio(columna);
-            if(strstr(columna, textoMayus) != NULL){
-                //Modifico el archivo para decir que se encontro
-                char *target = Espacio(textoMayus);
-                char *rem = malloc(sizeof(char) * strlen(textoMayus));
-                for(int i = 0; i < strlen(textoMayus); i++){
-                    rem[i] = '-';
-                }
-                char *replacement = Espacio(rem);
-                replace(nueva_columna, target, replacement);
-                printf("Palabra encontrada en fila %d, (vertical).\n", i);
-                printf("COLUMNA MODIFICADA: %s\n", columna);
+            columna[tam] = '\0'; 
+            if(strstr(columna, nom_sopa) != NULL){
+                //printf("%s",columna);
+                //Se calcula el tiempo de ejecucion
+                clock_t end = clock();
+                //calcula el tiempo transcurrido encontrando la diferencia (end - begin) y
+                //dividiendo la diferencia por CLOCKS_PER_SEC para convertir a segundos
+                time_spent += (double)(end - begin) / CLOCKS_PER_SEC;
+
+                //Verificacion, RECORDAR ELIMINAR AL ENVIAR
+                printf("ESTADO: Palabra encontrada en la columna %d.\n",i+2);
+                printf("Tiempo que transcurrido: %f\n",time_spent);
+                printf("----------------------------------------------------------------\n");
+                printf("\n");
+                printf("\n");
                 found = true;
-                //ELIMINACION MEM
-                free(textoMayus);
-             
-                
             }
-            fputs(nueva_columna, nuevoArchivo); // Escribir línea modificada en el nuevo archivo
-            fputc('\n', nuevoArchivo); // Agregar un salto de línea después de cada línea
-            free(columna);
         }
         
-
-        
-
+        //Se libera la matriz para evitar leaks en la memoria
+        for (int i = 0; i < tam; i++) {
+            free(matriz[i]);
+        }
+        free(matriz);
 
     }else{
         printf("Orientación inválida: %s\n", orientation);
         return;
     }
-
-
-    //Verificacion, RECORDAR ELIMINAR AL ENVIAR
-    printf("----------------------------------------------------------------\n");
-    printf("Nombre del Archivo: %s\n", nom_sopa);
-    printf("----------------------------------------------------------------\n");
-    printf("Orientacion: %s\n", orientation);
-    printf("Tamaño: %d x %d\n",(longitud+1)/2, (longitud+1)/2);
-    printf("----------------------------------------------------------------\n");
-    printf("\n");
-    printf("\n");
-
-
-
 
     //Se verifica que la sopa se pudo resolver
     if(found){
@@ -348,36 +257,47 @@ void Orientacion(char* nom_archivo) {
     }
 
     char nom_archivo2[25]; // Tamaño suficiente para almacenar la palabra extraída
-    char destino[25];
     char sentido[12];
     
-    FILE* archivo = fopen(nom_archivo, "r+"); // Modo lectura
+    //Leo el archivo para calcular la longitud de la linea
+    FILE* archivo = fopen(nom_archivo, "r"); // Modo lectura
     char bufer[1000]; // Aquí vamos a ir almacenando cada línea
+    fgets(bufer, 1000, archivo); //Se salta la primea linea
+    int longitud = strlen(fgets(bufer, 1000, archivo));
+    fclose(archivo);
 
-    // Leer la primera línea para obtener la orientación
-    if(fgets(bufer, 1000, archivo)) {
-        bufer[strcspn(bufer, "\n")] ='\0'; 
-        if(strcmp(bufer, "vertical") == 0 || strcmp(bufer, "horizontal") == 0){
-            strcpy(sentido,bufer);
-            //Leer la segunda línea para obtener el tamaño del lado (ERROR Solucionado)
-            int longitud = strlen(bufer);
-            
+    //Abro el archivo para extraer la sopa
+    FILE* archivolectura = fopen(nom_archivo, "r+");
+    char linea_arch[1000]; //Aquí vamos a ir almacenando cada línea
+
+    //Leer la primera línea para obtener la orientación
+    if(fgets(linea_arch, 1000, archivolectura)){
+        linea_arch[strcspn(linea_arch, "\n")] ='\0'; 
+        if(strcasecmp(linea_arch, "vertical") == 0 || strcasecmp(linea_arch, "horizontal") == 0){
+            strcpy(sentido,linea_arch);
+
             //Resolvemos la sopa de letras
-            strncpy(nom_archivo2, nom_archivo, strlen(nom_archivo) - 4); // Restamos 4 para eliminar la extensión ".txt"
+            strncpy(nom_archivo2, nom_archivo, strlen(nom_archivo) - 4); //Restamos 4 para eliminar la extensión ".txt"
             nom_archivo2[strlen(nom_archivo) - 4] = '\0'; 
-            Solucion(archivo, nom_archivo2, sentido);
-            fclose(archivo);
 
-            sprintf(destino, "%dx%d", (longitud+1)/2, (longitud+1)/2);
+            //Verificacion, RECORDAR ELIMINAR AL ENVIAR
+            printf("----------------------------------------------------------------\n");
+            printf("Nombre del Archivo: %s\n", nom_archivo);
+            printf("----------------------------------------------------------------\n");
+            printf("Orientacion: %s\n", linea_arch);
+            printf("Tamaño: %d x %d\n",(longitud+1)/2, (longitud+1)/2);
+
+            Solucion(archivolectura, nom_archivo2, sentido, longitud);
+            
+
+            //sprintf(destino, "%dx%d", (longitud+1)/2, (longitud+1)/2);
             //moverArchivo(nom_archivo, rutaActual, destino);
-            
-            
+
         }else{
-            printf("Error: %s\n", bufer);
-            printf("ACAAAAAAA\n");
+            printf("Error: La oriencion %s no existe\n",linea_arch);
         }
     }
-    fclose(archivo); 
+    
 }
 
 
@@ -419,21 +339,6 @@ Retorno :
  
 */
 int main(){
-    /*
-    //Carpetas Horizontal
-    mkdir("./horizontal", S_IRWXU);
-
-    mkdir("./horizontal/50x50", S_IRWXU);
-    mkdir("./horizontal/100x100", S_IRWXU);
-    mkdir("./horizontal/200x200", S_IRWXU);
-
-    //Carpetas Vertical
-    mkdir("./vertical", S_IRWXU);
-
-    mkdir("./vertical/50x50", S_IRWXU);
-    mkdir("./vertical/100x100", S_IRWXU);
-    mkdir("./vertical/200x200", S_IRWXU);
-    */
     LeerDir();
     return 0;
 }
