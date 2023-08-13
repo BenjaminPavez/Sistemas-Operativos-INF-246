@@ -79,7 +79,6 @@ char* Espacio(char* palabra){
 
 
 
-
 /*
 La funcion quita los espacios de una cadena
 
@@ -109,6 +108,16 @@ void quitaespacios(char *cadena, char *cadenasin) {
 
 
 
+/*
+La funcion convierte una cadena en minuscula a mayusculas
+
+Parametros :
+   char *cadena : puntero tipo char que apunta a la cadena a modificar
+   
+Retorno :
+   Nada, ya que es tipo void
+ 
+*/
 void convertirMayusculas(char *cadena) {
     for (int i = 0; cadena[i]; i++) {
         cadena[i] = toupper(cadena[i]);
