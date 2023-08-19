@@ -218,7 +218,7 @@ void Solucion(FILE *archivo, char*nom_archivo, char *nom_sopa, char *orientation
 
                 //Verificacion de la busqueda
                 printf("ESTADO: Palabra encontrada en la fila %d.\n",fila+2);
-                printf("Tiempo que transcurrido: %f\n",time_spent);
+                printf("Tiempo que transcurrio: %f\n",time_spent);
                 found = true;
                 moverArchivo(nom_archivo,orientation ,tam);
                 printf("------------------------------------------------------------------------------------------\n");
@@ -235,7 +235,7 @@ void Solucion(FILE *archivo, char*nom_archivo, char *nom_sopa, char *orientation
 
             //Verificacion de la busqueda
             printf("ESTADO: Palabra NO encontrada.\n");
-            printf("Tiempo que transcurrido: %f\n",time_spent);
+            printf("Tiempo que transcurrio: %f\n",time_spent);
             printf("------------------------------------------------------------------------------------------\n");
             printf("\n");
             printf("\n");
@@ -277,7 +277,7 @@ void Solucion(FILE *archivo, char*nom_archivo, char *nom_sopa, char *orientation
                 
                 //Verificacion de la busqueda
                 printf("ESTADO: Palabra encontrada en la columna %d.\n",i+2);
-                printf("Tiempo que transcurrido: %f\n",time_spent);
+                printf("Tiempo que transcurrio: %f\n",time_spent);
                 found = true;
                 moverArchivo(nom_archivo,orientation ,tam);
                 printf("------------------------------------------------------------------------------------------\n");
@@ -292,7 +292,7 @@ void Solucion(FILE *archivo, char*nom_archivo, char *nom_sopa, char *orientation
 
             //Verificacion de la busqueda
             printf("ESTADO: Palabra NO encontrada.\n");
-            printf("Tiempo que transcurrido: %f\n",time_spent);
+            printf("Tiempo que transcurrio: %f\n",time_spent);
             printf("------------------------------------------------------------------------------------------\n");
             printf("\n");
             printf("\n");
