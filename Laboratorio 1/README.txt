@@ -23,7 +23,9 @@ Instrucciones de uso:
 
 6) La tarea cuenta con un unico archivo que se llama 'Laboratorio_1.c'
 
-7) Cada funcion esta debidamente comentada y tienen la siguiente estructura: /*
+7) En el codigo se encuentra una funcion que optimiza la busqueda de la palabra en la sopa, para ver la optimizacion, revise los comentarios del codigo
+
+8) Cada funcion esta debidamente comentada y tienen la siguiente estructura: /*
                                                                             Explicacion de lo que realiza la funcion
                                                                             
                                                                             Parametros :
