@@ -11,19 +11,19 @@ Version Valgrind: 3.18.1
 
 Instrucciones de uso:
 
-1) El programa funciona sin problemas con los archivos .txt siempre y cuando la secuencia de fin de linea este en LF
+1) El programa funciona sin problemas con los archivos .txt siempre y cuando la secuencia de fin de linea este en LF.
 
-2) El programa funciona sin ningun problema con los archivos .txt que se encuentran el la presente carpeta
+2) El programa funciona sin ningun problema con los archivos .txt entregados.
 
-3) Para que la la busqueda de la palabra sea exitosa, verifique que la sopa sea cuadrada
+3) Para que la busqueda de la palabra sea exitosa, verifique que la sopa sea cuadrada.
 
-4) Al programa se le aplico valgrind para verificar los leaks de memoria, dando un resultado exitoso con las instrucciones dadas
+4) Al programa se le aplico valgrind para verificar los leaks de memoria, dando un resultado exitoso con las instrucciones dadas.
 
-5) Para ejecutar el programa haciendo uso del makefile, solo necesita que este el makefile, las sopas de letras y el programa esten en la misma carpeta, luego ejecute en consola 'make' para ejecutar la aplicacion
+5) Para ejecutar el programa haciendo uso del makefile, solo necesita que este el makefile, las sopas de letras y el programa esten en la misma carpeta, luego ejecute en consola 'make' para ejecutar la aplicacion.
 
-6) La tarea cuenta con un unico archivo que se llama 'Laboratorio_1.c'
+6) La tarea cuenta con un unico archivo que se llama 'Laboratorio_1.c'.
 
-7) En el codigo se encuentra una funcion que optimiza la busqueda de la palabra en la sopa, para ver la optimizacion, revise los comentarios del codigo
+7) En el codigo se encuentra una funcion que optimiza la busqueda de la palabra en la sopa, para ver la optimizacion, revise los comentarios del codigo.
 
 8) Cada funcion esta debidamente comentada y tienen la siguiente estructura: /*
                                                                             Explicacion de lo que realiza la funcion
