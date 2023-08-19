@@ -24,13 +24,13 @@ Retorno :
 */
 int moverArchivo(const char* nombreArchivo, char* orientation, int tam){
     char rutaActual[600]; //Tamaño suficiente para almacenar la ruta
-    if (getcwd(rutaActual, sizeof(rutaActual)) == NULL) {
+    if(getcwd(rutaActual, sizeof(rutaActual)) == NULL) {
         perror("Error al obtener la ruta actual");
         return -1;
     }
 
     //Verificar si la carpeta destino existe, si no, crearla
-    for (int i = 0; i < strlen(orientation); i++) {
+    for(int i = 0; i < strlen(orientation); i++) {
         orientation[i] = tolower(orientation[i]);
     }
 
@@ -38,8 +38,8 @@ int moverArchivo(const char* nombreArchivo, char* orientation, int tam){
     char destinoVertical[600];
     snprintf(destinoVertical, sizeof(destinoVertical), "%.590s/vertical", rutaActual);
     struct stat st = {0};
-    if (stat(destinoVertical, &st) == -1) {
-        if (mkdir(destinoVertical, 0777) == -1) {
+    if(stat(destinoVertical, &st) == -1) {
+        if(mkdir(destinoVertical, 0777) == -1) {
             perror("Error al crear la carpeta vertical");
             return -1;
         }
@@ -48,8 +48,8 @@ int moverArchivo(const char* nombreArchivo, char* orientation, int tam){
     //Crear directorio "horizontal"
     char destinoHorizontal[600];
     snprintf(destinoHorizontal, sizeof(destinoHorizontal), "%.588s/horizontal", rutaActual);
-    if (stat(destinoHorizontal, &st) == -1) {
-        if (mkdir(destinoHorizontal, 0777) == -1) {
+    if(stat(destinoHorizontal, &st) == -1) {
+        if(mkdir(destinoHorizontal, 0777) == -1) {
             perror("Error al crear la carpeta horizontal");
             return -1;
         }
@@ -57,11 +57,11 @@ int moverArchivo(const char* nombreArchivo, char* orientation, int tam){
 
     //Crear subcarpeta en función de la orientación y el tamaño
     const char* subDestino;
-    if (strcasecmp(orientation, "vertical") == 0) {
+    if(strcasecmp(orientation, "vertical") == 0) {
         subDestino = destinoVertical;
-    } else if (strcasecmp(orientation, "horizontal") == 0) {
+    }else if(strcasecmp(orientation, "horizontal") == 0) {
         subDestino = destinoHorizontal;
-    } else {
+    }else{
         printf("Orientación inválida: %s\n", orientation);
         return -1;
     }
@@ -69,8 +69,8 @@ int moverArchivo(const char* nombreArchivo, char* orientation, int tam){
     char subcarpeta[600];
     snprintf(subcarpeta, sizeof(subcarpeta), "%s/%dx%d", subDestino, tam, tam);
 
-    if (stat(subcarpeta, &st) == -1) {
-        if (mkdir(subcarpeta, 0777) == -1) {
+    if(stat(subcarpeta, &st) == -1) {
+        if(mkdir(subcarpeta, 0777) == -1) {
             perror("Error al crear la subcarpeta");
             return -1;
         }
@@ -83,7 +83,7 @@ int moverArchivo(const char* nombreArchivo, char* orientation, int tam){
     snprintf(rutaDestinoFinal, sizeof(rutaDestinoFinal), "%.589s/%s", subcarpeta, nombreArchivo);
 
     //Se mueve el archivo a la ruta final
-    if (rename(rutaOrigen, rutaDestinoFinal) != 0) {
+    if(rename(rutaOrigen, rutaDestinoFinal) != 0) {
         perror("Error al mover el archivo");
         return -1;
     }
@@ -108,8 +108,8 @@ Retorno :
 void quitaespacios(char *cadena, char *cadenasin){
     int i = 0;
     int j = 0;
-    while (cadena[i] != '\0') {
-        if (cadena[i] != ' ') {
+    while(cadena[i] != '\0') {
+        if(cadena[i] != ' ') {
             cadenasin[j] = cadena[i];
             j++;
         }
@@ -133,7 +133,7 @@ Retorno :
  
 */
 void convertirMayusculas(char *cadena){
-    for (int i = 0; cadena[i]; i++) {
+    for(int i = 0; cadena[i]; i++) {
         cadena[i] = toupper(cadena[i]);
     }
 }
@@ -142,7 +142,7 @@ void convertirMayusculas(char *cadena){
 
 //OPTIMIZACION
 /*
-La funcion remplaza la funcion strstr pa
+La funcion remplaza la funcion strstr para tratar de reducir los tiempos que tarda encontrar la palabra
 
 Parametros :
    const char *cadena1 : puntero tipo char que apunta a la linea de la sopa de letras
@@ -156,14 +156,14 @@ char *strstrmodificada(const char *cadena1, const char *cadena2) {
     if (*cadena2 == '\0') {
         return (char *)cadena1;
     }
-    while (*cadena1) {
+    while(*cadena1) {
         const char *h = cadena1;
         const char *n = cadena2;
-        while (*n && (*h == *n)) {
+        while(*n && (*h == *n)) {
             h++;
             n++;
         }
-        if (*n == '\0') {
+        if(*n == '\0') {
             return (char *)cadena1;
         }
         cadena1++;
