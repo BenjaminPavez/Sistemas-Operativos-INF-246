@@ -11,7 +11,7 @@ Version Valgrind: 3.18.1
 
 Instrucciones de uso:
 
-1) El programa funciona sin problemas con los archivos .txt siempre y cuando la secuencia de fin de linea este en LF.
+1) IMPORTANTE: EL PROGRAMA FUNCIONA SIN PROBLEMAS CON LOS ARCHIVOS .TXT SIEMPRE Y CUANDO LA SECUENCIA DE FIN DE LINEA ESTE EN LF DEBIDO AL USO DE LINUX.
 
 2) El programa funciona sin ningun problema con los archivos .txt entregados.
 
