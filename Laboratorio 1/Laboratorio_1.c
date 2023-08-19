@@ -210,8 +210,8 @@ void Solucion(FILE *archivo, char*nom_archivo, char *nom_sopa, char *orientation
 
         while(fgets(bufer, sizeof(bufer), archivo)){
             quitaespacios(bufer, cadenafinal);
-            //Para probar la optimizacion, reemplace strstr(cadenafinal, nom_sopa) != NULL por strstrmodificada(columna, nom_sopa) != NULL
-            if(strstr(cadenafinal, nom_sopa) != NULL){
+            //Para probar la optimizacion, reemplace strstr(cadenafinal, nom_sopa) != NULL por strstrmodificada(cadenafinal, nom_sopa) != NULL
+            if(strstrmodificada(cadenafinal, nom_sopa) != NULL){
                 //Se calcula el tiempo de ejecucion
                 clock_t end = clock();
                 time_spent += (double)(end - begin) / CLOCKS_PER_SEC;
@@ -270,8 +270,8 @@ void Solucion(FILE *archivo, char*nom_archivo, char *nom_sopa, char *orientation
                 columna[j] = matriz[i][j];
             }
             columna[tam] = '\0';
-            //Para probar la optimizacion, reemplace strstr(cadenafinal, nom_sopa) != NULL por strstrmodificada(columna, nom_sopa) != NULL
-            if(strstr(columna, nom_sopa) != NULL){
+            //Para probar la optimizacion, reemplace strstr(columna, nom_sopa) != NULL por strstrmodificada(columna, nom_sopa) != NULL
+            if(strstrmodificada(columna, nom_sopa) != NULL){
                 clock_t end = clock();
                 time_spent += (double)(end - begin) / CLOCKS_PER_SEC;
                 
