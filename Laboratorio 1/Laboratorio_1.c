@@ -16,7 +16,7 @@ La funcion crea las rutas necesarias para luego clasificar y mover las sopas a l
 Parametros :
    const char* nombreArchivo : puntero tipo char que apunta al nombre del archivo
    const char* orientacion : puntero tipo char que apunta a la orientacion de la palabra en la sopa
-   int tamano : entero que indica la dimension de la sopa
+   int tam : entero que indica la dimension de la sopa
    
 Retorno :
    retorna -1 si el archivo no se pudo mover o no se pudo crear la carpeta y retorna 0 si se realizo correctamente
@@ -102,7 +102,7 @@ Parametros :
    char *cadenasin : puntero tipo char que apunta a la cadena sin los espacios
    
 Retorno :
-   char *cadenasin : puntero tipo char que apunta a la cadena sin los espacios
+   Nada, ya que es tipo void
  
 */
 void quitaespacios(char *cadena, char *cadenasin){
