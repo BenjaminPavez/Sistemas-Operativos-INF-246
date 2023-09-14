@@ -11,6 +11,15 @@
 
 
 
+int longit(char*nom_archivo){
+    FILE* archivo = fopen(nom_archivo, "r"); 
+    char bufer[20];
+    fgets(bufer, 20, archivo); //Se salta la primea linea
+    int longitud = strlen(fgets(bufer, 20, archivo));
+    fclose(archivo);
+    return longitud;
+}
+
 /*
 La funcion guarda el tablero en forma de matriz para jugar con el personaje
 
@@ -21,38 +30,41 @@ Retorno :
    Retorna una estructura que almacena la matriz
  
 */
-char** CrearTablero(char* nom_archivo){
-    //Leo el archivo para calcular la longitud de la linea
-    FILE* archivo = fopen(nom_archivo, "r"); 
-    char bufer[20];
-    fgets(bufer, 20, archivo); //Se salta la primea linea
-    int longitud = strlen(fgets(bufer, 20, archivo));
-    fclose(archivo);
 
-    //Abro el archivo para extraer la sopa
+char** CrearTablero(char* nom_archivo) {
+    // Open the file for reading
     FILE* archivolectura = fopen(nom_archivo, "r");
+
+    if (archivolectura == NULL) {
+        perror("Error opening file");
+        return NULL;
+    }
+
+    int longitud = longit(nom_archivo);
+    printf("La longitud es %d\n", longitud);
 
     char **matriz = malloc(sizeof(char *) * longitud);
 
-    //Se guarda el contenido del archivo en una estructura
-    for(int i = 0; i < longitud; i++) {
-        matriz[i] = malloc(sizeof(char) * longitud); //Asigna memoria para cada fila
-        for(int j = 0; j < longitud; j++) {
-            fscanf(archivolectura, "%c", &matriz[i][j]);
-            if(matriz[i][j] == 'J'){
-                printf("%c",matriz[i][j]);
-
-            }else{
-                printf(" %c ",matriz[i][j]);
+    for (int i = 0; i < (longitud/2); i++) {
+        matriz[i] = malloc(sizeof(char) * longitud);
+        for (int j = 0; j <  (longitud/2); j++) {
+            if (fscanf(archivolectura, " %c", &matriz[i][j]) == 1) {
+                if (matriz[i][j] == 'J') {
+                    printf("%c", matriz[i][j]);
+                } else {
+                    printf(" %c ", matriz[i][j]);
+                }
+            } else {
+                // Handle end of file or other read errors
+                break;
             }
-            
         }
         printf("\n");
     }
+
     fclose(archivolectura);
 
     return matriz;
-
 }
 
 
@@ -79,19 +91,29 @@ Retorno :
    Nada, ya que es tipo void
  
 */
-char** LeerDir(){
-    DIR *d = opendir(".");
-    struct dirent *dentry;
-    char **directorio = malloc(sizeof(char) * 10);
+char** LeerDir() {
+    DIR* d = opendir(".");
+    struct dirent* dentry;
+    char** directorio = NULL;
     int k = 0;
-    
-    while((dentry = readdir(d)) != NULL) {
-        if(strstr(dentry->d_name, ".txt") != NULL){
-            if(strstr(dentry->d_name, "Inicio.txt") != NULL){
-                printf("Se encontro el archivo %s\n", dentry->d_name);
-            }else{
-                directorio[k] = malloc(sizeof(char) * (sizeof(dentry->d_name) / sizeof(dentry->d_name[0])));
-                directorio[k] = dentry->d_name;
+
+    while ((dentry = readdir(d)) != NULL) {
+        if (strstr(dentry->d_name, ".txt") != NULL) {
+            if (strstr(dentry->d_name, "Inicio.txt") == NULL) {
+                // Reasigna memoria para directorio
+                directorio = realloc(directorio, (k + 1) * sizeof(char*));
+                if (directorio == NULL) {
+                    perror("Error allocating memory");
+                    exit(EXIT_FAILURE);
+                }
+
+                // Asigna memoria para el nombre del archivo y copia el nombre
+                directorio[k] = malloc(strlen(dentry->d_name) + 1);
+                if (directorio[k] == NULL) {
+                    perror("Error allocating memory");
+                    exit(EXIT_FAILURE);
+                }
+                strcpy(directorio[k], dentry->d_name);
                 k++;
             }
         }
@@ -99,6 +121,7 @@ char** LeerDir(){
     closedir(d);
     return directorio;
 }
+
 
 
 
@@ -183,9 +206,10 @@ int main(){
     
     char **obj = LeerDir();
     shuffle(obj, 9);
-
     for(int i = 0; i<9; i++){
-        CrearTablero(obj[i]);
+        printf("%s\n", obj[i]);
+        char *cadena = obj[i];
+        CrearTablero(cadena);
     }
     return 0;
 }
