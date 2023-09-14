@@ -96,7 +96,60 @@ void MostrarTablero(){
 
     printf("----------------------------------------");
 
+}
+
+
+/*
+La funcion revisa el directorio actual para encontrar los archivo txt a leer
+
+Parametros :
+   No recibe ningun parametro
+
+Retorno :
+   Nada, ya que es tipo void
+ 
+*/
+char** LeerDir(){
+    DIR *d = opendir(".");
+    struct dirent *dentry;
+    char **directorio = malloc(sizeof(char) * 10);
+    int k = 0;
+    
+    while((dentry = readdir(d)) != NULL) {
+        if(strstr(dentry->d_name, ".txt") != NULL){
+            directorio[k] = malloc(sizeof(char) * (sizeof(dentry->d_name) / sizeof(dentry->d_name[0])));
+            directorio[k] = dentry->d_name;
+            k++;
+        }
     }
+    closedir(d);
+    return directorio;
+}
+
+
+
+// Función para intercambiar dos elementos de un arreglo
+void swap(int *a, int *b) {
+    int temp = *a;
+    *a = *b;
+    *b = temp;
+}
+
+// Función para desordenar una lista usando el algoritmo de Fisher-Yates
+void shuffle(int arr[], int n) {
+    // Inicializa la semilla del generador de números aleatorios
+    srand(time(NULL));
+
+    // Comienza desde el último elemento e intercambia con un elemento aleatorio previo
+    for (int i = n - 1; i > 0; i--) {
+        // Genera un índice aleatorio entre 0 y i (inclusive)
+        int j = rand() % (i + 1);
+
+        // Intercambia los elementos arr[i] y arr[j]
+        swap(&arr[i], &arr[j]);
+    }
+}
+
 
 int main(){
     printf("========================================\n");
@@ -133,13 +186,20 @@ int main(){
     
 
 
-    CrearTablero("tablero1.txt");
+    //CrearTablero("tablero1.txt");
+    char **obj = LeerDir();
+    printf("Lista original: ");
+    for (int i = 0; i < 9; i++) {
+        printf("%s\n", obj[i]);
+    }
 
-    /*
-    //Jugadores
-    __pid_t player1;
-    player1 = fork();
-    printf("Su pid es: %d\n",getpid());
-    */
+    shuffle(obj, 9);
+
+    printf("\nLista desordenada: ");
+    for (int i = 0; i < 9; i++) {
+        printf("%s\n", obj[i]);
+    }
+
+    
     return 0;
 }
