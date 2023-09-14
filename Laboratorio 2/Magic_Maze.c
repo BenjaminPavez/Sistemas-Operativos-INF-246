@@ -6,6 +6,7 @@
 #include <ctype.h>
 #include <dirent.h>
 #include <unistd.h>
+#include <time.h>
 
 #define NUM_ACCIONES 6
 #define NUM_DIRECCIONES 4
@@ -99,6 +100,7 @@ void MostrarTablero(){
 }
 
 
+
 /*
 La funcion revisa el directorio actual para encontrar los archivo txt a leer
 
@@ -128,29 +130,56 @@ char** LeerDir(){
 
 
 
-// Función para intercambiar dos elementos de un arreglo
-void swap(int *a, int *b) {
-    int temp = *a;
+//Función para intercambiar dos elementos de un arreglo
+/*
+La funcion revisa el directorio actual para encontrar los archivo txt a leer
+
+Parametros :
+   No recibe ningun parametro
+
+Retorno :
+   Nada, ya que es tipo void
+ 
+*/
+void swap(char **a, char **b) {
+    char *temp = *a;
     *a = *b;
     *b = temp;
 }
 
+
+
 // Función para desordenar una lista usando el algoritmo de Fisher-Yates
-void shuffle(int arr[], int n) {
-    // Inicializa la semilla del generador de números aleatorios
+/*
+La funcion revisa el directorio actual para encontrar los archivo txt a leer
+
+Parametros :
+   No recibe ningun parametro
+
+Retorno :
+   Nada, ya que es tipo void
+ 
+*/
+void shuffle(char **arr, int n) {
     srand(time(NULL));
-
-    // Comienza desde el último elemento e intercambia con un elemento aleatorio previo
     for (int i = n - 1; i > 0; i--) {
-        // Genera un índice aleatorio entre 0 y i (inclusive)
         int j = rand() % (i + 1);
-
-        // Intercambia los elementos arr[i] y arr[j]
-        swap(&arr[i], &arr[j]);
+        swap(&arr[i], &arr[j]); // Usa la función swap corregida
     }
 }
 
 
+
+/*
+La funcion revisa el directorio actual para encontrar los archivo txt a leer
+
+Parametros :
+   No recibe ningun parametro
+
+Retorno :
+   Nada, ya que es tipo void
+ 
+*/
 int main(){
     printf("========================================\n");
     printf("               Magic Maze               \n");
@@ -160,14 +189,10 @@ int main(){
     char *Acciones[NUM_ACCIONES] = {"Buscar", "Escaleras", "Derecha", "Izquierda", "Arriba", "Abajo"};
     char *Direcciones[NUM_DIRECCIONES] = {"Norte", "Sur", "Este", "Oeste"}; 
 
-    char *Cartas[NUM_ACCIONES] = {"Buscar", "Escaleras", "Derecha", "Izquierda", "Arriba", "Abajo"};
+    char *Cartas[NUM_ACCIONES] = {"Arriba", "Abajo", "Derecha", "Izquierda", "Buscar-Arriba", "Escaleras-Abajo", "Escaleras-Izquierda", "Buscar-Derecha"};
 
     char *cartas_disponibles[NUM_ACCIONES * 2 + NUM_DIRECCIONES * 6];
-    memcpy(cartas_disponibles, Acciones, sizeof(Acciones));
-    memcpy(cartas_disponibles + NUM_ACCIONES, Acciones, sizeof(Acciones));
-    memcpy(cartas_disponibles + 2 * NUM_ACCIONES, Direcciones, sizeof(Direcciones));
-    memcpy(cartas_disponibles + 2 * NUM_ACCIONES + NUM_DIRECCIONES, Direcciones, sizeof(Direcciones));
-
+   
 
     printf("Revolviendo cartas\n");
     int val;
@@ -188,14 +213,16 @@ int main(){
 
     //CrearTablero("tablero1.txt");
     char **obj = LeerDir();
-    printf("Lista original: ");
+    printf("Lista original: \n");
     for (int i = 0; i < 9; i++) {
         printf("%s\n", obj[i]);
     }
 
     shuffle(obj, 9);
 
-    printf("\nLista desordenada: ");
+    printf("\n");
+
+    printf("Lista desordenada: \n");
     for (int i = 0; i < 9; i++) {
         printf("%s\n", obj[i]);
     }
