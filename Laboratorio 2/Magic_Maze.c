@@ -7,10 +7,7 @@
 #include <dirent.h>
 #include <unistd.h>
 #include <time.h>
-
 #define num_cartas 8
-
-
 
 
 
@@ -58,14 +55,15 @@ char** CrearTablero(char* nom_archivo){
 
 }
 
+
+
 int RandomPos(){
 
 }
 
 
-void MostrarTablero(){
 
-    
+void MostrarTablero(){
 
 }
 
@@ -159,13 +157,12 @@ int main(){
     printf("========================================\n");
     printf("               Magic Maze               \n");
     printf("========================================\n");
-    //printf("\n");
 
+    //Se crean las cartas
     char *Cartas[num_cartas] = {"Arriba", "Abajo", "Derecha", "Izquierda", "Buscar-Arriba", "Escaleras-Abajo", "Escaleras-Izquierda", "Buscar-Derecha"};
-
     char *cartas_disponibles[2];
 
-    printf("Revolviendo cartas\n");
+    printf("Revolviendo el mazo de cartas\n");
     shuffle(Cartas, num_cartas);
     int val;
     printf("Presione 1 para sacar las tus cartas: ");
@@ -182,25 +179,13 @@ int main(){
         exit(0);
     }
      
+
     
-
-
-    //CrearTablero("tablero1.txt");
     char **obj = LeerDir();
-    printf("Lista original: \n");
-    for (int i = 0; i < 9; i++) {
-        printf("%s\n", obj[i]);
-    }
-
     shuffle(obj, 9);
 
-    printf("\n");
-
-    printf("Lista desordenada: \n");
-    for (int i = 0; i < 9; i++) {
-        printf("%s\n", obj[i]);
+    for(int i = 0; i<9; i++){
+        CrearTablero(obj[i]);
     }
-
-    
     return 0;
 }
