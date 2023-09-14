@@ -8,8 +8,8 @@
 #include <unistd.h>
 #include <time.h>
 
-#define NUM_ACCIONES 6
-#define NUM_DIRECCIONES 4
+#define num_cartas 8
+
 
 
 
@@ -65,37 +65,7 @@ int RandomPos(){
 
 void MostrarTablero(){
 
-    /*
-    ========================================
-               Magic Maze
-    ========================================
-
-            Jugador Principal       Bot 1
-            Tesoro: [ ]           Tesoro: [ ]
-
-    ----------------------------------------
-    | / | / | / | / | / | / | / | / | / | / |
-    ----------------------------------------
-    | / |   |   |   |   |   |   |   |   |   |
-    ----------------------------------------
-    | / |   |   |   |   |   |   |   |   |   |
-    ----------------------------------------
-    | / |   |   |   |   |   |   |   |   |   |
-    ----------------------------------------
-    | / |   |   |   |   |   |   |   |   |   |
-    ----------------------------------------
-
-            Jugador 3              Bot 2
-            Tesoro: [ ]           Tesoro: [ ]
-
-    ========================================
-    Turno Actual: Jugador Principal
-    ========================================
-    1. Acción: [Buscar] [Escaleras] [Derecha] [Izquierda] [Arriba] [Abajo]
-    Elige una acción: [ ]
-    */
-
-    printf("----------------------------------------");
+    
 
 }
 
@@ -119,9 +89,13 @@ char** LeerDir(){
     
     while((dentry = readdir(d)) != NULL) {
         if(strstr(dentry->d_name, ".txt") != NULL){
-            directorio[k] = malloc(sizeof(char) * (sizeof(dentry->d_name) / sizeof(dentry->d_name[0])));
-            directorio[k] = dentry->d_name;
-            k++;
+            if(strstr(dentry->d_name, "Inicio.txt") != NULL){
+                printf("Se encontro el archivo %s\n", dentry->d_name);
+            }else{
+                directorio[k] = malloc(sizeof(char) * (sizeof(dentry->d_name) / sizeof(dentry->d_name[0])));
+                directorio[k] = dentry->d_name;
+                k++;
+            }
         }
     }
     closedir(d);
@@ -130,12 +104,12 @@ char** LeerDir(){
 
 
 
-//Función para intercambiar dos elementos de un arreglo
 /*
-La funcion revisa el directorio actual para encontrar los archivo txt a leer
+La funcion intercambiar dos elementos de un arreglo
 
 Parametros :
-   No recibe ningun parametro
+   char **a : puntero tipo char que apunta al string que esta en la primera lista
+   char **b : puntero tipo char que apunta al string que esta en la segunda lista
 
 Retorno :
    Nada, ya que es tipo void
@@ -151,10 +125,11 @@ void swap(char **a, char **b) {
 
 // Función para desordenar una lista usando el algoritmo de Fisher-Yates
 /*
-La funcion revisa el directorio actual para encontrar los archivo txt a leer
+La funcion desordena una lista usando el algoritmo de Fisher-Yates
 
 Parametros :
-   No recibe ningun parametro
+   char **arr : puntero tipo char que apunta a una cadena de cadenas de char
+   int n : entego que representa el tamaño de la lista
 
 Retorno :
    Nada, ya que es tipo void
@@ -186,21 +161,20 @@ int main(){
     printf("========================================\n");
     //printf("\n");
 
-    char *Acciones[NUM_ACCIONES] = {"Buscar", "Escaleras", "Derecha", "Izquierda", "Arriba", "Abajo"};
-    char *Direcciones[NUM_DIRECCIONES] = {"Norte", "Sur", "Este", "Oeste"}; 
+    char *Cartas[num_cartas] = {"Arriba", "Abajo", "Derecha", "Izquierda", "Buscar-Arriba", "Escaleras-Abajo", "Escaleras-Izquierda", "Buscar-Derecha"};
 
-    char *Cartas[NUM_ACCIONES] = {"Arriba", "Abajo", "Derecha", "Izquierda", "Buscar-Arriba", "Escaleras-Abajo", "Escaleras-Izquierda", "Buscar-Derecha"};
-
-    char *cartas_disponibles[NUM_ACCIONES * 2 + NUM_DIRECCIONES * 6];
-   
+    char *cartas_disponibles[2];
 
     printf("Revolviendo cartas\n");
+    shuffle(Cartas, num_cartas);
     int val;
     printf("Presione 1 para sacar las tus cartas: ");
     scanf("%d", &val);
     if(val == 1){
         printf("Tus cartas son\n");
         for(int i = 0; i<2; i++){
+            int numero = rand() % num_cartas-1;
+            cartas_disponibles[i] = Cartas[numero];
             printf("%d. %s\n",i+1,cartas_disponibles[i]);
         }
         printf("\n");
