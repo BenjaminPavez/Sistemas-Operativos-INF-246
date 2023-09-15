@@ -28,20 +28,22 @@ int RandomPos(){
 
 
 
-void MostrarEnTablero(char **matriz, int tam){
+void MostrarEnTablero(char **matriz, int tam) {
     int seleccion;
     int x = 0;
     int y = 0;
     int val = 1;
-    while(val == 1){
+    bool paso = false;
+    
+    while (val == 1) {
         system("clear");
         printf("----------------------------------------------------------\n");
-        //Imprimo el tablero y encuentro la posicion del personaje, esta posicion es en base al primer 0 que se encuentre
-        bool paso = false;
+        //Imprimo el tablero y encuentro la posición del personaje, esta posición es en base al primer 0 que se encuentre
+        
         for (int i = 0; i < tam; i++) {
-            for (int j = 0; j <  tam; j++) {
+            for (int j = 0; j < tam; j++) {
                 printf("%c     ", matriz[i][j]);
-                if((matriz[i][j] - '0')==0 && paso == false){
+                if ((matriz[i][j] - '0') == 0 && !paso) {
                     x = i;
                     y = j;
                     paso = true;
@@ -53,81 +55,53 @@ void MostrarEnTablero(char **matriz, int tam){
         printf("----------------------------------------------------------\n");
         printf("Arriba : 1  |  Abajo : 2  |  Derecha : 3  |  Izquierda : 4\n");
         printf("----------------------------------------------------------\n");
-        printf("Tu posicion actual es: (%d,%d)\n", x=1, y+1);
+        printf("Tu posicion actual es: (%d,%d)\n", x, y);
         
         scanf("%d", &seleccion);
-        if(seleccion == 1){
-            if((x - 1) < 0){
-                printf("No se puede mover hacia Arriba\n");
-            }else{
-                if((matriz[x-1][y] - '0') == 0){ //(matriz[x-1][y] - '0') == 0
-                    matriz[x][y] = '0';
-                    matriz[x-1][y] = '?';
-                    x--;
-                    
-                }else{
-                    printf("No se puede mover hacia Arriba\n");
-                }
-                
-            }
-            
-        }else if(seleccion == 2){
-            if((x + 1) > tam){
-                printf("No se puede mover hacia Abajo\n");
-            }else{
-                if((matriz[x+1][y] - '0') == 0){ //(matriz[x+1][y] - '0') == 0
-                    matriz[x][y] = '0';
-                    matriz[x+1][y] = '?';
-                    x++;
-                    
-                }else{
-                    printf("No se puede mover hacia Abajo\n");
-                }
-                
-            }
         
-        }else if(seleccion == 3){
-            if((x + 1) > tam){
+        if (seleccion == 1) {
+            if (x - 1 >= 0 && (matriz[x - 1][y] - '0') == 0) {
+                matriz[x][y] = '0';
+                matriz[x - 1][y] = '?';
+                x--;
+            } else {
+                printf("No se puede mover hacia Arriba\n");
+            }
+        } else if (seleccion == 2) {
+            if (x + 1 < tam && (matriz[x + 1][y] - '0') == 0) {
+                matriz[x][y] = '0';
+                matriz[x + 1][y] = '?';
+                x++;
+            } else {
+                printf("No se puede mover hacia Abajo\n");
+            }
+        } else if (seleccion == 3) {
+            if (y + 1 < tam && (matriz[x][y + 1] - '0') == 0) {
+                matriz[x][y] = '0';
+                matriz[x][y + 1] = '?';
+                y++;
+            } else {
                 printf("No se puede mover hacia Derecha\n");
-            }else{
-                if((matriz[x][y+1] - '0') == 0){ //(matriz[x][y+1] - '0') == 0
-                    matriz[x][y] = '0';
-                    matriz[x][y+1] = '?';
-                    y++;
-                    
-                }else{
-                    printf("No se puede mover hacia Derecha\n");
-                }
-                
             }
-
-        }else if(seleccion == 4){
-            if((y - 1) < 0){
+        } else if (seleccion == 4) {
+            if (y - 1 >= 0 && (matriz[x][y - 1] - '0') == 0) {
+                matriz[x][y] = '0';
+                matriz[x][y - 1] = '?';
+                y--;
+            } else {
                 printf("No se puede mover hacia Izquierda\n");
-            }else{
-                if((matriz[x][y-1] - '0') == 0){ //(matriz[x][y-1] - '0') == 0
-                    matriz[x][y] = '0';
-                    matriz[x][y-1] = '?';
-                    y--;
-                    
-                }else{
-                    printf("No se puede mover hacia Izquierda\n");
-                }
-                
             }
-
-        }else{
+        } else {
             exit(0);
         }
+        
         printf("----------------------------------------------------------\n");
         printf("                 Presione 1 para continuar:               \n");
         printf("----------------------------------------------------------\n");
-        
         scanf("%d", &val);
     }
-
-
 }
+
 
 
 
