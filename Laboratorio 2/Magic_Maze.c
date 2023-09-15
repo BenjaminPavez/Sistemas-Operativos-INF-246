@@ -20,6 +20,111 @@ int longit(char*nom_archivo){
     return longitud;
 }
 
+
+
+int RandomPos(){
+
+}
+
+
+
+void MostrarEnTablero(char **matriz, int tam){
+    int seleccion;
+    int x = 0;
+    int y = 0;
+    int val = 1;
+    while(val == 1){
+        system("clear");
+        printf("----------------------------------------------------------\n");
+        //Imprimo el tablero y encuentro la posicion del personaje, esta posicion es en base al primer 0 que se encuentre
+        for (int i = 0; i < tam; i++) {
+            for (int j = 0; j <  tam; j++) {
+                printf("%c     ", matriz[i][j]);
+                if(matriz[i][j] == '0'){
+                    x = i;
+                    y = j;
+                }
+            }
+            printf("\n");
+            printf("\n");
+        }
+        printf("----------------------------------------------------------\n");
+        printf("Arriba : 1  |  Abajo : 2  |  Derecha : 3  |  Izquierda : 4\n");
+        printf("----------------------------------------------------------\n");
+        printf("Tu posicion actual es: (%d,%d)\n", x, y);
+        
+        scanf("%d", &seleccion);
+        if(seleccion == 1){
+            if((x - 1) < 0){
+                printf("No se puede mover hacia Arriba\n");
+            }else{
+                if(matriz[x-1][y] == '0'){
+                    matriz[x][y] = '0';
+                    matriz[x-1][y] = '?';
+                    
+                }else{
+                    printf("No se puede mover hacia Arriba\n");
+                }
+                
+            }
+            
+        }else if(seleccion == 2){
+            if((x + 1) > tam){
+                printf("No se puede mover hacia Abajo\n");
+            }else{
+                if(matriz[x+1][y] == '0'){
+                    matriz[x][y] = '0';
+                    matriz[x+1][y] = '?';
+                    
+                }else{
+                    printf("No se puede mover hacia Abajo\n");
+                }
+                
+            }
+        
+        }else if(seleccion == 3){
+            if((x + 1) > tam){
+                printf("No se puede mover hacia Derecha\n");
+            }else{
+                if(matriz[x][y+1] == '0'){
+                    matriz[x][y] = '0';
+                    matriz[x][y+1] = '?';
+                    
+                }else{
+                    printf("No se puede mover hacia Derecha\n");
+                }
+                
+            }
+
+        }else if(seleccion == 4){
+            if((y - 1) < 0){
+                printf("No se puede mover hacia Izquierda\n");
+            }else{
+                if(matriz[x][y-1] == '0'){
+                    matriz[x][y] = '0';
+                    matriz[x][y-1] = '?';
+                    
+                }else{
+                    printf("No se puede mover hacia Izquierda\n");
+                }
+                
+            }
+
+        }else{
+            exit(0);
+        }
+        printf("----------------------------------------------------------");
+        printf("                 Presione 1 para continuar:               ");
+        printf("----------------------------------------------------------");
+        
+        scanf("%d", &val);
+    }
+
+
+}
+
+
+
 /*
 La funcion guarda el tablero en forma de matriz para jugar con el personaje
 
@@ -31,52 +136,35 @@ Retorno :
  
 */
 
-char** CrearTablero(char* nom_archivo) {
+void CrearTablero(char* nom_archivo) {
     // Open the file for reading
     FILE* archivolectura = fopen(nom_archivo, "r");
 
     if (archivolectura == NULL) {
         perror("Error opening file");
-        return NULL;
     }
 
     int longitud = longit(nom_archivo);
-    printf("La longitud es %d\n", longitud);
-
     char **matriz = malloc(sizeof(char *) * longitud);
 
     for (int i = 0; i < (longitud/2); i++) {
         matriz[i] = malloc(sizeof(char) * longitud);
         for (int j = 0; j <  (longitud/2); j++) {
             if (fscanf(archivolectura, " %c", &matriz[i][j]) == 1) {
-                if (matriz[i][j] == 'J') {
-                    printf("%c", matriz[i][j]);
-                } else {
-                    printf(" %c ", matriz[i][j]);
-                }
-            } else {
+                printf("%c     ", matriz[i][j]);
+            }else{
                 // Handle end of file or other read errors
                 break;
             }
         }
         printf("\n");
+        printf("\n");
     }
 
     fclose(archivolectura);
 
-    return matriz;
-}
-
-
-
-int RandomPos(){
-
-}
-
-
-
-void MostrarTablero(){
-
+    //return matriz;
+    MostrarEnTablero(matriz, (longitud/2));
 }
 
 
@@ -194,7 +282,7 @@ int main(){
         printf("Tus cartas son\n");
         for(int i = 0; i<2; i++){
             int numero = rand() % num_cartas-1;
-            cartas_disponibles[i] = Cartas[numero];
+            cartas_disponibles[i] = strdup(Cartas[numero]);
             printf("%d. %s\n",i+1,cartas_disponibles[i]);
         }
         printf("\n");
@@ -210,6 +298,7 @@ int main(){
         printf("%s\n", obj[i]);
         char *cadena = obj[i];
         CrearTablero(cadena);
+        printf("\n");
     }
     return 0;
 }
