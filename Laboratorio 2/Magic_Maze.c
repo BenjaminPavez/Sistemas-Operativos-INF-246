@@ -60,7 +60,7 @@ void MostrarEnTablero(char **matriz, int tam){
             if((x - 1) < 0){
                 printf("No se puede mover hacia Arriba\n");
             }else{
-                if(matriz[x-1][y] == '0'){
+                if((matriz[x-1][y] - '0') == 0){ //(matriz[x-1][y] - '0') == 0
                     matriz[x][y] = '0';
                     matriz[x-1][y] = '?';
                     x--;
@@ -75,7 +75,7 @@ void MostrarEnTablero(char **matriz, int tam){
             if((x + 1) > tam){
                 printf("No se puede mover hacia Abajo\n");
             }else{
-                if(matriz[x+1][y] == '0'){
+                if((matriz[x+1][y] - '0') == 0){ //(matriz[x+1][y] - '0') == 0
                     matriz[x][y] = '0';
                     matriz[x+1][y] = '?';
                     x++;
@@ -90,7 +90,7 @@ void MostrarEnTablero(char **matriz, int tam){
             if((x + 1) > tam){
                 printf("No se puede mover hacia Derecha\n");
             }else{
-                if(matriz[x][y+1] == '0'){
+                if((matriz[x][y+1] - '0') == 0){ //(matriz[x][y+1] - '0') == 0
                     matriz[x][y] = '0';
                     matriz[x][y+1] = '?';
                     y++;
@@ -105,7 +105,7 @@ void MostrarEnTablero(char **matriz, int tam){
             if((y - 1) < 0){
                 printf("No se puede mover hacia Izquierda\n");
             }else{
-                if(matriz[x][y-1] == '0'){
+                if((matriz[x][y-1] - '0') == 0){ //(matriz[x][y-1] - '0') == 0
                     matriz[x][y] = '0';
                     matriz[x][y-1] = '?';
                     y--;
