@@ -90,11 +90,12 @@ void MostrarEnTableroBot(char *jugador, struct Jugador info, char*** tableroscop
     int y = 0;
     int val = 1;
     bool paso = false;
+    bool flag = true;
     system("clear");
     printf("---------------------------------------------------------------------------------------------\n");
-    printf("                                      Es el turno de %s                                      \n",jugador);
+    printf("                                      Es el turno de %s                                      \n", jugador);
     printf("---------------------------------------------------------------------------------------------\n");
-    printf("                     Turno Actual: %d                        Tu Carta: %s                  \n",Turno, info.Carta);
+    printf("                    Turno Actual: %d                      Tu Carta: %s                       \n", Turno, info.Carta);
     printf("---------------------------------------------------------------------------------------------\n");
     //Imprimo el tablero y encuentro la posición del personaje, esta posición es en base al primer 0 que se encuentre
     for(int i = 0; i < tam_tablero; i++){
@@ -123,7 +124,7 @@ void MostrarEnTableroBot(char *jugador, struct Jugador info, char*** tableroscop
             strcpy(tableroscopi[x - 1][y], jugador);
             x--;
         }else{
-            printf("No se puede mover hacia Arriba\n");
+            printf("%s no se puede mover hacia Arriba\n", jugador);
         }
     }else if(seleccion == 2){
         if(x + 1 < tam_tablero && strcmp(tableroscopi[x + 1][y], "0") == 0){
@@ -131,7 +132,7 @@ void MostrarEnTableroBot(char *jugador, struct Jugador info, char*** tableroscop
             strcpy(tableroscopi[x + 1][y], jugador);
             x++;
         }else{
-            printf("No se puede mover hacia Abajo\n");
+            printf("%s no se puede mover hacia Abajo\n", jugador);
         }
     }else if(seleccion == 3){
         if(y + 1 < tam_tablero && strcmp(tableroscopi[x][y + 1], "0") == 0){
@@ -139,7 +140,7 @@ void MostrarEnTableroBot(char *jugador, struct Jugador info, char*** tableroscop
             strcpy(tableroscopi[x][y + 1], jugador);
             y++;
         }else{
-            printf("No se puede mover hacia Derecha\n");
+            printf("%s no se puede mover hacia Derecha\n", jugador);
         }
     }else if(seleccion == 4){
         if(y - 1 >= 0 && strcmp(tableroscopi[x][y - 1], "0") == 0){
@@ -147,19 +148,49 @@ void MostrarEnTableroBot(char *jugador, struct Jugador info, char*** tableroscop
             strcpy(tableroscopi[x][y - 1], jugador);
             y--;
         }else{
-            printf("No se puede mover hacia Izquierda\n");
+            printf("%s no se puede mover hacia Izquierda\n", jugador);
         }
     }else if(seleccion == 5){
-        if(info.Carta == "Buscar-Arriba"){
-            printf("Buena carta\n");
-        }else if(info.Carta == "Escaleras-Abajo"){
-            printf("Buena carta\n");
-        }else if(info.Carta == "Escaleras-Izquierda"){
-            printf("Buena carta\n");
-        }else if(info.Carta == "Buscar-Derecha"){
-            printf("Buena carta\n");
-        }else{
-            printf("No se puede usar esta carta\n");
+        if(strcmp(info.Carta,"Buscar")==0) {
+            //Falta implementar la conexion entre mapas y "B's"
+        }else if(strcmp(info.Carta,"Escaleras")==0){
+            while(flag){
+                if(x - 1 >= 0 && strcmp(tableroscopi[x - 1][y],"E")==0){
+                    printf("Salta una '%c'.\n", 'E');
+                    strcpy(tableroscopi[x][y], "0");
+                    strcpy(tableroscopi[x - 1][y], "J₁");
+                    x--;
+                    flag = false;
+
+                }else if (x + 1 < tam_tablero && strcmp(tableroscopi[x+1][y], "E")==0){ //Dirección sur (abajo)
+                    printf("Salta una '%c'.\n", 'E');
+                    strcpy(tableroscopi[x][y], "0");
+                    strcpy(tableroscopi[x + 1][y], "J₁");
+                    x++;
+                    flag = false;
+                
+                }else if (y + 1 < tam_tablero && strcmp(tableroscopi[x][y + 1],"E")==0){ //Dirección este (derecha)
+                    printf("Salta una '%c'.\n", 'E');
+                    strcpy(tableroscopi[x][y], "0");
+                    strcpy(tableroscopi[x][y + 1], "J₁");
+                    y++;       
+                    flag = false;             
+                
+                }else if (y - 1 >= 0 && strcmp(tableroscopi[x][y - 1],"E")==0){ //Dirección oeste (izquierda)
+                    printf("Salta una '%c'.\n", 'E');
+                    strcpy(tableroscopi[x][y], "0");
+                    strcpy(tableroscopi[x][y - 1], "J₁");
+                    y--;
+                    flag = false;
+                
+                }else{
+                    printf("No se encontro Escaleras");
+                    flag = false;
+                }
+            }
+        }
+        else{
+            printf("Error al asignar carta\n");
         }
     }else if(seleccion == 6){
         val = 0;
@@ -204,12 +235,13 @@ void MostrarEnTablero(struct Jugador* info, char*** tableroscopi){
     int y = 0;
     int val = 1;
     bool paso = false;
+    bool flag = true;
     while(val == 1){
         system("clear");
         printf("---------------------------------------------------------------------------------------------\n");
         printf("                                          Es tu turno                                        \n");
         printf("---------------------------------------------------------------------------------------------\n");
-        printf("                     Turno Actual: %d                        Tu Carta: %s                  \n",Turno, info[0].Carta);
+        printf("                    Turno Actual: %d                      Tu Carta: %s                       \n",Turno, info[0].Carta);
         printf("---------------------------------------------------------------------------------------------\n");
         //Imprimo el tablero y encuentro la posición del personaje, esta posición es en base al primer 0 que se encuentre
         for(int i = 0; i < tam_tablero; i++){
@@ -265,19 +297,50 @@ void MostrarEnTablero(struct Jugador* info, char*** tableroscopi){
                 printf("No se puede mover hacia Izquierda\n");
             }
         }else if(seleccion == 5){
-            if(info[0].Carta == "Buscar-Arriba"){
-                printf("Buena carta\n");
-            }else if(info[0].Carta == "Escaleras-Abajo"){
-                printf("Buena carta\n");
-            }else if(info[0].Carta == "Escaleras-Izquierda"){
-                printf("Buena carta\n");
-            }else if(info[0].Carta == "Buscar-Derecha"){
-                printf("Buena carta\n");
-            }else{
-                printf("No se puede usar esta carta\n");
+            if(strcmp(info[0].Carta, "Buscar")==0) {
+                //Falta implementar la conexion entre mapas y "B's"
+            }else if(strcmp(info[0].Carta,"Escaleras")==0){
+                while (flag){
+                    if(x - 1 >= 0 && strcmp(tableroscopi[x - 1][y], "E") == 0){
+                        printf("Salta una '%c'.\n", 'E');
+                        strcpy(tableroscopi[x][y], "0");
+                        strcpy(tableroscopi[x - 1][y], "J₁");
+                        x--;
+                        flag = false;
+                    
+                    }else if(x + 1 < tam_tablero && strcmp(tableroscopi[x+1][y], "E") == 0){  //Dirección sur (abajo)
+                        printf("Salta una '%c'.\n", 'E');
+                        strcpy(tableroscopi[x][y], "0");
+                        strcpy(tableroscopi[x + 1][y], "J₁");
+                        x++;
+                        flag = false;
+                    
+                    }else if(y + 1 < tam_tablero && strcmp(tableroscopi[x][y + 1], "E") == 0){  //Dirección este (derecha)
+                        printf("Salta una '%c'.\n", 'E');
+                        strcpy(tableroscopi[x][y], "0");
+                        strcpy(tableroscopi[x][y + 1], "J₁");
+                        y++;       
+                        flag = false;             
+                    
+                    }else if(y - 1 >= 0 && strcmp(tableroscopi[x][y - 1],"E") == 0){  //Dirección oeste (izquierda)
+                        printf("Salta una '%c'.\n", 'E');
+                        strcpy(tableroscopi[x][y], "0");
+                        strcpy(tableroscopi[x][y - 1], "J₁");
+                        y--;
+                        flag = false;
+                    }else{
+                        printf("No se encontro Escaleras");
+                        flag = false;
+                    }
+                }
+            }
+            else{
+                printf("Error al asignar carta\n");
             }
         }else if(seleccion == 6){
             MostrarEnTableroBot("J₂", info[1], tableroscopi);
+            MostrarEnTableroBot("J₃", info[2], tableroscopi);
+            MostrarEnTableroBot("J₄", info[3], tableroscopi);
             //val = 0;
         }
     }
