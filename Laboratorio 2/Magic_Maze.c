@@ -84,82 +84,104 @@ Retorno :
    Nada, ya que es tipo void
  
 */
-void MostrarEnTableroBot(char *jugador, struct Jugador info, char**** tableroscopi){
-    printf("\n");
-    printf("\n");
-    printf("-----------------------------------------------------------------------------\n");
-    printf("                            Espera al jugador %s                           \n", jugador);
-    printf("-----------------------------------------------------------------------------\n");
-    //Si el jugador es distinto a 1, es decir somos sus hijos osea el bot juega
-    int sele_bot;
+void MostrarEnTableroBot(char *jugador, struct Jugador info, char*** tableroscopi){
+    int seleccion;
     int x = 0;
     int y = 0;
     int val = 1;
     bool paso = false;
-    while (val == 1){
-        for (int i = 0; i < tam_tablero; i++) {
-            for (int j = 0; j < tam_tablero; j++) {
-                if(strcmp(tableroscopi[0][i][j], jugador) == 0 && !paso){
-                    x = i;
-                    y = j;
-                    paso = true;
-                }
-            }
-        }
-        //Aqui se mueve el personaje autonomamente
-        sele_bot = rand() % 4 + 1;
-        if(sele_bot == 1) {
-            if(x - 1 >= 0 && (tableroscopi[0][x - 1][y] - '0') == 0){
-                strcpy(tableroscopi[0][x][y], "0");
-                strcpy(tableroscopi[0][x - 1][y], jugador);
-                x--;
-                val = 0;
-            }else{
-                break;
-            }
-        }else if(sele_bot == 2) {
-            if(x + 1 < tam_tablero && (tableroscopi[0][x + 1][y] - '0') == 0){
-                strcpy(tableroscopi[0][x][y], "0");
-                strcpy(tableroscopi[0][x + 1][y], jugador);
-                x++;
-                val = 0;
-            }else{
-                break;
-            }
-        }else if(sele_bot == 3) {
-            if(y + 1 < tam_tablero && (tableroscopi[0][x][y + 1] - '0') == 0){
-                strcpy(tableroscopi[0][x][y], "0");
-                strcpy(tableroscopi[0][x][y + 1], jugador);
-                y++;
-                val = 0;
-            }else{
-                break;
-            }
-        }else if(sele_bot == 4) {
-            if(y - 1 >= 0 && (tableroscopi[0][x][y - 1] - '0') == 0){
-                strcpy(tableroscopi[0][x][y], "0");
-                strcpy(tableroscopi[0][x][y - 1], jugador);
-                y--;
-                val = 0;
-            }else{
-                break;
-            }
-        }else{
-            val = 1;
-        }
-    }
-    printf("\n");
-    printf("\n");
-    printf("-----------------------------------------------------------------------------\n");
-    printf("--------------------------------------Test-----------------------------------\n");
-    printf("-----------------------------------------------------------------------------\n");
+    system("clear");
+    printf("---------------------------------------------------------------------------------------------\n");
+    printf("                                      Es el turno de %s                                      \n",jugador);
+    printf("---------------------------------------------------------------------------------------------\n");
+    printf("                     Turno Actual: %d                        Tu Carta: %s                  \n",Turno, info.Carta);
+    printf("---------------------------------------------------------------------------------------------\n");
+    //Imprimo el tablero y encuentro la posición del personaje, esta posición es en base al primer 0 que se encuentre
     for(int i = 0; i < tam_tablero; i++){
         for(int j = 0; j < tam_tablero; j++){
-            printf("%s     ", tableroscopi[0][i][j]);
+            printf("%s     ", tableroscopi[i][j]);
+            if(strcmp(tableroscopi[i][j], jugador) == 0 && !paso){
+                x = i;
+                y = j;
+                paso = true;
+            }
         }
         printf("\n");
         printf("\n");
     }
+    //Aqui se mueve el personaje
+    printf("---------------------------------------------------------------------------------------------\n");
+    printf(" Arriba : 1  |  Abajo : 2  |  Derecha : 3  |  Izquierda : 4  |  Usar Carta : 5  |  Salir : 6\n");
+    printf("---------------------------------------------------------------------------------------------\n");
+    printf("Tu posicion actual es: (%d,%d)\n", x, y);
+    printf("-> ");
+    scanf("%d", &seleccion);
+    //getchar();  // Consumir el carácter de nueva línea en el búfer
+    if(seleccion == 1){
+        if(x - 1 >= 0 && strcmp(tableroscopi[x - 1][y], "0") == 0) {
+            strcpy(tableroscopi[x][y], "0");
+            strcpy(tableroscopi[x - 1][y], jugador);
+            x--;
+        }else{
+            printf("No se puede mover hacia Arriba\n");
+        }
+    }else if(seleccion == 2){
+        if(x + 1 < tam_tablero && strcmp(tableroscopi[x + 1][y], "0") == 0){
+            strcpy(tableroscopi[x][y], "0");
+            strcpy(tableroscopi[x + 1][y], jugador);
+            x++;
+        }else{
+            printf("No se puede mover hacia Abajo\n");
+        }
+    }else if(seleccion == 3){
+        if(y + 1 < tam_tablero && strcmp(tableroscopi[x][y + 1], "0") == 0){
+            strcpy(tableroscopi[x][y], "0");
+            strcpy(tableroscopi[x][y + 1], jugador);
+            y++;
+        }else{
+            printf("No se puede mover hacia Derecha\n");
+        }
+    }else if(seleccion == 4){
+        if(y - 1 >= 0 && strcmp(tableroscopi[x][y - 1], "0") == 0){
+            strcpy(tableroscopi[x][y], "0");
+            strcpy(tableroscopi[x][y - 1], jugador);
+            y--;
+        }else{
+            printf("No se puede mover hacia Izquierda\n");
+        }
+    }else if(seleccion == 5){
+        if(info.Carta == "Buscar-Arriba"){
+            printf("Buena carta\n");
+        }else if(info.Carta == "Escaleras-Abajo"){
+            printf("Buena carta\n");
+        }else if(info.Carta == "Escaleras-Izquierda"){
+            printf("Buena carta\n");
+        }else if(info.Carta == "Buscar-Derecha"){
+            printf("Buena carta\n");
+        }else{
+            printf("No se puede usar esta carta\n");
+        }
+    }else if(seleccion == 6){
+        val = 0;
+    }
+
+
+    printf("\n");
+    printf("\n");
+    printf("---------------------------------------------------------------------------------------------\n");
+    printf("--------------------------------------------Test 2-------------------------------------------\n");
+    printf("---------------------------------------------------------------------------------------------\n");
+    for(int i = 0; i < tam_tablero; i++){
+        for(int j = 0; j < tam_tablero; j++){
+            printf("%s     ", tableroscopi[i][j]);
+        }
+        printf("\n");
+        printf("\n");
+    }
+
+    //MostrarEnTableroBot("J₂", info, tableroscopi);
+    
+    
 
 }
 
@@ -175,7 +197,7 @@ Retorno :
    Nada, ya que es tipo void
  
 */
-void MostrarEnTablero(struct Jugador info, char**** tableroscopi){
+void MostrarEnTablero(struct Jugador* info, char*** tableroscopi){
     //Si el jugador es igual a 1, es decir somos nosotros osea es nuestro turno
     int seleccion;
     int x = 0;
@@ -184,16 +206,16 @@ void MostrarEnTablero(struct Jugador info, char**** tableroscopi){
     bool paso = false;
     while(val == 1){
         system("clear");
-        printf("-----------------------------------------------------------------------------\n");
-        printf("                                  Es tu turno                                \n");
-        printf("-----------------------------------------------------------------------------\n");
-        printf("                Turno Actual: %d               Tu Carta: %s                  \n",Turno, info.Carta);
-        printf("-----------------------------------------------------------------------------\n");
+        printf("---------------------------------------------------------------------------------------------\n");
+        printf("                                          Es tu turno                                        \n");
+        printf("---------------------------------------------------------------------------------------------\n");
+        printf("                     Turno Actual: %d                        Tu Carta: %s                  \n",Turno, info[0].Carta);
+        printf("---------------------------------------------------------------------------------------------\n");
         //Imprimo el tablero y encuentro la posición del personaje, esta posición es en base al primer 0 que se encuentre
         for(int i = 0; i < tam_tablero; i++){
             for(int j = 0; j < tam_tablero; j++){
-                printf("%s     ", tableroscopi[0][i][j]);
-                if(strcmp(tableroscopi[0][i][j], "J₁") == 0 && !paso){
+                printf("%s     ", tableroscopi[i][j]);
+                if(strcmp(tableroscopi[i][j], "J₁") == 0 && !paso){
                     x = i;
                     y = j;
                     paso = true;
@@ -203,62 +225,77 @@ void MostrarEnTablero(struct Jugador info, char**** tableroscopi){
             printf("\n");
         }
         //Aqui se mueve el personaje
-        printf("-------------------------------------------------------------------------------\n");
-        printf(" Arriba : 1  |  Abajo : 2  |  Derecha : 3  |  Izquierda : 4  |  Usar Carta : 5\n");
-        printf("-------------------------------------------------------------------------------\n");
+        printf("---------------------------------------------------------------------------------------------\n");
+        printf(" Arriba : 1  |  Abajo : 2  |  Derecha : 3  |  Izquierda : 4  |  Usar Carta : 5  |  Salir : 6\n");
+        printf("---------------------------------------------------------------------------------------------\n");
         printf("Tu posicion actual es: (%d,%d)\n", x, y);
         printf("-> ");
         scanf("%d", &seleccion);
+        //getchar();  // Consumir el carácter de nueva línea en el búfer
         if(seleccion == 1){
-            if(x - 1 >= 0 && strcmp(tableroscopi[0][x - 1][y], "0") == 0) {
-                strcpy(tableroscopi[0][x][y], "0");
-                strcpy(tableroscopi[0][x - 1][y], "J₁");
+            if(x - 1 >= 0 && strcmp(tableroscopi[x - 1][y], "0") == 0) {
+                strcpy(tableroscopi[x][y], "0");
+                strcpy(tableroscopi[x - 1][y], "J₁");
                 x--;
             }else{
                 printf("No se puede mover hacia Arriba\n");
             }
         }else if(seleccion == 2){
-            if(x + 1 < tam_tablero && strcmp(tableroscopi[0][x + 1][y], "0") == 0) {
-                strcpy(tableroscopi[0][x][y], "0");
-                strcpy(tableroscopi[0][x + 1][y], "J₁");
+            if(x + 1 < tam_tablero && strcmp(tableroscopi[x + 1][y], "0") == 0){
+                strcpy(tableroscopi[x][y], "0");
+                strcpy(tableroscopi[x + 1][y], "J₁");
                 x++;
             }else{
                 printf("No se puede mover hacia Abajo\n");
             }
         }else if(seleccion == 3){
-            if(y + 1 < tam_tablero && strcmp(tableroscopi[0][x][y + 1], "0") == 0) {
-                strcpy(tableroscopi[0][x][y], "0");
-                strcpy(tableroscopi[0][x][y + 1], "J₁");
+            if(y + 1 < tam_tablero && strcmp(tableroscopi[x][y + 1], "0") == 0){
+                strcpy(tableroscopi[x][y], "0");
+                strcpy(tableroscopi[x][y + 1], "J₁");
                 y++;
             }else{
                 printf("No se puede mover hacia Derecha\n");
             }
         }else if(seleccion == 4){
-            if(y - 1 >= 0 && strcmp(tableroscopi[0][x][y - 1], "0") == 0) {
-                strcpy(tableroscopi[0][x][y], "0");
-                strcpy(tableroscopi[0][x][y - 1], "J₁");
+            if(y - 1 >= 0 && strcmp(tableroscopi[x][y - 1], "0") == 0){
+                strcpy(tableroscopi[x][y], "0");
+                strcpy(tableroscopi[x][y - 1], "J₁");
                 y--;
             }else{
                 printf("No se puede mover hacia Izquierda\n");
             }
         }else if(seleccion == 5){
-            if(y - 1 >= 0 && strcmp(tableroscopi[0][x][y - 1], "0") == 0) {
-                strcpy(tableroscopi[0][x][y], "0");
-                strcpy(tableroscopi[0][x][y - 1], "J₁");
-                y--;
+            if(info[0].Carta == "Buscar-Arriba"){
+                printf("Buena carta\n");
+            }else if(info[0].Carta == "Escaleras-Abajo"){
+                printf("Buena carta\n");
+            }else if(info[0].Carta == "Escaleras-Izquierda"){
+                printf("Buena carta\n");
+            }else if(info[0].Carta == "Buscar-Derecha"){
+                printf("Buena carta\n");
             }else{
                 printf("No se puede usar esta carta\n");
             }
-        }else{
-            exit(0);
+        }else if(seleccion == 6){
+            MostrarEnTableroBot("J₂", info[1], tableroscopi);
+            //val = 0;
         }
-        
-        printf("-----------------------------------------------------------------------------\n");
-        printf("                  Presione 1 para continuar o 0 para salir:                  \n");
-        printf("-----------------------------------------------------------------------------\n");
-        printf("-> ");
-        scanf("%d", &val);
     }
+
+    printf("\n");
+    printf("\n");
+    printf("---------------------------------------------------------------------------------------------\n");
+    printf("--------------------------------------------Test 2-------------------------------------------\n");
+    printf("---------------------------------------------------------------------------------------------\n");
+    for(int i = 0; i < tam_tablero; i++){
+        for(int j = 0; j < tam_tablero; j++){
+            printf("%s     ", tableroscopi[i][j]);
+        }
+        printf("\n");
+        printf("\n");
+    }
+
+    //MostrarEnTableroBot("J₂", info, tableroscopi);
 
 }
 
@@ -276,22 +313,6 @@ Retorno :
  
 */
 void Forks(struct Jugador* player){
-    //Se guardan los tableros en un array
-    /*
-    printf("MATRIZ EN ARRAY\n");
-    for(int i = 0; i < num_tableros; i++) {
-        printf("Tablero %d\n", i + 1);
-        for(int j = 0; j < 5; j++) {
-            for(int k = 0; k < 5; k++) {
-                printf("%s     ", Tableros[i][j][k]);
-            }
-            printf("\n");
-        }
-        printf("\n");
-        printf("\n");
-    }
-    */
-
     pid_t jugador_pid[4];
     int pid_1 = 0;
 
@@ -309,26 +330,24 @@ void Forks(struct Jugador* player){
         }else if(jugador_pid[i] == 0){
             //Código para el proceso hijo (Jugadores 1, 2, 3, 4)
             srand(time(NULL) + getpid());
+            player[i].pid = getpid();
             for (int j = 0; j <= 15; j++){
-                player[i].pid = jugador_pid[i];
+                //player[i].pid = jugador_pid[i];
                 if(i == 0){
-                    MostrarEnTablero(player[i], Tableros);
+                    MostrarEnTablero(player, Tableros[0]);
+                }else if(i == 1){
+                    MostrarEnTableroBot("J₂", player[i], Tableros[0]);
+                }else if(i == 2){
+                    MostrarEnTableroBot("J₃", player[i], Tableros[0]);
+                }else if(i == 3){
+                    MostrarEnTableroBot("J₄", player[i], Tableros[0]);
                 }else{
-                    waitpid(jugador_pid[0], NULL, 0);
-                    switch(i){
-                        case 1: MostrarEnTableroBot("J₂", player[i], Tableros);
-                            break;
-                        case 2: MostrarEnTableroBot("J₃", player[i], Tableros);
-                            break;
-                        case 3: MostrarEnTableroBot("J₄", player[i], Tableros);
-                            break;
-                        default: puts("Error: Jugador Invalido");
-                    }
+                    exit(0);
                 }
                 player[i].Turno_actual++;
                 sleep(50);
             }
-            // Salir del bucle del proceso hijo
+            //Salir del bucle del proceso hijo
             exit(0);
         }
     }
@@ -338,20 +357,8 @@ void Forks(struct Jugador* player){
     for(int i = 0; i < 4; i++){
         //Espera a que cada proceso hijo termine
         waitpid(jugador_pid[i], NULL, 0);
-        player[i].pid = jugador_pid[i];
-    }
-
-    for(int i = 0; i < 4; i++){
-        printf("-----------------Informacion Jugador %d-----------------\n", i + 1);
-        printf("PID aaa: %d \n",player[i].pid);
-        printf("Carta: %s \n",player[i].Carta);
-        printf("Turno Actual: %d \n",player[i].Turno_actual);
-        printf("Tesoros Encontrados: %d \n",player[i].Tesoros_encontrados);
-        printf("--------------------------------------------------------\n");
-        printf("\n");
-        printf("\n");
-    }
-    
+        //player[i].pid = jugador_pid[i];
+    }  
 }
 
 
@@ -651,9 +658,10 @@ Retorno :
  
 */
 int main(){
-    printf("=============================================================================\n");
-    printf("                                  Magic Maze                                 \n");
-    printf("=============================================================================\n");
+    printf("=============================================================================================\n");
+    printf("                                           Magic Maze                                        \n");
+    printf("=============================================================================================\n");
+    
 
     //Aqui se guardan todos los tableros
     Tableros = malloc(sizeof(char ***) * 9);
@@ -713,9 +721,9 @@ int main(){
     }
 
     int Turno;
-    printf("-----------------------------------------------------------------------------\n");
-    printf("                       Presione 1 para nueva partida:                        \n");
-    printf("-----------------------------------------------------------------------------\n");
+    printf("---------------------------------------------------------------------------------------------\n");
+    printf("                               Presione 1 para nueva partida:                                \n");
+    printf("---------------------------------------------------------------------------------------------\n");
     printf("--> ");
     scanf("%d", &Turno);
     if(Turno == 1){
