@@ -139,7 +139,7 @@ void printCharacterWithFixedWidthAndColor(char* character, char* color, int fixe
         printf(" ");
     }
 
-    //Si la longitud es impar, agregar un espacio adicional al final
+    //Si la tam_tablero es impar, agregar un espacio adicional al final
     if (padding % 2 != 0) {
         printf(" ");
     }
@@ -880,28 +880,19 @@ Retorno :
    Retorna un puntero tipo char que repreesenta el valor modificado al entregado
  
 */
-char *EventosWithString(char *val){
-    int numAleat2 = rand() % 3;;
-    if (strcmp(val, "0") == 0) {
-        char *var1 = malloc(2 * sizeof(char));  //Asigna memoria para un string de 2 caracteres
-        if(true){
-            if(numAleat2 == 0){
-                strcpy(var1, "c");
-            }else if(numAleat2 == 1){
-                strcpy(var1, "t");
-            }else if(numAleat2 == 2){
-                strcpy(var1, "n");
-            }else if(numAleat2 == 3){
-                strcpy(var1, "p");
-            }
-            return var1;
-        }else{
-            free(var1);  //Libera la memoria si no se usa
-            return val;
-        }
-    } else {
-        return val;
+char *eventos(){
+    int numAleat2 = rand() % 4;
+    char *var1 = malloc(3 * sizeof(char));  //Asigna memoria para un string de 2 caracteres
+    if(numAleat2 == 0){
+        strcpy(var1, "c");
+    }else if(numAleat2 == 1){
+        strcpy(var1, "t");
+    }else if(numAleat2 == 2){
+        strcpy(var1, "n");
+    }else if(numAleat2 == 3){
+        strcpy(var1, "p");
     }
+    return var1;
 }
 
 
@@ -963,28 +954,46 @@ void CrearTablero(char* nom_archivo){
         }
         //Imprimir la matriz con superíndices
         for (int i = 0; i < 5; i++){
-            Tableros[glob][i] = malloc(sizeof(char *) * tam_tablero);
+            Tableros[glob][i] = malloc(sizeof(char *) * (tam_tablero));
             for (int j = 0; j < 5; j++){
                 Tableros[glob][i][j] = malloc(sizeof(char) * 3); //REVISADO
-                char *valor = EventosWithString(matriz[i][j]);
+                char *valor = malloc(strlen(matriz[i][j]) + 1); 
+                strcpy(valor,matriz[i][j]);
                 strcpy(Tableros[glob][i][j], valor);
             }
-        } 
+        }
+        char* valor1 = eventos();
+        int i;
+        int j;
+        do{
+            i = rand() % 5;
+            j = rand() % 5;
+        }while(strcmp(Tableros[glob][i][j],"B") == 0 && strcmp(Tableros[glob][i][j],"E") != 0 && strcmp(Tableros[glob][i][j],"/") != 0);
+        strcpy(Tableros[glob][i][j], valor1);
+        
     }else{
-        for(int i = 0; i < tam_tablero / 2; i++){
-            Tableros[glob][i] = malloc(sizeof(char *) * tam_tablero);
-            for(int j = 0; j < tam_tablero / 2; j++) {
+        for(int i = 0; i < tam_tablero ; i++){
+            Tableros[glob][i] = malloc(sizeof(char *) * (tam_tablero));
+            for(int j = 0; j < tam_tablero ; j++) {
                 Tableros[glob][i][j] = malloc(sizeof(char) * 3); //REVISADO
-                char *variable;
+                char *variable = malloc(3 * sizeof(char)); 
                 if(fscanf(archivolectura, "%s ", variable) == 1){
-                    char *valor = EventosWithString(variable);
-                    strcpy(Tableros[glob][i][j], valor);
+                    strcpy(Tableros[glob][i][j], variable);
                 }else{
                     //Handle end of file or other read errors
                     break;
                 }
             }
         }
+        char* valor1 = eventos();
+        int i;
+        int j;
+        do{
+            i = rand() % 5;
+            j = rand() % 5;
+        }while(strcmp(Tableros[glob][i][j],"0") ==0);
+        strcpy(Tableros[glob][i][j], valor1);
+        //Agregar Tesoros
     }
     
     glob++;
