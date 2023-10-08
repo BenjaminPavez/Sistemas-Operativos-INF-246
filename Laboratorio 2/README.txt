@@ -14,3 +14,9 @@ Instrucciones de uso:
 1) IMPORTANTE: EL PROGRAMA FUNCIONA SIN PROBLEMAS CON LOS ARCHIVOS .TXT SIEMPRE Y CUANDO LA SECUENCIA DE FIN DE LINEA ESTE EN LF DEBIDO AL USO DE LINUX.
 
 2) El programa funciona sin ningun problema con los archivos .txt entregados.
+
+3) Se asume que el jugador realizara movimientos correctos para manterer el funcionamiento
+
+4) El jugador J₁ representa a nosotros y este es el que le envia atravez de pipes la informacion a los otros jugadores
+
+5) Todos los movimientos son realizados por J₁
