@@ -20,3 +20,8 @@ Instrucciones de uso:
 4) El jugador J₁ representa a nosotros y este es el que le envia atravez de pipes la informacion a los otros jugadores
 
 5) Todos los movimientos son realizados por J₁
+
+6) J₁ es el unico que conoce el mapa
+
+7) Se considera que todos los tableros que estan en txt tiene dimension 5
+
