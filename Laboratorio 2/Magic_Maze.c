@@ -253,7 +253,6 @@ void CasillasEspeciales(char* jugador, char* casilla, struct Jugador info) {
     printf("--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------\n");
     printf("                      PID: %d                      Tu Carta: %s                      Tus Tesoros: %d                      Turno Actual: %d                      Ronda: %d                      \n", info.pid, info.Carta, info.Tesoros_encontrados, Turno,info.Rondas);
     printf("--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------\n");
-    PrintTablero();
     if (strcmp(casilla, "t") == 0) {
         printf("--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------\n");
         printf("                                                                                            Se suman 4 rondas :)                                                                                        \n");
@@ -305,132 +304,135 @@ void MenuBot(char *jugador, char*** tableroscopi){
     int val = 1;
     bool paso = false;
     bool flag = true;
-    system("clear");
-    printf("--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------\n");
-    printf("                                                                                             Es el turno de %s                                                                                          \n", jugador);
-    printf("--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------\n");
-    printf("                      PID: %d                      Tu Carta: %s                      Tus Tesoros: %d                      Turno Actual: %d                      Ronda: %d                      \n", jugadores[num_jugador].pid, jugadores[num_jugador].Carta, jugadores[num_jugador].Tesoros_encontrados, Turno, jugadores[num_jugador].Rondas);
-    printf("--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------\n");
-    PrintTablero();
-    //Imprimo el tablero y encuentro la posición del personaje, esta posición es en base al primer 0 que se encuentre
-    for(int i = 0; i < tam_tablero_fondo; i++){
-        for(int j = 0; j < tam_tablero_fondo; j++){
-            if(strcmp(fondo[i][j]->character, jugador) == 0 && !paso){
-                x = i;
-                y = j;
-                paso = true;
-            }
-        }
-    }
-    //Aqui se mueve el personaje
-    printf("--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------\n");
-    printf("          Arriba : 1        |          Abajo : 2          |          Derecha : 3          |          Izquierda : 4          |          Usar Carta : 5          |          Cambiar de jugador : 6            \n");
-    printf("--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------\n");
-    printf("Tu posicion actual es: (%d,%d)\n", y, x);
-    printf("-> ");
-    scanf("%d", &seleccion);
-    if(seleccion == 1){
-        if(strcmp(fondo[x - 1][y]->character, "/") != 0 && strcmp(fondo[x - 1][y]->character, "E") != 0 && strcmp(fondo[x - 1][y]->character, "J₁") != 0 && strcmp(fondo[x - 1][y]->character, "J₂") != 0 && strcmp(fondo[x - 1][y]->character, "J₃") != 0 && strcmp(fondo[x - 1][y]->character, "J₄") != 0){
-            if(strcmp(fondo[x - 1][y]->character, "t") == 0 || strcmp(fondo[x - 1][y]->character, "n") == 0){
-                CasillasEspeciales(jugador, fondo[x - 1][y]->character, jugadores[num_jugador]);
-            }
-            strcpy(fondo[x][y]->character, "0");
-            strcpy(fondo[x - 1][y]->character, jugador);
-            x--;
-        }else{
-            printf("No se puede mover hacia Arriba\n");
-        }
-        jugadores[num_jugador].prox_x = x; //Modifico la direccion en x del jugador
-        jugadores[num_jugador].prox_y = y; //Modifico la direccion en y del jugador
-    }else if(seleccion == 2){
-        if(strcmp(fondo[x + 1][y]->character, "/") != 0 && strcmp(fondo[x + 1][y]->character, "E") != 0 && strcmp(fondo[x + 1][y]->character, "J₁") !=0  && strcmp(fondo[x + 1][y]->character, "J₂") != 0 && strcmp(fondo[x + 1][y]->character, "J₃") != 0 && strcmp(fondo[x + 1][y]->character, "J₄") != 0){
-            if(strcmp(fondo[x + 1][y]->character, "t") == 0 || strcmp(fondo[x + 1][y]->character, "n") == 0){
-                CasillasEspeciales(jugador, fondo[x + 1][y]->character, jugadores[num_jugador]);
-            }
-            strcpy(fondo[x][y]->character, "0");
-            strcpy(fondo[x + 1][y]->character, jugador);
-            x++;
-        }else{
-            printf("No se puede mover hacia Abajo\n");
-        }
-        jugadores[num_jugador].prox_x = x; //Modifico la direccion en x del jugador
-        jugadores[num_jugador].prox_y = y; //Modifico la direccion en y del jugador
-    }else if(seleccion == 3){
-        if(strcmp(fondo[x][y + 1]->character, "/") != 0 && strcmp(fondo[x][y + 1]->character, "E") != 0 && strcmp(fondo[x][y + 1]->character, "J₁") !=0 && strcmp(fondo[x][y + 1]->character, "J₂") != 0 && strcmp(fondo[x][y + 1]->character, "J₃") != 0&& strcmp(fondo[x][y + 1]->character, "J₄") != 0){
-            if(strcmp(fondo[x][y + 1]->character, "t") == 0 || strcmp(fondo[x][y + 1]->character, "n") == 0){
-                CasillasEspeciales(jugador, fondo[x][y + 1]->character, jugadores[num_jugador]);
-            }
-            strcpy(fondo[x][y]->character, "0");
-            strcpy(fondo[x][y + 1]->character, jugador);
-            y++;
-        }else{
-            printf("No se puede mover hacia Derecha\n");
-        }
-        jugadores[num_jugador].prox_x = x; //Modifico la direccion en x del jugador
-        jugadores[num_jugador].prox_y = y; //Modifico la direccion en y del jugador
-    }else if(seleccion == 4){
-        if(strcmp(fondo[x][y - 1]->character, "/") != 0 && strcmp(fondo[x][y - 1]->character, "E") != 0 && strcmp(fondo[x][y - 1]->character, "J₁") !=0 && strcmp(fondo[x][y - 1]->character, "J₂") != 0 && strcmp(fondo[x][y - 1]->character, "J₃") != 0&& strcmp(fondo[x][y - 1]->character, "J₄") != 0){
-            if(strcmp(fondo[x][y - 1]->character, "t") == 0 || strcmp(fondo[x][y - 1]->character, "n") == 0){
-                CasillasEspeciales(jugador, fondo[x][y - 1]->character, jugadores[num_jugador]); 
-            }
-            strcpy(fondo[x][y]->character, "0");
-            strcpy(fondo[x][y - 1]->character, jugador);
-            y--;
-        }else{
-            printf("No se puede mover hacia Izquierda\n");
-        }
-        jugadores[num_jugador].prox_x = x; //Modifico la direccion en x del jugadorJ₃
-        jugadores[num_jugador].prox_y = y; //Modifico la direccion en y del jugador
-    }else if(seleccion == 5){
-        if(strcmp(jugadores[num_jugador].Carta, "Buscar") == 0){
-            strcpy(fondo[x][y]->character, "0");
-            CambioTablero(jugador, (y - jugadores[0].tab_Y), (x - jugadores[0].tab_X)); //Le mandamos la info a la funcion que calcula y realiza el cambio de tablero
-        }else if(strcmp(jugadores[num_jugador].Carta,"Escaleras")==0){
-            while(flag){
-                if(x - 1 >= 0 && strcmp(fondo[x - 1][y]->character,"E")==0){ //arriba
-                    printf("Salta una '%c'.\n", 'E');
-                    strcpy(fondo[x][y]->character, "0");
-                    strcpy(fondo[x - 1][y]->character, jugador);
-                    x--;
-                    flag = false;
-
-                }else if (x + 1 < tam_tablero && strcmp(fondo[x+1][y]->character, "E")==0){ //abajo
-                    printf("Salta una '%c'.\n", 'E');
-                    strcpy(fondo[x][y]->character, "0");
-                    strcpy(fondo[x + 1][y]->character, jugador);
-                    x++;
-                    flag = false;
-                
-                }else if (y + 1 < tam_tablero && strcmp(fondo[x][y + 1]->character,"E")==0){ //derecha
-                    printf("Salta una '%c'.\n", 'E');
-                    strcpy(fondo[x][y]->character, "0");
-                    strcpy(fondo[x][y + 1]->character, jugador);
-                    y++;       
-                    flag = false;             
-                
-                }else if (y - 1 >= 0 && strcmp(fondo[x][y - 1]->character,"E")==0){ //izquierda
-                    printf("Salta una '%c'.\n", 'E');
-                    strcpy(fondo[x][y]->character, "0");
-                    strcpy(fondo[x][y - 1]->character, jugador);
-                    y--;
-                    flag = false;
-                
-                }else{
-                    printf("No se encontro Escaleras\n");
-                    flag = false;
+    while(val == 1){
+        system("clear");
+        printf("--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------\n");
+        printf("                                                                                             Es el turno de %s                                                                                          \n", jugador);
+        printf("--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------\n");
+        printf("                      PID: %d                      Tu Carta: %s                      Tus Tesoros: %d                      Turno Actual: %d                      Ronda: %d                      \n", jugadores[num_jugador].pid, jugadores[num_jugador].Carta, jugadores[num_jugador].Tesoros_encontrados, Turno, jugadores[num_jugador].Rondas);
+        printf("--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------\n");
+        PrintTablero();
+        //Imprimo el tablero y encuentro la posición del personaje, esta posición es en base al primer 0 que se encuentre
+        for(int i = 0; i < tam_tablero_fondo; i++){
+            for(int j = 0; j < tam_tablero_fondo; j++){
+                if(strcmp(fondo[i][j]->character, jugador) == 0 && !paso){
+                    x = i;
+                    y = j;
+                    paso = true;
                 }
             }
         }
-        else{
-            printf("Error al usar carta\n");
+        //Aqui se mueve el personaje
+        printf("--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------\n");
+        printf("          Arriba : 1        |          Abajo : 2          |          Derecha : 3          |          Izquierda : 4          |          Usar Carta : 5          |          Cambiar de jugador : 6            \n");
+        printf("--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------\n");
+        printf("Tu posicion actual es: (%d,%d)\n", y, x);
+        printf("-> ");
+        scanf("%d", &seleccion);
+        if(seleccion == 1){
+            if(strcmp(fondo[x - 1][y]->character, "/") != 0 && strcmp(fondo[x - 1][y]->character, "E") != 0 && strcmp(fondo[x - 1][y]->character, "J₁") != 0 && strcmp(fondo[x - 1][y]->character, "J₂") != 0 && strcmp(fondo[x - 1][y]->character, "J₃") != 0 && strcmp(fondo[x - 1][y]->character, "J₄") != 0){
+                if(strcmp(fondo[x - 1][y]->character, "t") == 0 || strcmp(fondo[x - 1][y]->character, "n") == 0){
+                    CasillasEspeciales(jugador, fondo[x - 1][y]->character, jugadores[num_jugador]);
+                }
+                strcpy(fondo[x][y]->character, "0");
+                strcpy(fondo[x - 1][y]->character, jugador);
+                x--;
+            }else{
+                printf("No se puede mover hacia Arriba\n");
+            }
+            jugadores[num_jugador].prox_x = x; //Modifico la direccion en x del jugador
+            jugadores[num_jugador].prox_y = y; //Modifico la direccion en y del jugador
+        }else if(seleccion == 2){
+            if(strcmp(fondo[x + 1][y]->character, "/") != 0 && strcmp(fondo[x + 1][y]->character, "E") != 0 && strcmp(fondo[x + 1][y]->character, "J₁") !=0  && strcmp(fondo[x + 1][y]->character, "J₂") != 0 && strcmp(fondo[x + 1][y]->character, "J₃") != 0 && strcmp(fondo[x + 1][y]->character, "J₄") != 0){
+                if(strcmp(fondo[x + 1][y]->character, "t") == 0 || strcmp(fondo[x + 1][y]->character, "n") == 0){
+                    CasillasEspeciales(jugador, fondo[x + 1][y]->character, jugadores[num_jugador]);
+                }
+                strcpy(fondo[x][y]->character, "0");
+                strcpy(fondo[x + 1][y]->character, jugador);
+                x++;
+            }else{
+                printf("No se puede mover hacia Abajo\n");
+            }
+            jugadores[num_jugador].prox_x = x; //Modifico la direccion en x del jugador
+            jugadores[num_jugador].prox_y = y; //Modifico la direccion en y del jugador
+        }else if(seleccion == 3){
+            if(strcmp(fondo[x][y + 1]->character, "/") != 0 && strcmp(fondo[x][y + 1]->character, "E") != 0 && strcmp(fondo[x][y + 1]->character, "J₁") !=0 && strcmp(fondo[x][y + 1]->character, "J₂") != 0 && strcmp(fondo[x][y + 1]->character, "J₃") != 0&& strcmp(fondo[x][y + 1]->character, "J₄") != 0){
+                if(strcmp(fondo[x][y + 1]->character, "t") == 0 || strcmp(fondo[x][y + 1]->character, "n") == 0){
+                    CasillasEspeciales(jugador, fondo[x][y + 1]->character, jugadores[num_jugador]);
+                }
+                strcpy(fondo[x][y]->character, "0");
+                strcpy(fondo[x][y + 1]->character, jugador);
+                y++;
+            }else{
+                printf("No se puede mover hacia Derecha\n");
+            }
+            jugadores[num_jugador].prox_x = x; //Modifico la direccion en x del jugador
+            jugadores[num_jugador].prox_y = y; //Modifico la direccion en y del jugador
+        }else if(seleccion == 4){
+            if(strcmp(fondo[x][y - 1]->character, "/") != 0 && strcmp(fondo[x][y - 1]->character, "E") != 0 && strcmp(fondo[x][y - 1]->character, "J₁") !=0 && strcmp(fondo[x][y - 1]->character, "J₂") != 0 && strcmp(fondo[x][y - 1]->character, "J₃") != 0&& strcmp(fondo[x][y - 1]->character, "J₄") != 0){
+                if(strcmp(fondo[x][y - 1]->character, "t") == 0 || strcmp(fondo[x][y - 1]->character, "n") == 0){
+                    CasillasEspeciales(jugador, fondo[x][y - 1]->character, jugadores[num_jugador]); 
+                }
+                strcpy(fondo[x][y]->character, "0");
+                strcpy(fondo[x][y - 1]->character, jugador);
+                y--;
+            }else{
+                printf("No se puede mover hacia Izquierda\n");
+            }
+            jugadores[num_jugador].prox_x = x; //Modifico la direccion en x del jugadorJ₃
+            jugadores[num_jugador].prox_y = y; //Modifico la direccion en y del jugador
+        }else if(seleccion == 5){
+            if(strcmp(jugadores[num_jugador].Carta, "Buscar") == 0){
+                strcpy(fondo[x][y]->character, "0");
+                CambioTablero(jugador, (y - jugadores[0].tab_Y), (x - jugadores[0].tab_X)); //Le mandamos la info a la funcion que calcula y realiza el cambio de tablero
+            }else if(strcmp(jugadores[num_jugador].Carta,"Escaleras")==0){
+                while(flag){
+                    if(x - 1 >= 0 && strcmp(fondo[x - 1][y]->character,"E")==0){ //arriba
+                        printf("Salta una '%c'.\n", 'E');
+                        strcpy(fondo[x][y]->character, "0");
+                        strcpy(fondo[x - 1][y]->character, jugador);
+                        x--;
+                        flag = false;
+
+                    }else if (x + 1 < tam_tablero && strcmp(fondo[x+1][y]->character, "E")==0){ //abajo
+                        printf("Salta una '%c'.\n", 'E');
+                        strcpy(fondo[x][y]->character, "0");
+                        strcpy(fondo[x + 1][y]->character, jugador);
+                        x++;
+                        flag = false;
+                    
+                    }else if (y + 1 < tam_tablero && strcmp(fondo[x][y + 1]->character,"E")==0){ //derecha
+                        printf("Salta una '%c'.\n", 'E');
+                        strcpy(fondo[x][y]->character, "0");
+                        strcpy(fondo[x][y + 1]->character, jugador);
+                        y++;       
+                        flag = false;             
+                    
+                    }else if (y - 1 >= 0 && strcmp(fondo[x][y - 1]->character,"E")==0){ //izquierda
+                        printf("Salta una '%c'.\n", 'E');
+                        strcpy(fondo[x][y]->character, "0");
+                        strcpy(fondo[x][y - 1]->character, jugador);
+                        y--;
+                        flag = false;
+                    
+                    }else{
+                        printf("No se encontro Escaleras\n");
+                        flag = false;
+                    }
+                }
+            }
+            else{
+                printf("Error al usar carta\n");
+            }
+            jugadores[num_jugador].prox_x = x; //Modifico la direccion en x del jugador
+            jugadores[num_jugador].prox_y = y; //Modifico la direccion en y del jugador
+        }else if(seleccion == 6){
+            val = 0;
+            Turno--;
+            break;
         }
-        jugadores[num_jugador].prox_x = x; //Modifico la direccion en x del jugador
-        jugadores[num_jugador].prox_y = y; //Modifico la direccion en y del jugador
-    }else if(seleccion == 6){
-        val = 0;
-        Turno--;
+        jugadores[num_jugador].Rondas++;
     }
-    jugadores[num_jugador].Rondas++;
 
 }
 
@@ -578,6 +580,7 @@ void Menu(char*** tableroscopi){
         }else if(seleccion == 6){
             val = 0;
             Turno--;
+            break;
         }
         jugadores[0].Rondas++;
     }
