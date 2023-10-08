@@ -25,3 +25,4 @@ Instrucciones de uso:
 
 7) Se considera que todos los tableros que estan en txt tiene dimension 5
 
+8) Una vez que se avanzo de tablero no se puede retroceder a descubrir mapa
