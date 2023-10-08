@@ -538,6 +538,7 @@ void Menu(char*** tableroscopi){
             if(strcmp(jugadores[0].Carta, "Buscar") == 0){
                 strcpy(fondo[x][y]->character, "0");
                 CambioTablero("J₁", (y - jugadores[0].tab_Y), (x - jugadores[0].tab_X)); //Le mandamos la info a la funcion que calcula y realiza el cambio de tablero
+                break;
             }else if(strcmp(jugadores[0].Carta,"Escaleras")==0){
                 while(flag){
                     if(x - 1 >= 0 && strcmp(fondo[x - 1][y]->character, "E") == 0){ //arriba
@@ -671,9 +672,8 @@ void CambioTablero(char *jugador, int x, int y){
     jugadores[num_jugador].tab_Y = Y;
     jugadores[num_jugador].tabl = pos;
     printf("AHORA TU TABLERO ES: %d \n",jugadores[num_jugador].tabl);
-    sleep(5); //PARA PRUEBAS
     ModificacionTablero2(Tableros[pos],jugadores[num_jugador].tab_X,jugadores[num_jugador].tab_Y);
-    Menu(Tableros[pos]);
+    //Menu(Tableros[pos]);
 }
 
 
