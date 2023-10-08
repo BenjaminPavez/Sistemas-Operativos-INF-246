@@ -384,7 +384,7 @@ void MenuBot(char *jugador, char*** tableroscopi){
     }else if(seleccion == 5){
         if(strcmp(jugadores[num_jugador].Carta, "Buscar") == 0){
             strcpy(fondo[x][y]->character, "0");
-            CambioTablero(jugador, y, x); //Le mandamos la info a la funcion que calcula y realiza el cambio de tablero
+            CambioTablero(jugador, (y - jugadores[0].tab_Y), (x - jugadores[0].tab_X)); //Le mandamos la info a la funcion que calcula y realiza el cambio de tablero
         }else if(strcmp(jugadores[num_jugador].Carta,"Escaleras")==0){
             while(flag){
                 if(x - 1 >= 0 && strcmp(fondo[x - 1][y]->character,"E")==0){ //arriba
