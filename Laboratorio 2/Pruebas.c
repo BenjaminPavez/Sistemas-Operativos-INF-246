@@ -230,7 +230,6 @@ void ModificacionTablero2(char*** tableroscopi, int a, int b) {
 
 
 
-
 void CambioTablero(char*, int, int); //Prototipo de la funcion CambioTablero, mas abajo esta la implementacion
 
 
@@ -327,18 +326,13 @@ void MenuBot(char *jugador, char*** tableroscopi){
         printf("--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------\n");
         printf("          Arriba : 1        |          Abajo : 2          |          Derecha : 3          |          Izquierda : 4          |          Usar Carta : 5          |          Cambiar de jugador : 6            \n");
         printf("--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------\n");
-        printf("Tu posicion actual es: (%d,%d)\n", y-20, x-20);
+        printf("Tu posicion actual es: (%d,%d)\n", y, x);
         printf("-> ");
         scanf("%d", &seleccion);
         if(seleccion == 1){
             if(strcmp(fondo[x - 1][y]->character, "/") != 0 && strcmp(fondo[x - 1][y]->character, "E") != 0 && strcmp(fondo[x - 1][y]->character, "J₁") != 0 && strcmp(fondo[x - 1][y]->character, "J₂") != 0 && strcmp(fondo[x - 1][y]->character, "J₃") != 0 && strcmp(fondo[x - 1][y]->character, "J₄") != 0){
                 if(strcmp(fondo[x - 1][y]->character, "t") == 0 || strcmp(fondo[x - 1][y]->character, "n") == 0){
                     CasillasEspeciales(jugador, fondo[x - 1][y]->character, jugadores[num_jugador]);
-                }
-                else if(strcmp(fondo[x - 1][y]->character, "T") == 0 && jugadores[num_jugador].Tesoros_encontrados == 0){
-                    jugadores[num_jugador].Tesoros_encontrados = 1;
-                    printf("Tienes el Tesoro\n");
-                    sleep(5);
                 }
                 strcpy(fondo[x][y]->character, "0");
                 strcpy(fondo[x - 1][y]->character, jugador);
@@ -353,11 +347,6 @@ void MenuBot(char *jugador, char*** tableroscopi){
                 if(strcmp(fondo[x + 1][y]->character, "t") == 0 || strcmp(fondo[x + 1][y]->character, "n") == 0){
                     CasillasEspeciales(jugador, fondo[x + 1][y]->character, jugadores[num_jugador]);
                 }
-                else if(strcmp(fondo[x + 1][y]->character, "T") == 0 && jugadores[num_jugador].Tesoros_encontrados == 0){
-                    jugadores[num_jugador].Tesoros_encontrados = 1;
-                    printf("Tienes el Tesoro\n");
-                    sleep(5);
-                }
                 strcpy(fondo[x][y]->character, "0");
                 strcpy(fondo[x + 1][y]->character, jugador);
                 x++;
@@ -371,11 +360,6 @@ void MenuBot(char *jugador, char*** tableroscopi){
                 if(strcmp(fondo[x][y + 1]->character, "t") == 0 || strcmp(fondo[x][y + 1]->character, "n") == 0){
                     CasillasEspeciales(jugador, fondo[x][y + 1]->character, jugadores[num_jugador]);
                 }
-                else if(strcmp(fondo[x][y + 1]->character, "T") == 0 && jugadores[num_jugador].Tesoros_encontrados == 0){
-                    jugadores[num_jugador].Tesoros_encontrados = 1;
-                    printf("Tienes el Tesoro\n");
-                    sleep(5);
-                }
                 strcpy(fondo[x][y]->character, "0");
                 strcpy(fondo[x][y + 1]->character, jugador);
                 y++;
@@ -388,11 +372,6 @@ void MenuBot(char *jugador, char*** tableroscopi){
             if(strcmp(fondo[x][y - 1]->character, "/") != 0 && strcmp(fondo[x][y - 1]->character, "E") != 0 && strcmp(fondo[x][y - 1]->character, "J₁") !=0 && strcmp(fondo[x][y - 1]->character, "J₂") != 0 && strcmp(fondo[x][y - 1]->character, "J₃") != 0&& strcmp(fondo[x][y - 1]->character, "J₄") != 0){
                 if(strcmp(fondo[x][y - 1]->character, "t") == 0 || strcmp(fondo[x][y - 1]->character, "n") == 0){
                     CasillasEspeciales(jugador, fondo[x][y - 1]->character, jugadores[num_jugador]); 
-                }
-                else if(strcmp(fondo[x][y - 1]->character, "T") == 0 && jugadores[num_jugador].Tesoros_encontrados == 0){
-                    jugadores[num_jugador].Tesoros_encontrados = 1;
-                    printf("Tienes el Tesoro\n");
-                    sleep(5);
                 }
                 strcpy(fondo[x][y]->character, "0");
                 strcpy(fondo[x][y - 1]->character, jugador);
@@ -464,7 +443,6 @@ void MenuBot(char *jugador, char*** tableroscopi){
 La funcion realiza movimiento de nosotros en el tablero
 
 Parametros :
-   struct Jugador* info : estructura tipo Jugador que contiene la informacion del jugador
    char*** tableroscopi : puntero tipo char que apunta a la matriz que se va a mostrar
    
 Retorno :
@@ -501,133 +479,119 @@ void Menu(char*** tableroscopi){
         printf("--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------\n");
         printf("          Arriba : 1        |          Abajo : 2          |          Derecha : 3          |          Izquierda : 4          |          Usar Carta : 5          |          Cambiar de jugador : 6            \n");
         printf("--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------\n");
-        printf("Tu posicion actual es: (%d,%d)\n", y-20, x-20);
+        printf("Tu posicion actual es: (%d,%d)\n", y, x);
         printf("-> ");
         scanf("%d", &seleccion);
-        if(seleccion == 1){
-            if(strcmp(fondo[x - 1][y]->character, "/") != 0 && strcmp(fondo[x - 1][y]->character, "E") != 0 && strcmp(fondo[x - 1][y]->character, "J₂") != 0 && strcmp(fondo[x - 1][y]->character, "J₃") != 0 && strcmp(fondo[x - 1][y]->character, "J₄") != 0){
-                if(strcmp(fondo[x - 1][y]->character, "t") == 0 || strcmp(fondo[x - 1][y]->character, "n") == 0){
-                    CasillasEspeciales("J₁", fondo[x - 1][y]->character, jugadores[0]);
-                }
-                else if(strcmp(fondo[x - 1][y]->character, "T") == 0 && jugadores[0].Tesoros_encontrados == 0){
-                    jugadores[0].Tesoros_encontrados = 1;
-                    printf("Tienes el Tesoro\n");
-                    sleep(5);
-                }
-                strcpy(fondo[x][y]->character, "0");
-                strcpy(fondo[x - 1][y]->character, "J₁");
-                x--;
-            }else{
-                printf("No se puede mover hacia Arriba\n");
-            }
-            jugadores[0].prox_x = x; //Modifico la direccion en x del jugador
-            jugadores[0].prox_y = y; //Modifico la direccion en y del jugador
-        }else if(seleccion == 2){
-            if(strcmp(fondo[x + 1][y]->character, "/") != 0 && strcmp(fondo[x + 1][y]->character, "E") != 0 && strcmp(fondo[x + 1][y]->character, "J₂") != 0 && strcmp(fondo[x + 1][y]->character, "J₃") != 0 && strcmp(fondo[x + 1][y]->character, "J₄") != 0){
-                if(strcmp(fondo[x + 1][y]->character, "t") == 0 || strcmp(fondo[x + 1][y]->character, "n") == 0){
-                    CasillasEspeciales("J₁", fondo[x + 1][y]->character, jugadores[0]);
-                }
-                else if(strcmp(fondo[x + 1][y]->character, "T") == 0 && jugadores[0].Tesoros_encontrados == 0){
-                    jugadores[0].Tesoros_encontrados = 1;
-                    printf("Tienes el Tesoro\n");
-                    sleep(5);
-                }                
-                strcpy(fondo[x][y]->character, "0");
-                strcpy(fondo[x + 1][y]->character, "J₁");
-                x++;
-            }else{
-                printf("No se puede mover hacia Abajo\n");
-            }
-            jugadores[0].prox_x = x; //Modifico la direccion en x del jugador
-            jugadores[0].prox_y = y; //Modifico la direccion en y del jugador
-        }else if(seleccion == 3){
-            if(strcmp(fondo[x][y + 1]->character, "/") != 0 && strcmp(fondo[x][y + 1]->character, "E") != 0 && strcmp(fondo[x][y + 1]->character, "J₂") != 0 && strcmp(fondo[x][y + 1]->character, "J₃") != 0&& strcmp(fondo[x][y + 1]->character, "J₄") != 0){
-                if(strcmp(fondo[x][y + 1]->character, "t") == 0 || strcmp(fondo[x][y + 1]->character, "n") == 0){
-                    CasillasEspeciales("J₁", fondo[x][y + 1]->character, jugadores[0]);
-                }
-                else if(strcmp(fondo[x][y + 1]->character, "T") == 0 && jugadores[0].Tesoros_encontrados == 0){
-                    jugadores[0].Tesoros_encontrados = 1;
-                    printf("Tienes el Tesoro\n");
-                    sleep(5);
-                }
-                strcpy(fondo[x][y]->character, "0");
-                strcpy(fondo[x][y + 1]->character, "J₁");
-                y++;
-            }else{
-                printf("No se puede mover hacia Derecha\n");
-            }
-            jugadores[0].prox_x = x; //Modifico la direccion en x del jugador
-            jugadores[0].prox_y = y; //Modifico la direccion en y del jugador
-        }else if(seleccion == 4){
-            if(strcmp(fondo[x][y - 1]->character, "/") != 0 && strcmp(fondo[x][y - 1]->character, "E") != 0 && strcmp(fondo[x][y - 1]->character, "J₂") != 0 && strcmp(fondo[x][y - 1]->character, "J₃") != 0&& strcmp(fondo[x][y - 1]->character, "J₄") != 0){
-                if(strcmp(fondo[x][y - 1]->character, "t") == 0 || strcmp(fondo[x][y - 1]->character, "n") == 0){
-                    CasillasEspeciales("J₁", fondo[x][y - 1]->character, jugadores[0]);
-                }
-                else if(strcmp(fondo[x][y - 1]->character, "T") == 0 && jugadores[0].Tesoros_encontrados == 0){
-                    jugadores[0].Tesoros_encontrados = 1;
-                    printf("Tienes el Tesoro\n");
-                    sleep(5);
-                }
-                strcpy(fondo[x][y]->character, "0");
-                strcpy(fondo[x][y - 1]->character, "J₁");
-                y--;
-            }else{
-                printf("No se puede mover hacia Izquierda\n");
-            }
-            jugadores[0].prox_x = x; //Modifico la direccion en x del jugador
-            jugadores[0].prox_y = y; //Modifico la direccion en y del jugador
-        }else if(seleccion == 5){
-            if(strcmp(jugadores[0].Carta, "Buscar") == 0){
-                strcpy(fondo[x][y]->character, "0");
-                CambioTablero("J₁", (y - jugadores[0].tab_Y), (x - jugadores[0].tab_X)); //Le mandamos la info a la funcion que calcula y realiza el cambio de tablero
-                break;
-            }else if(strcmp(jugadores[0].Carta,"Escaleras")==0){
-                while(flag){
-                    if(x - 1 >= 0 && strcmp(fondo[x - 1][y]->character, "E") == 0){ //arriba
-                        printf("Salta una '%c'.\n", 'E');
-                        strcpy(fondo[x][y]->character, "0");
-                        strcpy(fondo[x - 1][y]->character, "J₁");
-                        x--;
-                        flag = false;
-                    
-                    }else if(x + 1 < tam_tablero && strcmp(fondo[x + 1][y]->character, "E") == 0){  //abajo
-                        printf("Salta una '%c'.\n", 'E');
-                        strcpy(fondo[x][y]->character, "0");
-                        strcpy(fondo[x + 1][y]->character, "J₁");
-                        x++;
-                        flag = false;
-                    
-                    }else if(y + 1 < tam_tablero && strcmp(fondo[x][y + 1]->character, "E") == 0){  //derecha
-                        printf("Salta una '%c'.\n", 'E');
-                        strcpy(fondo[x][y]->character, "0");
-                        strcpy(fondo[x][y + 1]->character, "J₁");
-                        y++;       
-                        flag = false;             
-                    
-                    }else if(y - 1 >= 0 && strcmp(fondo[x][y - 1]->character,"E") == 0){  //izquierda
-                        printf("Salta una '%c'.\n", 'E');
-                        strcpy(fondo[x][y]->character, "0");
-                        strcpy(fondo[x][y - 1]->character, "J₁");
-                        y--;
-                        flag = false;
-                    }else{
-                        printf("No se encontro Escaleras\n");
-                        flag = false;
+        switch(seleccion){
+            case 1:
+                if(strcmp(fondo[x - 1][y]->character, "/") != 0 && strcmp(fondo[x - 1][y]->character, "E") != 0 && strcmp(fondo[x - 1][y]->character, "J₂") != 0 && strcmp(fondo[x - 1][y]->character, "J₃") != 0 && strcmp(fondo[x - 1][y]->character, "J₄") != 0){
+                    if(strcmp(fondo[x - 1][y]->character, "t") == 0 || strcmp(fondo[x - 1][y]->character, "n") == 0){
+                        CasillasEspeciales("J₁", fondo[x - 1][y]->character, jugadores[0]);
                     }
+                    strcpy(fondo[x][y]->character, "0");
+                    strcpy(fondo[x - 1][y]->character, "J₁");
+                    x--;
+                }else{
+                    printf("No se puede mover hacia Arriba\n");
                 }
-            }else{
-                printf("Error al asignar carta\n");
-            }
-            jugadores[0].prox_x = x; //Modifico la direccion en x del jugador
-            jugadores[0].prox_y = y; //Modifico la direccion en y del jugador
-        }else if(seleccion == 6){
-            val = 0;
-            Turno--;
-            break;
+                jugadores[0].prox_x = x; //Modifico la direccion en x del jugador
+                jugadores[0].prox_y = y; //Modifico la direccion en y del jugador
+                break;
+            case 2:
+                if(strcmp(fondo[x + 1][y]->character, "/") != 0 && strcmp(fondo[x + 1][y]->character, "E") != 0 && strcmp(fondo[x + 1][y]->character, "J₂") != 0 && strcmp(fondo[x + 1][y]->character, "J₃") != 0 && strcmp(fondo[x + 1][y]->character, "J₄") != 0){
+                    if(strcmp(fondo[x + 1][y]->character, "t") == 0 || strcmp(fondo[x + 1][y]->character, "n") == 0){
+                        CasillasEspeciales("J₁", fondo[x + 1][y]->character, jugadores[0]);
+                    }
+                    strcpy(fondo[x][y]->character, "0");
+                    strcpy(fondo[x + 1][y]->character, "J₁");
+                    x++;
+                }else{
+                    printf("No se puede mover hacia Abajo\n");
+                }
+                jugadores[0].prox_x = x; //Modifico la direccion en x del jugador
+                jugadores[0].prox_y = y; //Modifico la direccion en y del jugador
+                break;
+            case 3:
+                if(strcmp(fondo[x][y + 1]->character, "/") != 0 && strcmp(fondo[x][y + 1]->character, "E") != 0 && strcmp(fondo[x][y + 1]->character, "J₂") != 0 && strcmp(fondo[x][y + 1]->character, "J₃") != 0&& strcmp(fondo[x][y + 1]->character, "J₄") != 0){
+                    if(strcmp(fondo[x][y + 1]->character, "t") == 0 || strcmp(fondo[x][y + 1]->character, "n") == 0){
+                        CasillasEspeciales("J₁", fondo[x][y + 1]->character, jugadores[0]);
+                    }
+                    strcpy(fondo[x][y]->character, "0");
+                    strcpy(fondo[x][y + 1]->character, "J₁");
+                    y++;
+                }else{
+                    printf("No se puede mover hacia Derecha\n");
+                }
+                jugadores[0].prox_x = x; //Modifico la direccion en x del jugador
+                jugadores[0].prox_y = y; //Modifico la direccion en y del jugador
+                break;
+            case 4:
+                if(strcmp(fondo[x][y - 1]->character, "/") != 0 && strcmp(fondo[x][y - 1]->character, "E") != 0 && strcmp(fondo[x][y - 1]->character, "J₂") != 0 && strcmp(fondo[x][y - 1]->character, "J₃") != 0&& strcmp(fondo[x][y - 1]->character, "J₄") != 0){
+                    if(strcmp(fondo[x][y - 1]->character, "t") == 0 || strcmp(fondo[x][y - 1]->character, "n") == 0){
+                        CasillasEspeciales("J₁", fondo[x][y - 1]->character, jugadores[0]);
+                    }
+                    strcpy(fondo[x][y]->character, "0");
+                    strcpy(fondo[x][y - 1]->character, "J₁");
+                    y--;
+                }else{
+                    printf("No se puede mover hacia Izquierda\n");
+                }
+                jugadores[0].prox_x = x; //Modifico la direccion en x del jugador
+                jugadores[0].prox_y = y; //Modifico la direccion en y del jugador
+                break;
+            case 5:
+                if(strcmp(jugadores[0].Carta, "Buscar") == 0){
+                    strcpy(fondo[x][y]->character, "0");
+                    CambioTablero("J₁", (y - jugadores[0].tab_Y), (x - jugadores[0].tab_X)); //Le mandamos la info a la funcion que calcula y realiza el cambio de tablero
+                    break;
+                }else if(strcmp(jugadores[0].Carta,"Escaleras")==0){
+                    while(flag){
+                        if(x - 1 >= 0 && strcmp(fondo[x - 1][y]->character, "E") == 0){ //arriba
+                            printf("Salta una '%c'.\n", 'E');
+                            strcpy(fondo[x][y]->character, "0");
+                            strcpy(fondo[x - 1][y]->character, "J₁");
+                            x--;
+                            flag = false;
+                        
+                        }else if(x + 1 < tam_tablero && strcmp(fondo[x + 1][y]->character, "E") == 0){  //abajo
+                            printf("Salta una '%c'.\n", 'E');
+                            strcpy(fondo[x][y]->character, "0");
+                            strcpy(fondo[x + 1][y]->character, "J₁");
+                            x++;
+                            flag = false;
+                        
+                        }else if(y + 1 < tam_tablero && strcmp(fondo[x][y + 1]->character, "E") == 0){  //derecha
+                            printf("Salta una '%c'.\n", 'E');
+                            strcpy(fondo[x][y]->character, "0");
+                            strcpy(fondo[x][y + 1]->character, "J₁");
+                            y++;       
+                            flag = false;             
+                        
+                        }else if(y - 1 >= 0 && strcmp(fondo[x][y - 1]->character,"E") == 0){  //izquierda
+                            printf("Salta una '%c'.\n", 'E');
+                            strcpy(fondo[x][y]->character, "0");
+                            strcpy(fondo[x][y - 1]->character, "J₁");
+                            y--;
+                            flag = false;
+                        }else{
+                            printf("No se encontro Escaleras\n");
+                            flag = false;
+                        }
+                    }
+                }else{
+                    printf("Error al asignar carta\n");
+                }
+                jugadores[0].prox_x = x; //Modifico la direccion en x del jugador
+                jugadores[0].prox_y = y; //Modifico la direccion en y del jugador
+                break;
+            case 6:
+                val = 0;
+                Turno--;
+                break;
+            
+            jugadores[0].Rondas++;
         }
-        jugadores[0].Rondas++;
     }
-
 }
 
 
@@ -646,7 +610,6 @@ Retorno :
  
 */
 void CambioTablero(char *jugador, int x, int y){
-    tableros_vistos[0]=true;
     printf("\n");
     printf("\n");
     printf("--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------\n");
@@ -663,27 +626,30 @@ void CambioTablero(char *jugador, int x, int y){
     }else if(strcmp(jugador, "J₄") == 0){
         num_jugador = 3;
     }
-    x = abs(x);
-    y = abs(y);
+
     //Vemos donde puede estar la posible B en los otros tableros
-    if(y == 4){
+    if(y == tam_tablero - 1){
         y = 0;
         jugadores[num_jugador].tab_X = jugadores[num_jugador].tab_X + tam_tablero;
+        printf("ALO1\n");
     }else if(y == 0){
-        y = 4;
+        y = tam_tablero - 1;
         jugadores[num_jugador].tab_X = jugadores[num_jugador].tab_X - tam_tablero; //AAAAAAAAAAAAAAAAAAAAAAAA
+        printf("ALO2\n");
     }
-    if(x == 4){
+
+    if(x == tam_tablero - 1){
         x = 0;
         jugadores[num_jugador].tab_Y = jugadores[num_jugador].tab_Y + tam_tablero;
+        printf("ALO3\n");
     }else if(x == 0){
-        x = 4;
+        x = tam_tablero - 1;
         jugadores[num_jugador].tab_Y = jugadores[num_jugador].tab_Y - tam_tablero;
+        printf("ALO4\n");
     }
 
     int pos;
     //Con las nuevas coordenadas busca en los otros tableros si hay una B en tal posicion
-
     for(int k = 0; k < num_tableros; k++){
         printf("Buscando en el tablero %d las coordenadas (%d , %d)\n", k,x,y);
         printf("---------------------------------------------------------------------------------------------\n");
@@ -723,11 +689,10 @@ void CambioTablero(char *jugador, int x, int y){
         }
     }
     jugadores[num_jugador].tabl = pos;
-    sleep(20);
+    printf("AHORA TU TABLERO ES: %d y SE VA A PEGAR EN (%d , %d)\n",jugadores[num_jugador].tabl, jugadores[num_jugador].tab_X,jugadores[num_jugador].tab_Y);
+    sleep(5);
     ModificacionTablero2(Tableros[pos],jugadores[num_jugador].tab_X,jugadores[num_jugador].tab_Y); 
-    //Menu(Tableros[pos]);
 }
-
 
 
 
@@ -741,9 +706,8 @@ Parámetros:
 Retorno:
     Nada, ya que es tipo void.
 */
-void EnviarJugador(int fd, struct Jugador* player){
-    // Escribe la estructura del jugador en la tubería
-    write(fd, player, sizeof(struct Jugador));
+void EnviarJugador(int pipe_fd, const struct Jugador *jugador) {
+    write(pipe_fd, jugador, sizeof(struct Jugador));
 }
 
 
@@ -758,9 +722,8 @@ Parámetros:
 Retorno:
     Nada, ya que es tipo void.
 */
-void RecibirJugador(int fd, struct Jugador* player) {
-    // Lee la estructura del jugador desde la tubería
-    read(fd, player, sizeof(struct Jugador));
+void RecibirJugador(int pipe_fd, struct Jugador *jugador) {
+    read(pipe_fd, jugador, sizeof(struct Jugador));
 }
 
 
@@ -775,66 +738,136 @@ Retorno :
    Nada, ya que es tipo void
  
 */
-void InicioPartida(){
+void InicioPartida() {
     pid_t jugador_pid[4];
     int pipes[4][2]; //Un array de tuberías para comunicarse con los procesos hijos
+
     //Código para el proceso padre
     ModificacionTablero(Tableros[0]);
     tableros_vistos[0] = true;
-    for(int i = 0; i < 4; i++){
-        // Espera un breve período de tiempo antes de crear el próximo proceso hijo
-        if (i > 0) {
-            sleep(50);  //Ajusta el tiempo de espera según tus necesidades, se dejo en 50 para que tenga tiempo para elegir la carta o el movimiento
+
+    // Crear las tuberías antes de crear los procesos hijos
+    for(int i = 0; i < 4; i++) {
+        if(pipe(pipes[i]) == -1) {
+            perror("pipe");
+            exit(EXIT_FAILURE);
         }
 
         jugador_pid[i] = fork();
-        if(jugador_pid[i] == -1){
+        if(jugador_pid[i] == -1) {
             perror("fork");
             exit(EXIT_FAILURE);
-        }else if(jugador_pid[i] == 0){
-            //Código para el proceso hijo (Jugadores 1, 2, 3, 4)
-            srand(time(NULL) + getpid());
-            jugadores[i].pid = getpid();
-            for (int j = 0; j <= 15; j++){
-                //jugadores[i].pid = jugador_pid[i];
-                if(i == 0){
-                    Menu(Tableros[jugadores[0].tabl]);  //REVISARRRRR, se cambio el 0 por el pos_tablero
-                    MenuBot("J₂", Tableros[jugadores[1].tabl]);
-                    MenuBot("J₃", Tableros[jugadores[2].tabl]);
-                    MenuBot("J₄", Tableros[jugadores[3].tabl]);
-
-                    EnviarJugador(pipes[j][1], &jugadores[1]);
-                    EnviarJugador(pipes[j][1], &jugadores[2]);
-                    EnviarJugador(pipes[j][1], &jugadores[3]);
-
-                    system("clear");
-                    printf("--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------\n");
-                    printf("                                                                                                Cargando...                                                                                             \n");
-                    printf("--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------\n");
-                }else if(i >= 1){
-                    RecibirJugador(pipes[i][0], &jugadores[i]);
-                }else{
-                    exit(0);
+        }else if(jugador_pid[i] == 0) {
+            // Código para el proceso hijo (Jugadores 1, 2, 3, 4)
+            close(pipes[i][1]); // Cerrar el extremo de escritura de la tubería en el proceso hijo
+            struct Jugador jugador;
+            jugador.pid = getpid();
+            // Leer datos de otros jugadores
+            for(int j = 0; j < 4; j++) {
+                if(i != j) { // Evitar enviar datos al propio proceso
+                    RecibirJugador(pipes[j][0], &jugador);
                 }
-                jugadores[i].Rondas--; //REVISAR
-                pos_tablero++; //REVISAR
-                sleep(5);
             }
-            //Salir del bucle del proceso hijo
+            close(pipes[i][0]); //Cerrar el extremo de lectura de la tubería en el proceso hijo
             exit(0);
+        }else{
+            close(pipes[i][0]); //Cerrar el extremo de lectura de la tubería en el proceso padre
         }
     }
 
-    
-    //Código para el proceso padre
     for(int i = 0; i < 4; i++){
-        //Espera a que cada proceso hijo termine
+        jugadores[i].pid = (int)jugador_pid[i];
+    }
+    int contador = 0;
+    while(contador < 15 && jugadores[0].Tesoros_encontrados == 0 && jugadores[1].Tesoros_encontrados == 0 && jugadores[2].Tesoros_encontrados == 0 && jugadores[3].Tesoros_encontrados == 0){
+        Menu(Tableros[jugadores[0].tabl]);
+        MenuBot("J₂", Tableros[jugadores[1].tabl]);
+        MenuBot("J₃", Tableros[jugadores[2].tabl]);
+        MenuBot("J₄", Tableros[jugadores[3].tabl]);
+
+        //Enviar datos de jugador a otros jugadores
+        for(int i = 0; i < 4; i++){
+            if(i != 0) { //Evitar enviar datos al propio proceso
+                EnviarJugador(pipes[i][1], &jugadores[0]);
+            }
+        }
+        contador++;
+    }
+
+
+    //Esperar a que todos los procesos hijos terminen
+    for(int i = 0; i < 4; i++) {
         waitpid(jugador_pid[i], NULL, 0);
-        jugadores[i].pid = jugador_pid[i];
-    }  
+    }
+
+    printf("--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------\n");
+    printf("                                                                                                  FIN                                                                                                   \n");
+    printf("--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------\n");
 }
 
 
+
+/*
+La función verifica si el número está repetido en un arreglo de números.
+
+Parámetros:
+    int numeros[] : Un arreglo de enteros que contiene números generados previamente.
+    int n : La cantidad de números en el arreglo.
+    int num : El número que se desea verificar si está repetido.
+
+Retorno:
+    Retorna  1 si el número está repetido en el arreglo o 0 si es un número nuevo.
+*/
+int numRepetido(int numeros[], int n, int num) {
+    for (int i = 0; i < n; i++) {
+        if (numeros[i] == num) {
+            return 1; // El número ya ha sido generado
+        }
+    }
+    return 0; // El número es nuevo
+}
+
+
+
+/*
+La funcion busca al azar 4 tableros y coloca 1 tepera por jugador
+
+Parametros :
+   char* val : puntero tipo char que representa un valor de la matriz
+   
+Retorno :
+   Nada, ya que es tipo void
+ 
+*/
+void Tesoros() {
+    int numeros[4];
+    int numerosAdicionales[4][2];
+    int tab;
+    int cor_x;
+    int cor_y;
+
+    // Genera 4 números aleatorios distintos en el rango de 0 a 9
+    for (int i = 0; i < 4; i++) {
+        do{
+            int numAleatorio;
+            do {
+                numAleatorio = rand() % 8 + 1; // Genera un número aleatorio entre 0 y 9
+            } while (numRepetido(numeros, i, numAleatorio)); // Verifica si el número ya ha sido generado
+
+            numeros[i] = numAleatorio; // Almacena el número aleatorio en el arreglo
+
+            // Genera 2 números adicionales entre 0 y 4 basados en el número aleatorio
+            for (int j = 0; j < 2; j++) {
+                numerosAdicionales[i][j] = rand() % 5; // Genera un número aleatorio entre 0 y 4
+            }
+            tab = numeros[i];
+            cor_x = numerosAdicionales[i][0];
+            cor_y = numerosAdicionales[i][1];
+
+        }while (strcmp(Tableros[tab][cor_x][cor_y], "B") == 0 || strcmp(Tableros[tab][cor_x][cor_y], "E") == 0 || strcmp(Tableros[tab][cor_x][cor_y], "/") == 0 || strcmp(Tableros[tab][cor_x][cor_y], "J₁") == 0 || strcmp(Tableros[tab][cor_x][cor_y], "J₂") == 0 || strcmp(Tableros[tab][cor_x][cor_y], "J₃") == 0 || strcmp(Tableros[tab][cor_x][cor_y], "J₄") == 0 || strcmp(Tableros[tab][cor_x][cor_y], "T") == 0);
+        strcpy(Tableros[tab][cor_x][cor_y], "T");
+    }
+}
 
 
 
@@ -842,13 +875,13 @@ void InicioPartida(){
 La funcion cambiar los valores de la matriz por los eventos
 
 Parametros :
-   char* val : puntero tipo char que representa un valor de la matriz
+   No recibe ningun parametro
    
 Retorno :
-   Retorna un puntero tipo char que repreesenta el valor modificado al entregado
+   Retorna un puntero tipo char que representa el valor modificado al entregado
  
 */
-char *eventos(){
+char *Eventos(){
     int numAleat2 = rand() % 4;
     char *var1 = malloc(3 * sizeof(char));  //Asigna memoria para un string de 2 caracteres
     if(numAleat2 == 0){
@@ -928,14 +961,15 @@ void CrearTablero(char* nom_archivo){
                 strcpy(Tableros[glob][i][j], valor);
             }
         }
-        char* valor1 = eventos();
+        char* valor1 = Eventos();
         int i;
         int j;
         do{
             i = rand() % 5;
             j = rand() % 5;
-        }while(strcmp(Tableros[glob][i][j],"B") == 0 || strcmp(Tableros[glob][i][j],"E") == 0 || strcmp(Tableros[glob][i][j],"/") == 0 || strcmp(Tableros[glob][i][j], "J₁") == 0|| strcmp(Tableros[glob][i][j], "J₂") == 0 || strcmp(Tableros[glob][i][j], "J₃") == 0 || strcmp(Tableros[glob][i][j], "J₄") == 0);
+        }while(strcmp(Tableros[glob][i][j],"B") == 0 && strcmp(Tableros[glob][i][j],"E") == 0 && strcmp(Tableros[glob][i][j],"/") == 0 && strcmp(Tableros[glob][i][j],"J₁") == 0 && strcmp(Tableros[glob][i][j],"J₂") == 0 && strcmp(Tableros[glob][i][j],"J₃") == 0 && strcmp(Tableros[glob][i][j],"J₄") == 0);
         strcpy(Tableros[glob][i][j], valor1);
+        
     }else{
         for(int i = 0; i < tam_tablero ; i++){
             Tableros[glob][i] = malloc(sizeof(char *) * (tam_tablero));
@@ -945,85 +979,26 @@ void CrearTablero(char* nom_archivo){
                 if(fscanf(archivolectura, "%s ", variable) == 1){
                     strcpy(Tableros[glob][i][j], variable);
                 }else{
+                    //Handle end of file or other read errors
                     break;
                 }
             }
         }
-        char* valor1 = eventos();
+        char* valor1 = Eventos();
         int i;
         int j;
         do{
             i = rand() % 5;
             j = rand() % 5;
-        }while(strcmp(Tableros[glob][i][j],"B") == 0 || strcmp(Tableros[glob][i][j],"E") == 0 || strcmp(Tableros[glob][i][j],"/") == 0 || strcmp(Tableros[glob][i][j], "J₁") == 0|| strcmp(Tableros[glob][i][j], "J₂") == 0 || strcmp(Tableros[glob][i][j], "J₃") == 0 || strcmp(Tableros[glob][i][j], "J₄") == 0);
+        }while(strcmp(Tableros[glob][i][j],"0") ==0);
         strcpy(Tableros[glob][i][j], valor1);
-        
     }
     
     glob++;
     fclose(archivolectura);
 }
 
-/*
-La función verifica si el número está repetido en un arreglo de números.
 
-Parámetros:
-    int numeros[] : Un arreglo de enteros que contiene números generados previamente.
-    int n : La cantidad de números en el arreglo.
-    int num : El número que se desea verificar si está repetido.
-
-Retorno:
-    Retorna  1 si el número está repetido en el arreglo o 0 si es un número nuevo.
-*/
-int numRepetido(int numeros[], int n, int num) {
-    for (int i = 0; i < n; i++) {
-        if (numeros[i] == num) {
-            return 1; // El número ya ha sido generado
-        }
-    }
-    return 0; // El número es nuevo
-}
-
-
-/*
-La funcion busca al azar 4 tableros y coloca 1 tepera por jugador
-
-Parametros :
-   char* val : puntero tipo char que representa un valor de la matriz
-   
-Retorno :
-   Nada, ya que es tipo void
- 
-*/
-void Tesoros() {
-    int numeros[4];
-    int numerosAdicionales[4][2];
-    int tab;
-    int cor_x;
-    int cor_y;
-
-    // Genera 4 números aleatorios distintos en el rango de 0 a 9
-    for (int i = 0; i < 4; i++) {
-        do{
-            int numAleatorio;
-            do {
-                numAleatorio = rand() % 8 + 1; // Genera un número aleatorio entre 0 y 9
-            } while (numRepetido(numeros, i, numAleatorio)); // Verifica si el número ya ha sido generado
-
-            numeros[i] = numAleatorio; // Almacena el número aleatorio en el arreglo
-
-            // Genera 2 números adicionales entre 0 y 4 basados en el número aleatorio
-            for (int j = 0; j < 2; j++) {
-                numerosAdicionales[i][j] = rand() % 5; // Genera un número aleatorio entre 0 y 4
-            }
-            tab = numeros[i];
-            cor_x = numerosAdicionales[i][0];
-            cor_y = numerosAdicionales[i][1];
-
-        }while (strcmp(Tableros[tab][cor_x][cor_y], "B") == 0 || strcmp(Tableros[tab][cor_x][cor_y], "E") == 0 || strcmp(Tableros[tab][cor_x][cor_y], "/") == 0 || strcmp(Tableros[tab][cor_x][cor_y], "J₁") == 0 || strcmp(Tableros[tab][cor_x][cor_y], "J₂") == 0 || strcmp(Tableros[tab][cor_x][cor_y], "J₃") == 0 || strcmp(Tableros[tab][cor_x][cor_y], "J₄") == 0 || strcmp(Tableros[tab][cor_x][cor_y], "T") == 0);
-        strcpy(Tableros[tab][cor_x][cor_y], "T");
-    }
-}
 
 /*
 La funcion revisa el directorio actual para encontrar los archivo txt a leer
@@ -1032,7 +1007,7 @@ Parametros :
    No recibe ningun parametro
 
 Retorno :
-   Nada, ya que es tipo void
+   Retorna un puntero doble tipo char que representa un array donde estan los nombres de los txt
  
 */
 char** LeerDir(){
@@ -1195,12 +1170,13 @@ int main(){
     //Se crean las cartas
     char *Cartas[num_cartas] = {"Buscar", "Escaleras", "Escaleras", "Buscar"};
 
+    //Se verifican que no se repitan las cartas
     bool cartas_asignadas[num_cartas];
     for(int i = 0; i < num_cartas; i++){
         cartas_asignadas[i] = false;
     }
 
-    //NUEVO
+    //Se verifican que no se repitan los tableros
     for(int i = 0; i < num_tableros; i++){
         tableros_vistos[i] = false;
     }
@@ -1227,7 +1203,6 @@ int main(){
     printf("-> Tu carta es: %s\n", jugadores[0].Carta);
     printf("\n");
 
-    
     char **obj = LeerDir();
     shuffleWithFixedFirstElement(obj, num_tableros);
     
@@ -1235,7 +1210,9 @@ int main(){
         char *nom_tabl = obj[i];
         CrearTablero(nom_tabl);
     }
+    //Se colocan los tesoros
     Tesoros();
+
     int nueva_partida;
     printf("--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------\n");
     printf("                                                                                    Presione 1 para nueva partida:                                                                                      \n");
