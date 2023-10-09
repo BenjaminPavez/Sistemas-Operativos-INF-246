@@ -662,8 +662,6 @@ void CambioTablero(char *jugador, int x, int y){
     }else if(strcmp(jugador, "J₄") == 0){
         num_jugador = 3;
     }
-    x = abs(x);
-    y = abs(y);
     //Vemos donde puede estar la posible B en los otros tableros
     if(y == tam_tablero - 1){
         y = 0;
