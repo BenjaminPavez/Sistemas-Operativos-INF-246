@@ -7,10 +7,11 @@
 #include <dirent.h>
 #include <unistd.h>
 #include <time.h>
-#include <sys/types.h> //Para fork
-#include <sys/wait.h> //Para fork
-#include <sys/ipc.h> //Para fork
-#include <sys/shm.h> //Para fork
+#include <sys/types.h> //Para Fork
+#include <sys/wait.h> //Para Fork
+#include <sys/ipc.h> //Para Fork
+#include <sys/shm.h> //Para Fork
+#include <signal.h> //Para Fork
 
 
 
@@ -779,7 +780,7 @@ void InicioPartida() {
         jugadores[i].pid = (int)jugador_pid[i];
     }
     int contador = 0;
-    while(contador < 15 && jugadores[0].Tesoros_encontrados == 0 && jugadores[1].Tesoros_encontrados == 0 && jugadores[2].Tesoros_encontrados == 0 && jugadores[3].Tesoros_encontrados == 0){
+    while(contador < 1 && jugadores[0].Tesoros_encontrados == 0 && jugadores[1].Tesoros_encontrados == 0 && jugadores[2].Tesoros_encontrados == 0 && jugadores[3].Tesoros_encontrados == 0){
         Menu(Tableros[jugadores[0].tabl]);
         MenuBot("J₂", Tableros[jugadores[1].tabl]);
         MenuBot("J₃", Tableros[jugadores[2].tabl]);
@@ -791,9 +792,18 @@ void InicioPartida() {
                 EnviarJugador(pipes[i][1], &jugadores[0]);
             }
         }
+        system("clear");
+        printf("--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------\n");
+        printf("                                                                                             Cargando Ronda %d                                                                                           \n",contador+1);
+        printf("--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------\n");
         contador++;
     }
 
+
+    //Matar a los procesos hijos
+    for (int i = 0; i < 4; i++) {
+        kill(jugador_pid[i], SIGTERM);
+    }
 
     //Esperar a que todos los procesos hijos terminen
     for(int i = 0; i < 4; i++) {
