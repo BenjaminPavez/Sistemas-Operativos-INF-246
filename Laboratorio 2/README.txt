@@ -26,3 +26,5 @@ Instrucciones de uso:
 7) Se considera que todos los tableros que estan en txt tiene dimension 5
 
 8) Si se pasa de un tablero a otro directamente hacia una B, este no funcionara correctamente, EVITAR!
+
+9) Una vez hecho un movimiento según las reglas del juego, seleccionar el número 6 para cambiar al siguiente jugador
