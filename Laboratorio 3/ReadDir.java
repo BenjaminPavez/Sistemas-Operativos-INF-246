@@ -73,12 +73,12 @@ public class ReadDir{
     
     public static void printQuadrants(char[][] matriz) {
         int size = matriz.length;
-        System.out.println("Tamaño matriz: " + size + "x" + size);
         int halfSize = size / 2;
+        System.out.println("LA MITAD ES: " + halfSize);
     
         System.out.println("Cuadrante superior izquierdo:");
         for (int i = 0; i < halfSize; i++) {
-            for (int j = 0; j < halfSize; j++) {
+            for (int j = 0; j < size; j++) {
                 System.out.print(matriz[i][j]);
             }
             System.out.println();
@@ -91,10 +91,11 @@ public class ReadDir{
             }
             System.out.println();
         }
+
     
         System.out.println("Cuadrante inferior izquierdo:");
-        for (int i = halfSize; i < size; i++) {
-            for (int j = 0; j < halfSize; j++) {
+        for (int i = halfSize; i < size-1; i++) {
+            for (int j = 0; j < size; j++) {
                 System.out.print(matriz[i][j]);
             }
             System.out.println();
