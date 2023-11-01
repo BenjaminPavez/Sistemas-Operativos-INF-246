@@ -1,7 +1,6 @@
-public class Main{
-  public static void main(String[] args) {
-
-  Multithreading thread = new Multithreading();
-  thread.run();
-}
+public class Main {
+    public static void main(String[] args) {
+        System.out.println("----------------------------------Inicio----------------------------------");
+        ReadDir.main(args);
+    }
 }

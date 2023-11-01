@@ -1,9 +1,5 @@
-public class Multithreading extends Thread{
-    public void Multithreading(){};
-
-    public void run(){
-        ReadDir dir = new ReadDir();
-        dir.main();
+public class Multithreading{
+    public static void main(String[] args) {
+        System.out.println("Hello world!");
     } 
-
 }

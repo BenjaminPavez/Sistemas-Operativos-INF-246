@@ -5,8 +5,8 @@ import java.io.IOException;
 
 
 public class ReadDir{
- public static void main(String[] args){
-        String directorioRaiz = "./CHECOESLOVAQUIA"; // Cambiar nombre de carpeta
+    public static void main(String[] args){
+        String directorioRaiz = "./ESTE";
         ViewDir(new File(directorioRaiz));
     }
 
@@ -31,6 +31,8 @@ public class ReadDir{
             }
         }
     }
+    
+
 
     /**
      * Se encarga de leer y mostrar la matriz de un archivo
@@ -59,7 +61,7 @@ public class ReadDir{
                 i++;
             }
             System.out.println(i + " lineas leidas.");
-            SeparateQuadrants(matriz);
+            SeparateQuadrants(matriz, palabra.length());
             lector.close();
         }catch(IOException e){
             e.printStackTrace();
@@ -67,53 +69,60 @@ public class ReadDir{
     }
 
     
-    public static void SeparateQuadrants(char[][] matriz) {
+    public static void SeparateQuadrants(char[][] matriz, int tamano){
         int size = matriz[0].length+1;
         int halfSize = size / 2;
         System.out.println("LA MITAD ES: " + halfSize);
 
-
-        //La hace el proceso/hebra 1
-        //char [][] matriz1 = new char[halfSize][halfSize];
-        System.out.println("Cuadrante superior izquierdo:");
-        for (int i = 0; i < halfSize/2; i++) {
-            for (int j = 0; j < halfSize; j++) {
-                System.out.print(matriz[i][j]);
+        if(tamano == size){
+            System.out.println("BUSCAMOS LA PALABRA"); //Busca la palabra
+            return;
+        }else{
+            char [][] matriz1 = new char[halfSize][halfSize];
+            System.out.println("Cuadrante superior izquierdo:");
+            for (int i = 0; i < halfSize/2; i++) {
+                for (int j = 0; j < halfSize; j++) {
+                    matriz1[i][j] = matriz[i][j];
+                    System.out.print(matriz1[i][j]);
+                }
+                System.out.println();
             }
-            System.out.println();
-        }
-        
-        //La hace el proceso/hebra 2
-        //char [][] matriz2 = new char[halfSize][halfSize];
-        System.out.println("Cuadrante inferior izquierdo:");
-        for (int i = halfSize/2; i < halfSize; i++){
-            for(int j = 0; j < halfSize; j++) {
-                System.out.print(matriz[i][j]);
-            }
-            System.out.println();
-        }
-
-
-        //La hace el proceso/hebra 3
-        //char [][] matriz3 = new char[halfSize][halfSize];
-        System.out.println("Cuadrante superior derecho:");
-        for (int m = 0; m < halfSize/2; m++) {
-            for (int n = halfSize; n < size-1; n++) {
-                System.out.print(matriz[m][n]);
-            }
-            System.out.println();
-        }
+            
     
-
-        //La hace el proceso/hebra 4
-        //char [][] matriz4 = new char[halfSize][halfSize];
-        System.out.println("Cuadrante inferior derecho:");
-        for (int i = halfSize/2; i < halfSize; i++) {
-            for (int j = halfSize; j < size-1; j++) { // Corregir el rango aquí
-                System.out.print(matriz[i][j]);
+            char [][] matriz2 = new char[halfSize][halfSize];
+            System.out.println("Cuadrante inferior izquierdo:");
+            for (int i = halfSize/2; i < halfSize; i++){
+                for(int j = 0; j < halfSize; j++) {
+                    matriz2[i-(halfSize/2)][j] = matriz[i][j];
+                    System.out.print(matriz2[i-(halfSize/2)][j]);
+                }
+                System.out.println();
             }
-            System.out.println();
-        }
+         
+
+            char [][] matriz3 = new char[halfSize][halfSize];
+            System.out.println("Cuadrante superior derecho:");
+            for (int m = 0; m < halfSize/2; m++) {
+                for (int n = halfSize; n < size-1; n++) {
+                    matriz3[m][n-halfSize] = matriz[m][n];
+                    System.out.print(matriz3[m][n-halfSize]);
+                }
+                System.out.println();
+            }
+
         
+            char [][] matriz4 = new char[halfSize][halfSize];
+            System.out.println("Cuadrante inferior derecho:");
+            for (int i = halfSize/2; i < halfSize; i++) {
+                for (int j = halfSize; j < size-1; j++) { // Corregir el rango aquí
+                    matriz4[i-(halfSize/2)][j-halfSize] = matriz[i][j];
+                    System.out.print(matriz4[i-(halfSize/2)][j-halfSize]);
+                }
+                System.out.println();
+            }
+
+            Threads.main(null, matriz1, matriz2, matriz3, matriz4, tamano);
+
+        }
     }
 }
