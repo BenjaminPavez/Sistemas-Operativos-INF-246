@@ -4,8 +4,6 @@ import java.io.FileReader;
 import java.io.IOException;
 
 
-
-
 public class ReadDir{
     public static void main(String[] args){
         String directorioRaiz = "./";
@@ -63,7 +61,8 @@ public class ReadDir{
                 matriz[i] = linea.toCharArray();
                 i++;
             }
-            printQuadrants(matriz);
+            System.out.println(i + " lineas leidas.");
+            SeparateQuadrants(matriz);
             lector.close();
         }catch(IOException e){
             e.printStackTrace();
@@ -71,42 +70,50 @@ public class ReadDir{
     }
 
     
-    public static void printQuadrants(char[][] matriz) {
-        int size = matriz.length;
+    public static void SeparateQuadrants(char[][] matriz) {
+        int size = matriz[0].length+1;
         int halfSize = size / 2;
         System.out.println("LA MITAD ES: " + halfSize);
-    
+
+
+        //FUNCIONA BIEN
         System.out.println("Cuadrante superior izquierdo:");
-        for (int i = 0; i < halfSize; i++) {
-            for (int j = 0; j < size; j++) {
+        for (int i = 0; i < halfSize/2; i++) {
+            for (int j = 0; j < halfSize; j++) {
                 System.out.print(matriz[i][j]);
             }
             System.out.println();
         }
-    
-        System.out.println("Cuadrante superior derecho:");
-        for (int i = 0; i < halfSize; i++) {
-            for (int j = halfSize; j < size; j++) {
+        
+
+        System.out.println("Cuadrante inferior izquierdo:");
+        for (int i = halfSize/2; i < halfSize; i++){
+            for(int j = 0; j < halfSize; j++) {
                 System.out.print(matriz[i][j]);
             }
             System.out.println();
         }
 
-    
-        System.out.println("Cuadrante inferior izquierdo:");
-        for (int i = halfSize; i < size-1; i++) {
-            for (int j = 0; j < size; j++) {
-                System.out.print(matriz[i][j]);
+
+        //FUNCIONA BIEN
+        System.out.println("Cuadrante superior derecho:");
+        for (int m = 0; m < halfSize/2; m++) {
+            for (int n = halfSize; n < size; n++) {
+                System.out.print(matriz[m][n]);
             }
             System.out.println();
         }
     
+
+        //FUNCIONA BIEN MAS O MENOS REVISAR
         System.out.println("Cuadrante inferior derecho:");
-        for (int i = halfSize; i < size; i++) {
-            for (int j = halfSize; j < size; j++) {
+        for (int i = halfSize/2; i < halfSize; i++) {
+            for (int j = halfSize; j < size; j++) { // Corregir el rango aquí
                 System.out.print(matriz[i][j]);
             }
             System.out.println();
         }
+        
     }
 }
+

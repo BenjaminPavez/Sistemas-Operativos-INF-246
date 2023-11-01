@@ -25,9 +25,9 @@ class RunnableTask implements Runnable {
     public void run() {
         for (int i = 1; i <= 5; i++) {
             System.out.println(taskName + " está en el paso " + i);
-            try {
+            try{
                 Thread.sleep(1000); // Simula cierta actividad
-            } catch (InterruptedException e) {
+            }catch(InterruptedException e) {
                 e.printStackTrace();
             }
         }
