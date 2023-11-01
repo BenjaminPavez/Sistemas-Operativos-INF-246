@@ -5,9 +5,8 @@ import java.io.IOException;
 
 
 public class ReadDir{
-    public static void main(String[] args){
-        String directorioRaiz = "./";
-
+ public static void main(String[] args){
+        String directorioRaiz = "./CHECOESLOVAQUIA"; // Cambiar nombre de carpeta
         ViewDir(new File(directorioRaiz));
     }
 
@@ -19,21 +18,19 @@ public class ReadDir{
      *
      * Al ser una funcion void no retorna nada
     **/
-    public static void ViewDir(File directorio){
-        if(directorio.isDirectory()){
-            File[] archivosYDirectorios = directorio.listFiles();
-            if(archivosYDirectorios != null){
-                for(File archivoODirectorio : archivosYDirectorios){
-                    ViewDir(archivoODirectorio);
+    public static void ViewDir(File directorio) {
+        System.out.println("Directorio actual: " + directorio.getName());
+        if (directorio.isDirectory()) {
+            File[] archivos = directorio.listFiles();
+            if (archivos != null) {
+                for (File archivo : archivos) {
+                    if (archivo.isFile() && archivo.getName().toLowerCase().endsWith(".txt")) {
+                        ViewMatrix(archivo);
+                    }
                 }
-            }
-        }else if(directorio.isFile()){
-            if(directorio.getName().toLowerCase().endsWith(".txt")){
-                ViewMatrix(directorio);
             }
         }
     }
-
 
     /**
      * Se encarga de leer y mostrar la matriz de un archivo
@@ -76,7 +73,8 @@ public class ReadDir{
         System.out.println("LA MITAD ES: " + halfSize);
 
 
-        //FUNCIONA BIEN
+        //La hace el proceso/hebra 1
+        //char [][] matriz1 = new char[halfSize][halfSize];
         System.out.println("Cuadrante superior izquierdo:");
         for (int i = 0; i < halfSize/2; i++) {
             for (int j = 0; j < halfSize; j++) {
@@ -85,7 +83,8 @@ public class ReadDir{
             System.out.println();
         }
         
-
+        //La hace el proceso/hebra 2
+        //char [][] matriz2 = new char[halfSize][halfSize];
         System.out.println("Cuadrante inferior izquierdo:");
         for (int i = halfSize/2; i < halfSize; i++){
             for(int j = 0; j < halfSize; j++) {
@@ -95,20 +94,22 @@ public class ReadDir{
         }
 
 
-        //FUNCIONA BIEN
+        //La hace el proceso/hebra 3
+        //char [][] matriz3 = new char[halfSize][halfSize];
         System.out.println("Cuadrante superior derecho:");
         for (int m = 0; m < halfSize/2; m++) {
-            for (int n = halfSize; n < size; n++) {
+            for (int n = halfSize; n < size-1; n++) {
                 System.out.print(matriz[m][n]);
             }
             System.out.println();
         }
     
 
-        //FUNCIONA BIEN MAS O MENOS REVISAR
+        //La hace el proceso/hebra 4
+        //char [][] matriz4 = new char[halfSize][halfSize];
         System.out.println("Cuadrante inferior derecho:");
         for (int i = halfSize/2; i < halfSize; i++) {
-            for (int j = halfSize; j < size; j++) { // Corregir el rango aquí
+            for (int j = halfSize; j < size-1; j++) { // Corregir el rango aquí
                 System.out.print(matriz[i][j]);
             }
             System.out.println();
@@ -116,4 +117,3 @@ public class ReadDir{
         
     }
 }
-
