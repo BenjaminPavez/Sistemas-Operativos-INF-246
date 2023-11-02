@@ -6,7 +6,7 @@ import java.io.IOException;
 
 public class ReadDir{
     public static void main(String[] args){
-        String directorioRaiz = "./ESTE";
+        String directorioRaiz = "./CHECOESLOVAQUIA";
         ViewDir(new File(directorioRaiz));
     }
 
@@ -61,7 +61,7 @@ public class ReadDir{
                 i++;
             }
             System.out.println(i + " lineas leidas.");
-            SeparateQuadrants(matriz, palabra.length());
+            SeparateQuadrants(matriz, palabra);
             lector.close();
         }catch(IOException e){
             e.printStackTrace();
@@ -69,10 +69,10 @@ public class ReadDir{
     }
 
     
-    public static void SeparateQuadrants(char[][] matriz, int tamano){
+    public static void SeparateQuadrants(char[][] matriz, String palabra){
         int size = matriz[0].length+1;
         int halfSize = size / 2;
-        System.out.println("LA MITAD ES: " + halfSize);
+        int tamano = palabra.length();
 
         if(tamano == size){
             System.out.println("BUSCAMOS LA PALABRA"); //Busca la palabra
@@ -121,7 +121,7 @@ public class ReadDir{
                 System.out.println();
             }
 
-            Threads.main(null, matriz1, matriz2, matriz3, matriz4, tamano);
+            Multithreading.main(null, matriz1, matriz2, matriz3, matriz4, palabra);
 
         }
     }
