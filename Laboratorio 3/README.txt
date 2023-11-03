@@ -8,3 +8,5 @@ IDE: Visual Studio Code
 Version JDK: 11.0.20.1
 
 Instrucciones de uso:
+
+1) Para usar el Makefile primero ejecute 'make all' y despues 'make run'
