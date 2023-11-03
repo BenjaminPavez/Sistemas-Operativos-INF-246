@@ -72,57 +72,44 @@ public class ReadDir{
     public static void SeparateQuadrants(char[][] matriz, String palabra){
         int size = matriz[0].length+1;
         int halfSize = size / 2;
-        int tamano = palabra.length();
 
-        if(tamano == size){
-            System.out.println("BUSCAMOS LA PALABRA"); //Busca la palabra
-            return;
-        }else{
-            char [][] matriz1 = new char[halfSize][halfSize];
-            System.out.println("Cuadrante superior izquierdo:");
-            for (int i = 0; i < halfSize/2; i++) {
-                for (int j = 0; j < halfSize; j++) {
-                    matriz1[i][j] = matriz[i][j];
-                    System.out.print(matriz1[i][j]);
-                }
-                System.out.println();
+        char [][] matriz1 = new char[halfSize][halfSize];
+        for (int i = 0; i < halfSize/2; i++) {
+            for (int j = 0; j < halfSize; j++) {
+                matriz1[i][j] = matriz[i][j];
+            }
+        }
+        
+
+        char [][] matriz2 = new char[halfSize][halfSize];
+        for (int i = halfSize/2; i < halfSize; i++){
+            for(int j = 0; j < halfSize; j++) {
+                matriz2[i-(halfSize/2)][j] = matriz[i][j];
+            }
+        }
+        
+
+        char [][] matriz3 = new char[halfSize][halfSize];
+        for (int m = 0; m < halfSize/2; m++) {
+            for (int n = halfSize; n < size-1; n++) {
+                matriz3[m][n-halfSize] = matriz[m][n];
+                
             }
             
-    
-            char [][] matriz2 = new char[halfSize][halfSize];
-            System.out.println("Cuadrante inferior izquierdo:");
-            for (int i = halfSize/2; i < halfSize; i++){
-                for(int j = 0; j < halfSize; j++) {
-                    matriz2[i-(halfSize/2)][j] = matriz[i][j];
-                    System.out.print(matriz2[i-(halfSize/2)][j]);
-                }
-                System.out.println();
-            }
-         
+        }
 
-            char [][] matriz3 = new char[halfSize][halfSize];
-            System.out.println("Cuadrante superior derecho:");
-            for (int m = 0; m < halfSize/2; m++) {
-                for (int n = halfSize; n < size-1; n++) {
-                    matriz3[m][n-halfSize] = matriz[m][n];
-                    System.out.print(matriz3[m][n-halfSize]);
-                }
-                System.out.println();
-            }
+    
+        char [][] matriz4 = new char[halfSize][halfSize];
+        for (int i = halfSize/2; i < halfSize; i++) {
+            for (int j = halfSize; j < size-1; j++) {
+                matriz4[i-(halfSize/2)][j-halfSize] = matriz[i][j];
+            } 
+        }
+
+        // Se descomenta el metodo q se desee ejecutar
+        //Multithreading.main(null, matriz1, matriz2, matriz3, matriz4, palabra);
+        MultithreadingWithForks.main(null, matriz1, matriz2, matriz3, matriz4, palabra);
 
         
-            char [][] matriz4 = new char[halfSize][halfSize];
-            System.out.println("Cuadrante inferior derecho:");
-            for (int i = halfSize/2; i < halfSize; i++) {
-                for (int j = halfSize; j < size-1; j++) { // Corregir el rango aquí
-                    matriz4[i-(halfSize/2)][j-halfSize] = matriz[i][j];
-                    System.out.print(matriz4[i-(halfSize/2)][j-halfSize]);
-                }
-                System.out.println();
-            }
-
-            Multithreading.main(null, matriz1, matriz2, matriz3, matriz4, palabra);
-
-        }
     }
 }
