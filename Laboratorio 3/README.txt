@@ -9,4 +9,6 @@ Version JDK: 11.0.20.1
 
 Instrucciones de uso:
 
-1) Para usar el Makefile primero ejecute 'make all' y despues 'make run'
+1) Para usar el Makefile primero ejecute 'make all' y despues 'make run'.
+2) En el main del archivo ReadDir.java se cambia el nombre de la carpeta que se desea ejecutar.
+3) Al final de ReadDir.java estan los 3 metodos comentados, se deben quitar el comentario el que se desee ejecutar.
