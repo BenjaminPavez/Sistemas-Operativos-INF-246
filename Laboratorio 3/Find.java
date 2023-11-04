@@ -13,9 +13,10 @@ public class Find{
             }
         }
         String cadenaConEspacios = resultado.toString();
-        for (int m = 0; m < Matriz[0].length; m++) {
+        for (int m = 0; m < Matriz[0].length/2; m++) {
             String str = new String(Matriz[m]);
             //Verificamos si la palabra esta horizontal en cada submatriz
+
             if(str.contains(cadenaConEspacios)){
                 long tiempoFinal = System.nanoTime();
                 long tiempoTotal = tiempoFinal - tiempoInicial;

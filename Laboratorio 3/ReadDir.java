@@ -6,7 +6,7 @@ import java.io.IOException;
 
 public class ReadDir{
     public static void main(String[] args){
-        String directorioRaiz = "./CHECOESLOVAQUIA";
+        String directorioRaiz = "./ESTE";
         ViewDir(new File(directorioRaiz));
     }
 
@@ -113,7 +113,7 @@ public class ReadDir{
         //Multithreading.main(null, matriz1, matriz2, matriz3, matriz4, palabra);
 
         //Metodo 3: Con Forks
-        Forks.main(null, matriz1, matriz2, matriz3, matriz4, palabra);
+        //Forks.main(null, matriz1, matriz2, matriz3, matriz4, palabra);
 
         
     }

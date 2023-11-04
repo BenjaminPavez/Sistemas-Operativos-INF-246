@@ -35,7 +35,7 @@ class MatrizSearchTask extends RecursiveTask<Integer>{
     protected Integer compute(){
         try {
             // Pausa la ejecución durante 5 segundos (5000 milisegundos)
-            Thread.sleep(5000);
+            Thread.sleep(1000);
         } catch (InterruptedException e) {
             // Manejo de excepciones si es necesario
             e.printStackTrace();
@@ -47,7 +47,7 @@ class MatrizSearchTask extends RecursiveTask<Integer>{
             
         }else{
             ReadDir.SeparateQuadrants(matriz, palabra);
-            System.out.println("CREO MAS PROCESOS");
+            //System.out.println("CREO MAS PROCESOS");
         }  
         return 0;
     }
