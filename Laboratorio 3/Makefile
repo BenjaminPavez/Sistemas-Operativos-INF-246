@@ -10,7 +10,7 @@ JC = javac
 JVM = java
 
 # Nombre de la clase que contiene la funcion main
-MAIN = ReadDir
+MAIN = Main
 
 # En JAVAS se indican los archivos .java, en este caso se estan indicando:
 # $(wildcard estructuras/*.java) -> todos los archivos .java dentro del directorio estructuras/

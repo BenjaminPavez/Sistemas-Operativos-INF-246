@@ -3,14 +3,13 @@ public class Main {
 
     public void iniciarTiempo(){
         tiempoInicio = System.nanoTime();
-
     }
 
     public long obtenerTiempo(){
         return tiempoInicio;
     }
     public static void main(String[] args) {
-        System.out.println("----------------------------------Inicio----------------------------------");
+        System.out.println("-------------------------------------Datos-------------------------------------");
         ReadDir.main(args);
     }
 }

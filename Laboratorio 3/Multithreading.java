@@ -35,8 +35,8 @@ class RunnableTask implements Runnable{
             e.printStackTrace();
         }
         if(Matriz[0].length/2 == Palabra.length()){
-            Busqueda busqueda = new Busqueda();
-            busqueda.Find(Matriz, Palabra);
+            Find busqueda = new Find();
+            busqueda.FindWord(Matriz, Palabra);
             
         }else{
             ReadDir.SeparateQuadrants(Matriz, Palabra);

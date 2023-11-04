@@ -45,8 +45,7 @@ public class ReadDir{
         try{
             BufferedReader lector = new BufferedReader(new FileReader(archivo));
             String linea;
-            System.out.println("Contenido de " + archivo.getName() + ":");
-
+            
             //Datos archivo
             int tam = Integer.parseInt(lector.readLine());
             System.out.println("Tamaño matriz: " + tam + "x" + tam);
@@ -93,9 +92,7 @@ public class ReadDir{
         for (int m = 0; m < halfSize/2; m++) {
             for (int n = halfSize; n < size-1; n++) {
                 matriz3[m][n-halfSize] = matriz[m][n];
-                
             }
-            
         }
 
     
@@ -106,9 +103,17 @@ public class ReadDir{
             } 
         }
 
-        // Se descomenta el metodo q se desee ejecutar
+        //Se descomenta el metodo q se desee ejecutar
+
+        //Metodo 1: Sin Threads ni Forks
+        //Find busqueda = new Find();
+        //busqueda.FindWord(matriz, palabra);
+
+        //Metodo 2: Con Threads
         //Multithreading.main(null, matriz1, matriz2, matriz3, matriz4, palabra);
-        MultithreadingWithForks.main(null, matriz1, matriz2, matriz3, matriz4, palabra);
+
+        //Metodo 3: Con Forks
+        Forks.main(null, matriz1, matriz2, matriz3, matriz4, palabra);
 
         
     }
