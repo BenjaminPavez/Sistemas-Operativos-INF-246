@@ -18,3 +18,5 @@ Instrucciones de uso:
 4) El archivo Main.java solo parte el conteo del tiempo y llama a ReadDir.java que es la que se encarga de abrir el archivo, guardalo en una matriz y buscar la palabra acorde algun metodo
 
 5) El programa funciona correctamente con las matrices dadas
+
+6) Las posiciones entregadas parten contando desde 0.
