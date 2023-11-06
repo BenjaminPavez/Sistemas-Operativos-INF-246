@@ -16,8 +16,9 @@ public class Forks {
         int resultado4 = pool.invoke(tarea4);
 
         int resultadoTotal = resultado1 + resultado2 + resultado3 + resultado4;
-
-        System.out.println("La palabra '" + palabra + "' se encontró " + resultadoTotal + " veces en las matrices.");
+        if (resultadoTotal == 10) {
+            //No hace nada
+        }
     }
 }
 
@@ -33,21 +34,20 @@ class MatrizSearchTask extends RecursiveTask<Integer>{
 
     @Override
     protected Integer compute(){
-        try {
-            // Pausa la ejecución durante 5 segundos (5000 milisegundos)
-            Thread.sleep(1000);
-        } catch (InterruptedException e) {
-            // Manejo de excepciones si es necesario
+        try{
+            //Pausa la ejecución durante 5 segundos (5000 milisegundos)
+            Thread.sleep(100);
+        }catch (InterruptedException e) {
+            //Manejo de excepciones si es necesario
             e.printStackTrace();
         }
         if(matriz[0].length/2 == palabra.length()){
             Find busqueda = new Find();
-            busqueda.FindWord(matriz, palabra);
+            busqueda.FindWord(matriz, palabra, 1);
             return 1;
             
         }else{
-            ReadDir.SeparateQuadrants(matriz, palabra);
-            //System.out.println("CREO MAS PROCESOS");
+            ReadDir.Separate(matriz, palabra);
         }  
         return 0;
     }

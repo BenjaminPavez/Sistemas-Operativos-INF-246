@@ -1,6 +1,5 @@
 public class Multithreading{
     public static void main(String[] args, char[][] matriz1, char[][] matriz2, char[][] matriz3, char[][] matriz4, String palabra){
-
         RunnableTask task1 = new RunnableTask(matriz1, palabra);
         Thread thread1 = new Thread(task1);
         RunnableTask task2 = new RunnableTask(matriz2, palabra);
@@ -10,7 +9,6 @@ public class Multithreading{
         RunnableTask task4 = new RunnableTask(matriz4, palabra);
         Thread thread4 = new Thread(task4);
       
-
         thread1.start();
         thread2.start();
         thread3.start();
@@ -36,10 +34,9 @@ class RunnableTask implements Runnable{
         }
         if(Matriz[0].length/2 == Palabra.length()){
             Find busqueda = new Find();
-            busqueda.FindWord(Matriz, Palabra);
-            
+            busqueda.FindWord(Matriz, Palabra,1);
         }else{
-            ReadDir.SeparateQuadrants(Matriz, Palabra);
+            ReadDir.Separate(Matriz, Palabra);
             try{
                 Thread.sleep(1000); // Simula cierta actividad
             }catch(InterruptedException e) {

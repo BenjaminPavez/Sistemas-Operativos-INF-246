@@ -5,8 +5,20 @@ import java.io.IOException;
 
 
 public class ReadDir{
+    char[][] matrizOG;
+
+
+    public char[][] get(){
+        return matrizOG;
+    }
+
+    public void setSize(char size[][]){
+        this.matrizOG = size;
+    }
+
+
     public static void main(String[] args){
-        String directorioRaiz = "./ESTE";
+        String directorioRaiz = "./GATOS";
         ViewDir(new File(directorioRaiz));
     }
 
@@ -43,6 +55,8 @@ public class ReadDir{
     **/
     public static void ViewMatrix(File archivo){
         try{
+            ReadDir matrizOG = new ReadDir();
+
             BufferedReader lector = new BufferedReader(new FileReader(archivo));
             String linea;
             
@@ -59,16 +73,21 @@ public class ReadDir{
                 matriz[i] = linea.toCharArray();
                 i++;
             }
+            //Se manda Tamano original de la matriz
+            matrizOG.setSize(matriz);
+            Find.send(matrizOG);
+
             System.out.println(i + " lineas leidas.");
-            SeparateQuadrants(matriz, palabra);
+            Separate(matriz, palabra);
             lector.close();
         }catch(IOException e){
             e.printStackTrace();
         }
     }
 
+
     
-    public static void SeparateQuadrants(char[][] matriz, String palabra){
+    public static void Separate(char[][] matriz, String palabra){
         int size = matriz[0].length+1;
         int halfSize = size / 2;
 
@@ -106,8 +125,8 @@ public class ReadDir{
         //Se descomenta el metodo q se desee ejecutar
 
         //Metodo 1: Sin Threads ni Forks
-        //Find busqueda = new Find();
-        //busqueda.FindWord(matriz, palabra);
+        Find busqueda = new Find();
+        busqueda.FindWord(matriz, palabra,0);
 
         //Metodo 2: Con Threads
         //Multithreading.main(null, matriz1, matriz2, matriz3, matriz4, palabra);
