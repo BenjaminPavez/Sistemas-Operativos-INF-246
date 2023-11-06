@@ -18,14 +18,13 @@ public class Find{
             for (int i = 0; i < PalBuscar.length(); i++) {
                 resultado.append(PalBuscar.charAt(i));
                 if (i < PalBuscar.length() - 1) {
-                    resultado.append(' '); // Agrega un espacio en blanco después de cada carácter, excepto el último.
+                    resultado.append(' ');
                 }
             }
             String cadenaConEspacios = resultado.toString();
             for (int m = 0; m < Matriz[0].length/2; m++) {
                 String str = new String(Matriz[m]);
                 //Verificamos si la palabra esta horizontal en cada submatriz
-                
                 if(str.contains(cadenaConEspacios)){
                     long tiempoFinal = System.nanoTime();
                     long tiempoTotal = tiempoFinal - tiempoInicial;
@@ -37,7 +36,7 @@ public class Find{
             }
             //VERTICAL
             int numFila = Matriz.length;
-            int numCols = Matriz[0].length; // El número de columnas debe ser el número de columnas en la matriz, no en las filas.
+            int numCols = Matriz[0].length;
         
             for(int col = 0; col < numCols; col++){
                 StringBuilder palabraVertical = new StringBuilder();
@@ -67,14 +66,13 @@ public class Find{
             for (int i = 0; i < PalBuscar.length(); i++) {
                 resultado.append(PalBuscar.charAt(i));
                 if (i < PalBuscar.length() - 1) {
-                    resultado.append(' '); // Agrega un espacio en blanco después de cada carácter, excepto el último.
+                    resultado.append(' ');
                 }
             }
             String cadenaConEspacios = resultado.toString();
             for (int m = 0; m < Matriz[0].length/2; m++) {
                 String str = new String(Matriz[m]);
                 //Verificamos si la palabra esta horizontal en cada submatriz
-                
                 if(str.contains(cadenaConEspacios)){
                     long tiempoFinal = System.nanoTime();
                     long tiempoTotal = tiempoFinal - tiempoInicial;
@@ -87,8 +85,7 @@ public class Find{
             }
             //VERTICAL
             int numFila = Matriz.length;
-            int numCols = Matriz[0].length; // El número de columnas debe ser el número de columnas en la matriz, no en las filas.
-
+            int numCols = Matriz[0].length;
             for(int col = 0; col < numCols; col++){
                 StringBuilder palabraVertical = new StringBuilder();
                 for(int row = 0; row < numFila; row++) {

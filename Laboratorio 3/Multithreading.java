@@ -20,7 +20,7 @@ class RunnableTask implements Runnable{
     private char[][] Matriz;
     private String Palabra;
 
-    public RunnableTask(char[][] matriz, String pala) {  //char[][] matriz
+    public RunnableTask(char[][] matriz, String pala){
         this.Matriz = matriz;
         this.Palabra = pala;
     }
@@ -28,8 +28,8 @@ class RunnableTask implements Runnable{
     @Override
     public void run() {
         try{
-            Thread.sleep(1000); // Simula cierta actividad
-        }catch(InterruptedException e) {
+            Thread.sleep(1000);
+        }catch(InterruptedException e){
             e.printStackTrace();
         }
         if(Matriz[0].length/2 == Palabra.length()){
@@ -38,8 +38,8 @@ class RunnableTask implements Runnable{
         }else{
             ReadDir.Separate(Matriz, Palabra);
             try{
-                Thread.sleep(1000); // Simula cierta actividad
-            }catch(InterruptedException e) {
+                Thread.sleep(1000);
+            }catch(InterruptedException e){
                 e.printStackTrace();
             }
         }  

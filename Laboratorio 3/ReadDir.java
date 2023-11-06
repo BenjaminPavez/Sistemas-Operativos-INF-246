@@ -122,7 +122,7 @@ public class ReadDir{
             } 
         }
 
-        //Se descomenta el metodo q se desee ejecutar
+        //Se descomenta el metodo que se desee ejecutar
 
         //Metodo 1: Sin Threads ni Forks
         Find busqueda = new Find();
