@@ -5,7 +5,7 @@ SO: Ubuntu 22.04.1 LTS
 
 IDE: Visual Studio Code
 
-Version JDK: 11.0.20.1
+Version Python: 3.10.6
 
 Instrucciones de uso:
 
