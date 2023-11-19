@@ -1,12 +1,13 @@
 #!/bin/bash
+# PARA DAR PERMISOS A BASH: chmod +x ViewThreads.sh
 
-# Nombre del proceso a buscar
+#Nombre del proceso a buscar
 nombre_proceso="intento1.py"
 
-# Número de veces que deseas ejecutar ps lf
-num_veces=10000
+#Numero de veces que deseas ejecutar ps lf
+num_veces=1000
 
-# Nombre del archivo donde se guardará la salida
+#Nombre del archivo donde se guardará la salida
 archivo_salida="canthebras.txt"
 
 # Obtener el PID del proceso creado por intento1.py
