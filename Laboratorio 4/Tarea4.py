@@ -19,29 +19,29 @@ class Departamento:
         time.sleep(self.duracion_consulta)
 
     def Ingresar_fila(self, persona, nDepto):
-        if self.sem_fila.acquire():
-            print(f"{persona} ingresa a la fila de {self.nombre}")
-            tiempoLlegada = datetime.now().strftime('%H:%M:%S.%f')[:-3]
-            try:
-                print(f'{persona} intenta entrar a {self.nombre}')
-                #Se intenta ingresar al departamento
-                self.sem_departamento.acquire()
-                print(self.capacidad_departamento,self.sem_departamento._value)
-                if self.sem_departamento._value == 0: #Agregar temporizador en caso de que no exista mas gente para llenar la fila
-                    print(self.capacidad_fila-self.sem_fila._value, "personas en la fila de", self.nombre, "de un total de",self.capacidad_fila,self.sem_fila._value  )
-                    with open(f"Departamento_de_{self.nombre}.txt", "a") as file:
-                        file.write(f"{persona}, {tiempoLlegada} ,{datetime.now().strftime('%H:%M:%S.%f')[:-3]}\n")
-                    self.Iniciar_departamento(persona, nDepto)
+        print(f"{persona} ingresa a la fila de {self.nombre}")
+        tiempoLlegada = datetime.now().strftime('%H:%M:%S.%f')[:-3]
+        self.sem_fila.acquire()
+        try:
+            print(f'{persona} intenta entrar a {self.nombre}')
+            #Se intenta ingresar al departamento
+            self.sem_departamento.acquire()
+            print(self.capacidad_departamento,self.sem_departamento._value)
+            if self.sem_departamento._value == 0: #Agregar temporizador en caso de que no exista mas gente para llenar la fila
+                print(self.capacidad_fila-self.sem_fila._value, "personas en la fila de", self.nombre, "de un total de",self.capacidad_fila,self.sem_fila._value  )
+                with open(f"Departamento_de_{self.nombre}.txt", "a") as file:
+                    file.write(f"{persona}, {tiempoLlegada} ,{datetime.now().strftime('%H:%M:%S.%f')[:-3]}\n")
+                self.Iniciar_departamento(persona, nDepto)
 
-                else:
-                    print("***")
-                    print(f'Cantidad en la fila {self.capacidad_fila-self.sem_fila._value} son necesarios {self.capacidad_departamento} en el departamento {self.nombre}')
-                    print("Debe esperar en la fila ya que esta lleno el depto o no hay los necesarios en la fila")
-                    print("***")
+            else:
+                print("***")
+                print(f'Cantidad en la fila {self.capacidad_fila-self.sem_fila._value} son necesarios {self.capacidad_departamento} en el departamento {self.nombre}')
+                print("Debe esperar en la fila ya que esta lleno el depto o no hay los necesarios en la fila")
+                print("***")
 
-            finally:
-                self.sem_fila.release()
-                self.sem_departamento.release()
+        finally:
+            self.sem_fila.release()
+            self.sem_departamento.release()
 
     def Iniciar_departamento(self, persona, nDepto):
         print(f"{persona} entra a la consulta de {self.nombre}")
@@ -80,7 +80,7 @@ def ingreso_Pdl(persona, departamentos):
 
 
 departamentos = [
-    Departamento("DEFIDER", 6, 5, 1), # Departamento("DEFIDER", 6, 1, 5),
+    Departamento("DEFIDER", 6, 2, 1), # Departamento("DEFIDER", 6, 1, 5),
     Departamento("Mecanica", 9, 3, 3), #    Departamento("Mecanica", 9, 4, 4),
     Departamento("Minas", 7, 5, 2), #    Departamento("Minas", 7, 5, 2),
 ]
@@ -96,6 +96,5 @@ for i in range(max_personas):
     threads.append(thread)
     thread.start()
 
-# Esperar a que todas las hebras terminen
 for thread in threads:
     thread.join()
