@@ -1,0 +1,120 @@
+import threading
+import time
+from datetime import datetime
+import random
+
+mutex_Pdl = threading.Lock()
+
+class Departamento:
+    def __init__(self, nombre, capacidad_fila, duracion_consulta, capacidad_departamento):
+        self.nombre = nombre
+        self.capacidad_fila = capacidad_fila
+        self.duracion_consulta = duracion_consulta
+        self.capacidad_departamento = capacidad_departamento
+        self.sem_fila = threading.Semaphore(capacidad_fila)
+        self.mutex_departamento = threading.Lock()
+        self.sem_departamento = threading.Semaphore(capacidad_departamento)
+        self.condition = threading.Condition()
+        self.sem_ingreso = threading.Semaphore(0)
+        self.tiempo = 0
+
+    def Simular_consulta(self):
+        time.sleep(self.duracion_consulta)
+        
+
+
+    def Ingresar_fila(self, persona, nDepto):
+        print(f"{persona} ingresa a la fila de {self.nombre}")
+        tiempoLlegada = datetime.now().strftime('%H:%M:%S.%f')[:-2]
+        self.sem_fila.acquire(blocking=True, timeout=-1)
+        # Se intenta ingresar al departamento
+        start_time = time.time()
+        while self.capacidad_fila - self.sem_fila._value < self.capacidad_departamento:
+            print(f'** En fila {self.capacidad_fila - self.sem_fila._value} son necesarios {self.capacidad_departamento} en el departamento {self.nombre}, {persona}')
+            #time.sleep(1)
+            self.tiempo = time.time() - start_time
+            if self.tiempo >= 5:
+                break
+        print(f'*En fila hay {self.capacidad_fila - self.sem_fila._value} personas esperando en {self.nombre} se necesitan {self.capacidad_departamento} para entrar')
+        tiempoEntradaD = datetime.now().strftime('%H:%M:%S.%f')[:-2]
+        #with self.sem_departamento:
+
+        self.tiempo = 0
+        print(f'**** En fila {self.capacidad_fila-1 - self.sem_fila._value} son necesarios {self.capacidad_departamento} en el departamento {self.nombre}, {persona}')
+        with open(f"Departamento_de_{self.nombre}.txt", "a") as file:
+            file.write(f"{persona}, {tiempoLlegada}, {tiempoEntradaD}, {nDepto}\n")
+        self.sem_fila.release()
+        self.Iniciar_departamento(persona, nDepto)
+        
+        """ print("***")
+        print(f'Cantidad en la fila {self.capacidad_fila - self.sem_fila._value} son necesarios {self.capacidad_departamento} en el departamento {self.nombre}, {persona}')
+        print("***") """
+
+
+
+
+
+
+    def Iniciar_departamento(self, persona, nDepto):
+        self.mutex_departamento.acquire(blocking=True, timeout=1)
+        print(f"{persona} realiza consulta de {self.nombre}")
+        self.Simular_consulta()
+        #Salida en caso de ser necesario
+        if nDepto == 2:
+            print(f"{persona} sale de {self.nombre}")
+            with open("Salida.txt", "a") as file:
+                file.write(f"{persona}, {datetime.now().strftime('%H:%M:%S.%f')[:-2]}\n")
+
+
+
+def ingreso_Pdl(persona, departamentos):
+    Departamento1, Departamento2 = random.sample(departamentos, 2)
+    mutex_Pdl.acquire()
+    tiempoLlegada = datetime.now().strftime('%H:%M:%S.%f')
+    tiempoEntrada = "" #Por si acaso
+    tiempoEntrada2 = "" #Por si acaso
+    try:
+        while Departamento1.sem_fila._value == 0 or Departamento2.sem_fila._value == 0:
+            time.sleep(1)
+
+        with Departamento1.sem_fila:
+            if Departamento1.capacidad_fila - Departamento1.sem_fila._value > 0:
+                mutex_Pdl.release()
+                tiempoEntrada = datetime.now().strftime('%H:%M:%S.%f')[:-2]
+                Departamento1.Ingresar_fila(persona, 1)
+            else:
+                print("Se deberia quedar esperando en PdLamparas ya que la fila está llena")
+
+        with Departamento2.sem_fila:
+            if Departamento2.capacidad_fila - Departamento2.sem_fila._value > 0:
+                tiempoEntrada2 = datetime.now().strftime('%H:%M:%S.%f')[:-2]
+                Departamento2.Ingresar_fila(persona, 2)
+            else:
+                print("Se queda esperando en PdLamparas ya que la fila está llena")
+
+    finally:
+        with open("PdLamparas.txt", "a") as file:
+            file.write(
+                f"{persona}, {tiempoLlegada}, {Departamento1.nombre}, {tiempoEntrada}, {Departamento2.nombre}, {tiempoEntrada2}  \n")
+
+
+
+departamentos = [
+    Departamento("DEFIDER", 3, 2, 1), # Departamento("DEFIDER", 6, 1, 5), entra 1
+    Departamento("Mecanica", 4, 3, 3), #    Departamento("Mecanica", 9, 4, 4), entran 3
+    Departamento("Minas", 3, 5, 2), #    Departamento("Minas", 7, 5, 2), entran 2 
+]
+"""  Departamento("Matematicas", 20, 9, 10),
+    Departamento("Informatica", 8, 5, 2),
+    Departamento("Fisica", 15, 7, 5),
+    Departamento("Quimica", 6, 4, 3), """
+max_personas = 10 #500
+
+threads = []
+for i in range(max_personas):
+    thread = threading.Thread(target=ingreso_Pdl, args=(f"Persona{i+1}",departamentos), name=f"Persona{i+1}")
+    threads.append(thread)
+    thread.start()
+
+for thread in threads:
+    thread.join()
