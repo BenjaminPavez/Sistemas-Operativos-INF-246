@@ -14,9 +14,6 @@ class Departamento:
         self.capacidad_departamento = capacidad_departamento
         self.sem_fila = threading.Semaphore(capacidad_fila)
         self.mutex_departamento = threading.Lock()
-        #self.sem_departamento = threading.Semaphore(capacidad_departamento)
-        #self.condition = threading.Condition()
-        #self.sem_ingreso = threading.Semaphore(0)
         self.tiempo = 0
 
 
@@ -49,8 +46,7 @@ class Departamento:
     def Ingresar_fila(self, persona, nDepto):
         print(f"{persona} ingresa a la fila de {self.nombre}")
         tiempoLlegada = datetime.now().strftime('%H:%M:%S.%f')[:-3]
-        #self.sem_fila.acquire(blocking=True, timeout=-1)
-        # Se intenta ingresar al departamento
+        #Se intenta ingresar al departamento
         start_time = time.time()
         while self.capacidad_fila - self.sem_fila._value < self.capacidad_departamento:
             self.tiempo = time.time() - start_time
@@ -82,7 +78,6 @@ class Departamento:
             El metodo no retorna nada
     '''
     def Iniciar_departamento(self, persona, nDepto):
-        #self.mutex_departamento.acquire(blocking=True, timeout=1) probando
         print(f"{persona} realiza consulta de {self.nombre}")
         self.Simular_consulta()
         #Salida en caso de ser necesario
@@ -145,7 +140,7 @@ departamentos = [
 
 
 
-max_personas = 50 #500 CAMBIAR PORQUE EL AYUDANTE NO PUEDE ESCRIBIR
+max_personas = 500
 
 #Lista de hebras
 threads = []
