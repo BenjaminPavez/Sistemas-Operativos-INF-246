@@ -17,4 +17,4 @@ Instrucciones de uso:
 
 4) Todas las funciones se encuentran comentadas.
 
-5) Si una persona espera 10 segundos y nadie ingresa, la persona entrara al departamento.
+5) Si una hebra espera 10 segundos y nadie ingresa, la hebra entrara al departamento.
