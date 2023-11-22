@@ -9,9 +9,9 @@ Version Python: 3.10.6
 
 Instrucciones de uso:
 
-1) Para usar el Makefile primero ejecute 'make all' y despues 'make run'.
+1) El programa funciona correctamente.
 
-2) En el main del archivo ReadDir.java se cambia el nombre de la carpeta que se desea ejecutar.
+2) Es posible que exista una diferencia minima cuando varias personas entran a un mismo departamento, se debe principalmente a los prints y la modificacion del archivo respectivo.
 
 3) Al final de ReadDir.java estan los 3 metodos comentados, se deben quitar el comentario el que se desee ejecutar.
 
