@@ -3,8 +3,11 @@ import time
 from datetime import datetime
 import random
 
+#Mutex para el ingreso a PdLamparas
 mutex_Pdl = threading.Lock()
 
+
+#Clase Departamento que simula un departamento de la universidad
 class Departamento:
     #Constructor
     def __init__(self, nombre, capacidad_fila, duracion_consulta, capacidad_departamento):
@@ -17,7 +20,7 @@ class Departamento:
         self.tiempo = 0
 
 
-
+    #Metodos
     '''
     El metodo simula la consulta de un departamento
 
@@ -31,7 +34,6 @@ class Departamento:
         time.sleep(self.duracion_consulta)
     
 
-
     '''
     El metodo hace ingresar a una persona a la fila de un departamento
 
@@ -44,27 +46,22 @@ class Departamento:
             El metodo no retorna nada
     '''
     def Ingresar_fila(self, persona, nDepto):
-        print(f"{persona} ingresa a la fila de {self.nombre}")
         tiempoLlegada = datetime.now().strftime('%H:%M:%S.%f')[:-3]
         #Se intenta ingresar al departamento
         start_time = time.time()
         while self.capacidad_fila - self.sem_fila._value < self.capacidad_departamento:
             self.tiempo = time.time() - start_time
-            if self.tiempo >= 5:
+            if self.tiempo >= 10:
                 break
-        print(f'*En fila hay {self.capacidad_fila - self.sem_fila._value} personas esperando en {self.nombre} se necesitan {self.capacidad_departamento} para entrar')
         tiempoEntradaD = datetime.now().strftime('%H:%M:%S.%f')[:-3]
-        print(f'------------------------------------------------------------------LA PERSONA {persona} ENTRA A {self.nombre} A LAS {tiempoEntradaD}------------------------------------------------------------------')
 
 
         self.tiempo = 0
-        print(f'**** En fila {self.capacidad_fila-1 - self.sem_fila._value} son necesarios {self.capacidad_departamento} en el departamento {self.nombre}, {persona}')
         with open(f"Departamento_de_{self.nombre}.txt", "a") as file:
             file.write(f"{persona}, {tiempoLlegada}, {tiempoEntradaD}, {nDepto}\n")
         self.sem_fila.release()
         self.Iniciar_departamento(persona, nDepto)
         
-
 
     '''
     El metodo inicia la consulta de un departamento
@@ -78,11 +75,9 @@ class Departamento:
             El metodo no retorna nada
     '''
     def Iniciar_departamento(self, persona, nDepto):
-        print(f"{persona} realiza consulta de {self.nombre}")
         self.Simular_consulta()
         #Salida en caso de ser necesario
         if nDepto == 2:
-            print(f"{persona} sale de {self.nombre}")
             with open("Salida.txt", "a") as file:
                 file.write(f"{persona}, {datetime.now().strftime('%H:%M:%S.%f')[:-3]}\n")
 
@@ -102,12 +97,12 @@ def ingreso_Pdl(persona, departamentos):
     Departamento1, Departamento2 = random.sample(departamentos, 2)
     mutex_Pdl.acquire()
     tiempoLlegada = datetime.now().strftime('%H:%M:%S.%f')
-    tiempoEntrada = "" #Por si acaso
-    tiempoEntrada2 = "" #Por si acaso
+    tiempoEntrada = "" 
+    tiempoEntrada2 = "" 
     try:
         Departamento1.sem_fila.acquire(blocking=True, timeout=-1)
-        while Departamento1.capacidad_fila - Departamento1.sem_fila._value < 0:
-            print(f'#Se queda esperando en PdLamparas - {persona} - {datetime.now().strftime("%H:%M:%S.%f")[:-3]} - {Departamento1.nombre}')
+        while Departamento1.capacidad_fila - Departamento1.sem_fila._value-1 < 0:
+            print(f'#Se queda esperando en PdLamparas - {persona} {Departamento1.sem_fila._value} - {Departamento1.nombre}')
             time.sleep(5)
         
         mutex_Pdl.release()
@@ -115,8 +110,8 @@ def ingreso_Pdl(persona, departamentos):
         Departamento1.Ingresar_fila(persona, 1)
 
         Departamento2.sem_fila.acquire(blocking=True, timeout=-1)
-        while Departamento2.capacidad_fila - Departamento2.sem_fila._value < 0:
-            print(f'#Se queda esperando en PdLamparas - {persona} - {datetime.now().strftime("%H:%M:%S.%f")[:-3]} - n=2 {Departamento2.nombre} - {Departamento2.capacidad_fila - Departamento2.sem_fila._value} - {Departamento2.sem_fila._value}')
+        while Departamento2.capacidad_fila - Departamento2.sem_fila._value-1 < 0:
+            print(f'#Se queda esperando en PdLamparas - {persona} - {datetime.now().strftime("%H:%M:%S.%f")[:-3]} - n=2 {Departamento2.nombre} - {Departamento2.capacidad_fila - Departamento2.sem_fila._value} -A {Departamento2.sem_fila._value}')
             time.sleep(5)
 
         tiempoEntrada2 = datetime.now().strftime('%H:%M:%S.%f')[:-2]
@@ -125,6 +120,7 @@ def ingreso_Pdl(persona, departamentos):
         with open("PdLamparas.txt", "a") as file:
             file.write(
                 f"{persona}, {tiempoLlegada}, {Departamento1.nombre}, {tiempoEntrada}, {Departamento2.nombre}, {tiempoEntrada2}  \n")
+
 
 
 #Lista de objetos de la clase Departamento
