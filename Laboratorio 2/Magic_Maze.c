@@ -11,6 +11,7 @@
 #include <sys/wait.h> //Para fork
 #include <sys/ipc.h> //Para fork
 #include <sys/shm.h> //Para fork
+#include <signal.h> //Para fork
 
 
 
