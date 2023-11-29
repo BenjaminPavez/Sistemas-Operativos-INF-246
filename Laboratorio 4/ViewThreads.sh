@@ -2,15 +2,14 @@
 # PARA DAR PERMISOS A BASH: chmod +x ViewThreads.sh
 
 #Nombre del proceso a buscar
-nombre_proceso="intento1.py"
+nombre_proceso="Laboratorio_4.py"
 
-#Numero de veces que deseas ejecutar ps lf
-num_veces=1000
+#Numero de veces que se ejecuta ps lf
+num_veces=100
 
-#Nombre del archivo donde se guardará la salida
 archivo_salida="canthebras.txt"
 
-# Obtener el PID del proceso creado por intento1.py
+#Se obtiene el PID del proceso
 pid=$(pgrep -o -f "$nombre_proceso")
 
 if [ -z "$pid" ]; then
@@ -23,7 +22,7 @@ echo "PID del proceso $nombre_proceso: $pid"
 for ((i=1; i<=$num_veces; i++)); do
     echo "Ejecutando ls /proc/$pid/task | wc -l (vez $i de $num_veces)..."
     ls /proc/$pid/task | wc -l >> "$archivo_salida"
-    sleep 1  # Pausa de 1 segundo entre ejecuciones (ajusta según tus necesidades)
+    sleep 1
 done
 
 echo "Todas las ejecuciones completadas. La salida se ha guardado en $archivo_salida."
