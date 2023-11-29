@@ -25,7 +25,7 @@ Instrucciones de uso:
 
 7) En el codigo se encuentra una funcion que optimiza la busqueda de la palabra en la sopa, para ver la optimizacion, revise los comentarios del codigo.
 
-8) En la carpeta 'Archivos Prueba' se encuentras los archivos .txt que fueron usados en la tarea, para utilizarlos solo hay que copiarlos en la carpeta donde esta el 'makefile' y 'Laboratorio.c'
+8) En la carpeta 'Archivos Prueba' se encuentras los archivos .txt que fueron usados en la tarea, para utilizarlos solo hay que copiarlos en la carpeta donde esta el 'makefile' y 'Laboratorio.c'.
 
 9) Cada funcion esta debidamente comentada y tienen la siguiente estructura: /*
                                                                             Explicacion de lo que realiza la funcion
