@@ -15,16 +15,16 @@ Instrucciones de uso:
 
 2) El programa funciona sin ningun problema con los archivos .txt entregados.
 
-3) Se asume que el jugador realizara movimientos correctos para manterer el funcionamiento
+3) Se asume que el jugador realizara movimientos correctos para manterer el funcionamiento.
 
-4) El jugador J₁ representa a nosotros y este es el que le envia atravez de pipes la informacion a los otros jugadores
+4) El jugador J₁ representa a nosotros y este es el que le envia atravez de pipes la informacion a los otros jugadores.
 
-5) Todos los movimientos son realizados por J₁
+5) Todos los movimientos son realizados por J₁.
 
-6) J₁ es el unico que conoce el mapa
+6) J₁ es el unico que conoce el mapa.
 
-7) Se considera que todos los tableros que estan en txt tiene dimension 5
+7) Se considera que todos los tableros que estan en txt tiene dimension 5.
 
-8) Si se pasa de un tablero a otro directamente hacia una B, este no funcionara correctamente, EVITAR!
+8) Si se pasa de un tablero a otro directamente hacia una B, este no funcionara correctamente, EVITAR!.
 
-9) Una vez hecho un movimiento según las reglas del juego, seleccionar el número 6 para cambiar al siguiente jugador
+9) Una vez hecho un movimiento según las reglas del juego, seleccionar el número 6 para cambiar al siguiente jugador.
