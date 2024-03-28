@@ -1,5 +1,5 @@
 # Sistemas-Operativos-INF-246
-Tareas de Sistemas Operativos en varios lenguajes
+Laboratorios de Sistemas Operativos en varios lenguajes
 
 Tarea 1: C
 Tarea 2: C
